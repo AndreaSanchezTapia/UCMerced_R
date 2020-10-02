@@ -1,0 +1,314 @@
+---
+title: "UCMerced R curriculum"
+author: Andrea Sánchez-Tapia
+affiliation: Rio de Janeiro Botanical Garden/¡liibre!/RLadies Rio de Janeiro/
+date: '`r Sys.Date()`'
+editor_options: 
+  chunk_output_type: inline
+output: 
+  md_document: default
+  html_notebook: default
+toc: true
+always_allow_html: true
+
+---
+
+
+# Before starting...
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+
+```{r remedy001}
+2 + 2
+```
+
+
+
+# Data analysis and visualization in R
+
++ Overview to R and RStudio
++ Introduction to R
++ Starting with Data
++ Manipulating Data Frames with __dplyr__
++ Data visualisation
+
+----
+
+# overview of R and RStudio
+
+
+## why learn `R`?
+
++ **_libre_ software**: free and free-to-be-used-and-modified for any means -> one of the pillars of open science
++ __script-based__: reproducibility, easy to scale up your analyses, transparency (track errors), great way to learn about methods.
++ __interdisciplinary and modular__: lots of code written by area specialists. At the core of its philosophy is a smooth transition from user to programmer.
++ __communication__ with other tools: manuscripts, presentations, apps and dashboards
+
+## why learn `R`?
+
++ communication with __other programming languages__ (ex. __reticulate__ to run python scripts) 
++ great __graphic capabilities__!
++ __official support__: help in documentation, mailing lists
++ __an active and welcoming community__:  email lists, Stack Overflow, [RStudio community](community.rstudio.com/), useR groups, __R-Ladies+__ chapters, Slack communities, `r icon::fa("twitter")` `#rstats`
+
+
+## `R` has a modular structure: __packages__
+
+
++ `R` __base__ installation includes base packages developed and maintained by the __`R` Core Development Team__
++ other packages are created by the community
++ hosted in __CRAN__ (The Comprehensive `R` Archive Network) or Bioconductor, GitHub, rOpenSci.org
++ a package is a collection of functions, it must be loaded to be used (ex. `library(dplyr)`)
++ the whole package is loaded, not some functions or parts of it. if you want to use one function you can use `package::function()`
+
+## how to run R
+
++ from the R program in Windows ~~but don't~~
++ directly in the __terminal__ in Linux and Mac (just type `R`). this is important in __HPC__ environments like the UC Merced cluster (R scripts can also be run from outside R)
++ many GUIs and text editors: rgedit, __emacs ESS__, Atom, Sublime Text etc.
++ __RStudio__: an Integrated Development Environment (IDE) - Desktop Version but also Server and Cloud versions
+
+## install, load, and cite packages
+
+
+```{r, eval =F}
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("tidyverse") # just an umbrella package
+```
+
++ to install dependencies: `install.packages(xxx, dependencies = TRUE)`
++ if you get an error about a missing __dependency__ copy the name of the missing package(s) and execute `install.packages()`
+
+```{r, paged.print=TRUE}
+library("dplyr")
+citation("dplyr")
+toBibtex(citation("dplyr"))
+```
+
+## about notation
+
++ __packages__ are collections of __functions__
++ __functions__ have __arguments__ or __parameters__ (options) 
+
+To designate them:
+
++ package name: __base__ (in __bold__ letters)
++ function name: `help()` (in fixed width font and with parentheses at the end)
++ objects and arguments: `data`, `na.rm` (in fixed width font)
++ sometimes you'll see `stats::median()` this is correct syntaxis `program::function()` and helps distinguish __functions with the same name__ or calling one function only (from an __installed__ package)
+
+
+figs/00_rstudio.png
+
+Check for the following panes: 
+
++ Environment -> Objects in the __workspace__
++ Files
++ Plots
++ Help
++ Console
+
+Some other that might be useful _later_: 
+
+  + __Terminal__
+  + __Viewer__ (for presentations and documents)
+  + __git__ (only when working inside an RStudio project)
+
+## working directory
+
++ the __files__ pane is showing one folder location:
+
+  + `Home/Documents`
+  + `~/Documents`
+  + `"/Users/andreasancheztapia/Documents"`
+
+
++ in `Global options > General > R Sessions` OR `cmd` + `,`
+"default working directory when not in a project"
+
+
++ `getwd()` in the console
+
+
++ we have to tell R where we are working -> change the working directory
+
+## project organization
+
++ projects are better organized if we use __one folder per project__ and  __subfolders__ within our working directory
++ take care of data __provenance__: we shouldn't modify __raw data files__ but __save processed data__ (and the corresponding scripts) 
+
+In practice:
+
+```
+project/
+*    ├── data/
+*    ├── raw_data/
+     ├── docs/
+*    ├── figs/
+     ├── R/
+     ├── output/
+     └── README.md
+```
+
+
+## Hands on: 
+
+1. Select our folder for this project
+2. Create a subfolder structure: `/figs`, `/data_raw`, `/data`
+
+## RStudio projects 
+
+RStudio projects create a .Rproj file in your folder that acts as a shortcut for your projects
+
++ recognize the location
++ respect some project-specific preferences
++ reopen files
++ __git__ pane available
+
+## about the workspace
+
++ R creates __objects__ that occupy RAM memory: the __workspace__
++ the __workspace__ can be saved and loaded between sessions BUT
++ __you can lose track of how you created the objects in the workspace__
++ `#goodpractices` don't save the workspace
+
+"figs/0b_soft_wrap.png"
+
+
+__soft wrap__ your scripts so you don't have to scroll side to side
+
+__soft wrap__ your scripts so you don't </br> have to scroll side to side
+
+"figs/0d_terminal.png"
+
+check your terminal
+
++ we have an __RStudio project__ in the correct __working directory__, with a nice file structure and RStudio is configured
++ how did package installation go?
+
+
+```{r gif, out.width=300, echo = FALSE, fig.align='center'}
+knitr::include_graphics("https://media.giphy.com/media/3oriO04qxVReM5rJEA/giphy.gif")
+```
+
+
+
+## introduction to R 
+
++ `<-` is the assignment operation in R and it does not return output
++ overwriting objects __does not affect other objects__ 
++  __naming things__: don't begin with a number or symbol. be consistent with your __coding style__! 
++ separators can be anything and (you could use `.` but be nice).
+
+ <!-- + `r icon::fa("python")` R doesn't care about indentation --> 
+
+
+## data types in R
+
+```{r datatypes}
+animals  <- c("mouse", "rat", "dog")
+weight_g <- c(50, 60, 65, 82)
+```
+
+
+```{r remedy003}
+class(animals)
+```
+
+
+```{r class}
+class(weight_g)
+```
+
+
+`character` and `numeric` but also `logical` and `integer` ("whole" numbers, with no decimal component, in $N$), `complex`, and others. 
+
+
+## subsetting vectors
+
++ R is __1-indexed__ and intervals are closed (not half-open)
+
+```{r, results = 'show'}
+animals <- c("mouse", "rat", "dog", "cat")
+animals[2]
+```
+
++ Subsetting is done with brackets `[]`
+
+```{r subset}
+animals[c(3, 2)]
+```
+
+## conditional subsetting
+
+```{r, results = 'show'}
+weight_g <- c(21, 34, 39, 54, 55)
+weight_g[c(TRUE, FALSE, FALSE, TRUE, TRUE)]
+```
+
+Nobody works like this, instead we use __logical clauses__ to __generate__ these logical vectors
+
+## logical clauses
+
++ equality or not: `==`, `!=`
++ inequalities: `<`. `>`, `<=`, `>=`
++ union (OR) `|`
++ intersection (AND) `&`
++ belonging `%in%`
++ differences between sets: `setdiff()`
++ negation works `!`: "not in" `!a %in% b`
+
+## comparing vectors
+
+```{r recycling}
+
+animals      <- c("mouse", "rat", "dog", "cat")
+more_animals <- c("rat", "cat", "dog", "duck", "goat")
+
+animals %in% more_animals
+```
+
+---
+##comparing vectors
+
+```{r recycling2}
+animals      <- c("mouse", "rat", "dog", "cat")
+more_animals <- c("rat", "cat", "dog", "duck", "goat")
+
+animals == more_animals
+```
+
++ Vectors are compared __one by one AND recycled__ when one of them is shorter, so use `%in%` when you want to check __belonging to a set__
+
+## missing data
+
+```{r na}
+heights <- c(2, 4, 4, NA, 6)
+mean(heights)
+max(heights)
+mean(heights, na.rm = TRUE)
+max(heights, na.rm = TRUE)
+```
+
+## data structures
+
++ __vector__: lineal arrays (one dimension: only length)
++ __factors__: vectors (one-dimensional) representing __categorical variables__ and thus having __levels__
++ __matrices__: arrays of vectors -> the same type (all numeric or all character, for instance) (two dimensions: width and length)
++ __data frames__: two-dimensional arrays but might be of combined types (i.e., column 1 with names, column 2 with numbers)
++ __arrays__ are similar to matrices and dataframes but may be three-dimensional ("layered" data frames)
++ __list__: literally a list of anything (a list of data frames, or different objects)
+
