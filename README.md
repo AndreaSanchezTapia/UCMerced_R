@@ -117,8 +117,8 @@ install, load, and cite packages
     ##   url = {https://CRAN.R-project.org/package=dplyr},
     ## }
 
-about notation
---------------
+About notation
+==============
 
 -   **packages** are collections of **functions**
 -   **functions** have **arguments** or **parameters** (options)
@@ -170,8 +170,8 @@ working directory
 -   we have to tell R where we are working -&gt; change the working
     directory
 
-project organization
---------------------
+Project organization
+====================
 
 -   projects are better organized if we use **one folder per project**
     and **subfolders** within our working directory
@@ -182,18 +182,19 @@ In practice:
 
     project/
     *    ├── data/
-    *    ├── raw_data/
+         │   ├── raw
+         │   └── processed
          ├── docs/
     *    ├── figs/
          ├── R/
          ├── output/
          └── README.md
 
-Hands on:
----------
+-   Hands on:
 
-1.  Select our folder for this project
-2.  Create a subfolder structure: `/figs`, `/data/raw`, `/data`
+1.  Select your folder for this project
+2.  Create a subfolder structure: `/figs`, and `/data`, with subfolders
+    `/raw` and `processed`.
 
 RStudio projects
 ----------------
@@ -232,8 +233,8 @@ check your terminal
 
 <img src="https://media.giphy.com/media/3oriO04qxVReM5rJEA/giphy.gif" width="300" style="display: block; margin: auto;" />
 
-introduction to R
------------------
+Introduction to R
+=================
 
 -   `<-` is the assignment operation in R and it does not return output
 -   overwriting objects **does not affect other objects**
@@ -545,7 +546,7 @@ questions?
 
     ## [1] 40
 
-indexing and subsetting data frames
+Indexing and subsetting data frames
 ===================================
 
 -   a vector has only one dimension, so:
@@ -679,11 +680,9 @@ factors
     `?read.csv()`
     ?default.stringsAsFactors
 
-today if we want factors we have to transform the vectors
----------------------------------------------------------
+-   **today if we want factors we have to transform the vectors**
 
-factors
--------
+<!-- -->
 
     ## Compare the difference between our data read as
     #`factor` vs `character`.
@@ -697,8 +696,7 @@ factors
     surveys$plot_type <- factor(surveys$plot_type)
     surveys$sex <- factor(surveys$sex)
 
-working with factors
---------------------
+### working with factors
 
     sex <- factor(c("male", "female", "female", "male"))
     levels(sex) # in alphabetical order!
@@ -714,8 +712,7 @@ working with factors
     as.numeric(levels(year_fct))
     as.numeric(levels(year_fct))[year_fct]    # The recommended way.
 
-let’s make a plot of a factor variable
---------------------------------------
+**Let’s make a plot of a factor variable**
 
 `plot(as.factor(surveys$sex))`
 
@@ -729,8 +726,7 @@ let’s rename this label
 
 ![](README_files/figure-markdown_strict/plot2-1.png)
 
-challenge
----------
+### challenge
 
     levels(sex)[2] <- "female"
     levels(sex)[3] <- "male"
@@ -747,8 +743,8 @@ challenge
 
 ------------------------------------------------------------------------
 
-manipulating and analyzing data with dplyr
-==========================================
+Manipulating and analyzing data with dplyr and the tidyverse
+============================================================
 
 <img src="https://d33wubrfki0l68.cloudfront.net/621a9c8c5d7b47c4b6d72e8f01f28d14310e8370/193fc/css/images/hex/dplyr.png" width="150" />
 
@@ -811,8 +807,7 @@ some principal functions in **dplyr**
 -   **arrange** to sort according to a column
 -   **count** cases of one or many columns
 
-select columns
---------------
+### `select()` columns
 
     select(surveys, plot_id, species_id, weight)
 
@@ -834,34 +829,30 @@ select columns
 1.  there is no need to put quotes
 2.  there is no need to put variables between `c()`
 
-#### base R still works in a tibble
+**base R still works in a tibble!**
 
     surveys[, c("plot_id", "species_id", "weight")]
 
-removing columns
-----------------
+### removing columns
 
     select(surveys, -record_id, -species_id)
 
-additional functions
---------------------
+### additional functions
 
     select(surveys, -ends_with("id"))
 
-filter rows
------------
+### `filter()` rows
 
 **logical clauses!**
 
     surv_1995 <- filter(surveys, year == 1995)
 
-#### No need to use $ or brackets
+**No need to use $ or brackets**
 
     surveys$year == 1995
     surveys[surveys$year == 1995 , ]
 
-mutate creates or modifies columns
-----------------------------------
+### `mutate()` creates or modifies columns
 
     surveys <- mutate(surveys, weight_kg = weight / 1000)
 
@@ -869,8 +860,7 @@ mutate creates or modifies columns
            weight_kg = weight / 1000,
            weight_lb = weight_kg * 2.2)
 
-`group_by()` and `summarise()`
-------------------------------
+### `group_by()` and `summarise()`
 
 -   if you have a column factor (e.g. sex) and want to apply a function
     to the levels of this factor
@@ -889,8 +879,7 @@ mutate creates or modifies columns
     ## 2 M            43.0
     ## 3 <NA>         64.7
 
-another example:
-----------------
+### another example:
 
     surveys_g2 <-group_by(surveys, sex, species_id)
     mean_w <- summarize(surveys_g2, 
@@ -914,8 +903,7 @@ another example:
     ## 10 F     PE               22.8 
     ## # … with 82 more rows
 
-arrange sorts by a column
--------------------------
+### `arrange()` sorts by a column
 
     arrange(mean_w, mean_weight)
 
@@ -925,7 +913,7 @@ arrange sorts by a column
 ![](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.kBwKFkkvi_Ye6osZkQrjnwAAAA%26pid%3DApi&f=1)
 
 the pipe operator
-=================
+-----------------
 
 Classic syntax goes like this
 
@@ -939,8 +927,7 @@ The pipe operator allows to apply functions sequentially:
 
 -   functions in the tidyverse work very well with pipes
 
-select and filter
------------------
+### `select()` and `filter()`
 
     surveys2 <- filter(surveys, weight < 5)
     surveys_sml <- select(surveys2, species_id, sex, weight)
@@ -970,8 +957,7 @@ select and filter
     ## 16 RM         M          4
     ## 17 RM         M          4
 
-`group_by()` and `summarize()`
-------------------------------
+### `group_by()` and `summarize()`
 
     surveys_g   <- group_by(surveys, sex) #does nothing?
     summary_sex <- summarize(surveys_g, 
@@ -982,8 +968,7 @@ select and filter
       group_by(sex) %>% 
       summarize(mean_weight = mean(weight, na.rm = TRUE))
 
-count
------
+### `count()`
 
     surveys %>%
         count(sex)
@@ -1032,8 +1017,7 @@ count
     ## 10 <NA>  chlorurus          39
     ## # … with 71 more rows
 
-challenge
----------
+### challenge
 
 -   How many animals were caught in each `plot_type` surveyed?
 -   Use `group_by()` and `summarize()` to find the mean, min, and max
@@ -1166,8 +1150,7 @@ you can assign a plot to an object and build on it
 
 <img src="README_files/figure-markdown_strict/unnamed-chunk-44-1.png" width="350" />
 
-ggplot2 plots are built sequentially in layers
-----------------------------------------------
+you can modify each layer
 
     surveys_plot + 
         geom_point(alpha = 0.1) #transparency

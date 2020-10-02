@@ -78,7 +78,7 @@ citation("dplyr")
 toBibtex(citation("dplyr"))
 ```
 
-## about notation
+# About notation
 
 + __packages__ are collections of __functions__
 + __functions__ have __arguments__ or __parameters__ (options) 
@@ -130,7 +130,7 @@ Some other that might be useful _later_:
 
 + we have to tell R where we are working -> change the working directory
 
-## project organization
+# Project organization
 
 + projects are better organized if we use __one folder per project__ and  __subfolders__ within our working directory
 + take care of data __provenance__: we shouldn't modify __raw data files__ but __save processed data__ (and the corresponding scripts) 
@@ -140,7 +140,8 @@ In practice:
 ```
 project/
 *    ├── data/
-*    ├── raw_data/
+     │   ├── raw
+     │   └── processed
      ├── docs/
 *    ├── figs/
      ├── R/
@@ -149,10 +150,10 @@ project/
 ```
 
 
-## Hands on: 
++ Hands on: 
 
-1. Select our folder for this project
-2. Create a subfolder structure: `/figs`, `/data/raw`, `/data`
+1. Select your folder for this project
+2. Create a subfolder structure: `/figs`, and `/data`, with subfolders `/raw` and `processed`.
 
 ## RStudio projects 
 
@@ -196,7 +197,7 @@ knitr::include_graphics("https://media.giphy.com/media/3oriO04qxVReM5rJEA/giphy.
 
 
 
-## introduction to R 
+# Introduction to R 
 
 + `<-` is the assignment operation in R and it does not return output
 + overwriting objects __does not affect other objects__ 
@@ -378,7 +379,7 @@ length(unique(surveys$species_id))
 length(unique(surveys$species))
 ```
 
-# indexing and subsetting data frames
+# Indexing and subsetting data frames
 
 + a vector has only one dimension, so:
 
@@ -482,9 +483,8 @@ surveys[-(7:34786), ] # Equivalent to head(surveys)
 ?default.stringsAsFactors
 ```
 
-## today if we want factors we have to transform the vectors
++ __today if we want factors we have to transform the vectors__
 
-## factors
 
 ```{r eval = FALSE, echo= TRUE}
 ## Compare the difference between our data read as
@@ -500,7 +500,7 @@ surveys$plot_type <- factor(surveys$plot_type)
 surveys$sex <- factor(surveys$sex)
 ```
 
-## working with factors
+### working with factors
 
 ```{r, echo = TRUE, eval = FALSE}
 sex <- factor(c("male", "female", "female", "male"))
@@ -518,7 +518,7 @@ as.numeric(levels(year_fct))
 as.numeric(levels(year_fct))[year_fct]    # The recommended way.
 ```
 
-## let's make a plot of a factor variable
+__Let's make a plot of a factor variable__
 
 `plot(as.factor(surveys$sex))`
 
@@ -545,7 +545,7 @@ plot(sex)
 ```
 
 
-## challenge
+### challenge
 
 
 ```{r, eval = TRUE}
@@ -562,7 +562,7 @@ plot(as.factor(sex))
 
 
 ----
-# manipulating and analyzing data with dplyr
+# Manipulating and analyzing data with dplyr and the tidyverse
 
 
 ```{r, out.width=150, echo = FALSE}
@@ -628,7 +628,7 @@ surveys
 + __count__ cases of one or many columns
 
 
-## select columns
+### `select()` columns
 
 ```{r}
 select(surveys, plot_id, species_id, weight)
@@ -639,28 +639,28 @@ select(surveys, plot_id, species_id, weight)
 
 
 
-#### base R still works in a tibble
+__base R still works in a tibble!__
 
 ```{r, results='hide'}
 surveys[, c("plot_id", "species_id", "weight")]
 ```
 
 
-## removing columns
+### removing columns
 
 ```{r, results='hide'}
 select(surveys, -record_id, -species_id)
 ```
 
 
-## additional functions
+### additional functions
 
 ```{r, results='hide'}
 select(surveys, -ends_with("id"))
 ```
 
 
-## filter rows
+### `filter()` rows
 
 __logical clauses!__ 
 
@@ -668,7 +668,7 @@ __logical clauses!__
 surv_1995 <- filter(surveys, year == 1995)
 ```
 
-#### No need to use $ or brackets
+__No need to use $ or brackets__
 
 ```{r, results = "hide"}
 surveys$year == 1995
@@ -676,7 +676,7 @@ surveys[surveys$year == 1995 , ]
 ```
 
 
-## mutate creates or modifies columns
+### `mutate()` creates or modifies columns
 
 ```{r, results = "hide"}
 surveys <- mutate(surveys, weight_kg = weight / 1000)
@@ -691,7 +691,7 @@ mutate(surveys,
 ```
 
 
-## `group_by()` and `summarise()`
+### `group_by()` and `summarise()`
 
 + if you have a column factor (e.g. sex) and want to apply a function to the levels of this factor
 
@@ -703,7 +703,7 @@ summary_sex
 ```
 
 
-## another example: 
+### another example: 
 
 ```{r, warning=F, message=F}
 surveys_g2 <-group_by(surveys, sex, species_id)
@@ -720,7 +720,7 @@ mean_w
 ```
 
 
-## arrange sorts by a column
+### `arrange()` sorts by a column
 
 ```{r arraange, eval = FALSE}
 arrange(mean_w, mean_weight)
@@ -735,7 +735,7 @@ arrange(mean_w, desc(mean_weight))
 
 ![](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.kBwKFkkvi_Ye6osZkQrjnwAAAA%26pid%3DApi&f=1)
 
-# the pipe operator
+## the pipe operator
 
 Classic syntax goes like this
 
@@ -754,7 +754,7 @@ object3 <- object1 %>% function1() %>% function2()
 + functions in the tidyverse work very well with pipes
 
 
-## select and filter
+### `select()` and `filter()`
 
 ```{r}
 surveys2 <- filter(surveys, weight < 5)
@@ -767,7 +767,7 @@ surveys %>%
 ```
 
 
-## `group_by()` and `summarize()`
+### `group_by()` and `summarize()`
 
 ```{r, warning=F, message=F}
 surveys_g   <- group_by(surveys, sex) #does nothing?
@@ -781,7 +781,7 @@ summary_sex <- surveys %>%
 ```
 
 
-## count
+### `count()`
 
 ```{r}
 surveys %>%
@@ -796,7 +796,7 @@ surveys %>%
 ```
 
 
-## challenge
+### challenge
 
 
 + How many animals were caught in each `plot_type` surveyed?
@@ -900,7 +900,7 @@ surveys_plot +
 ```
 
 
-## ggplot2 plots are built sequentially in layers  
+you can modify each layer
 
 
 ```{r, out.width=350}
