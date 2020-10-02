@@ -137,7 +137,7 @@ To designate them:
 The RStudio IDE
 ===============
 
-<img src="./figs/00_rstudio.png" width="200" />
+<img src="./figs/00_rstudio.png" width="400" />
 
 Check for the following panes:
 
@@ -216,14 +216,14 @@ about the workspace
     workspace**
 -   `#goodpractices` don’t save the workspace
 
-<img src="figs/0b_soft_wrap.png" width="200" />
+<img src="figs/0b_soft_wrap.png" width="400" />
 
 **soft wrap** your scripts so you don’t have to scroll side to side
 
 **soft wrap** your scripts so you don’t </br> have to scroll side to
 side
 
-<img src="figs/0d_terminal.png" width="200" />
+<img src="figs/0d_terminal.png" width="400" />
 
 check your terminal
 
@@ -231,517 +231,433 @@ check your terminal
     with a nice file structure and RStudio is configured
 -   how did package installation go?
 
-<img src="https://media.giphy.com/media/3oriO04qxVReM5rJEA/giphy.gif" width="300" style="display: block; margin: auto;" />
-
-Introduction to R
-=================
-
--   `<-` is the assignment operation in R and it does not return output
--   overwriting objects **does not affect other objects**
--   **naming things**: don’t begin with a number or symbol. be
-    consistent with your **coding style**!
--   separators can be anything and (you could use `.` but be nice).
-
-<!-- + <!--html_preserve--><i class="fab  fa-python "></i><!--/html_preserve-->
-R doesn’t care about indentation –&gt;
-
-data types in R
----------------
-
-    animals  <- c("mouse", "rat", "dog")
-    weight_g <- c(50, 60, 65, 82)
-
-    class(animals)
-
-    ## [1] "character"
-
-    class(weight_g)
-
-    ## [1] "numeric"
-
-`character` and `numeric` but also `logical` and `integer` (“whole”
-numbers, with no decimal component, in *N*), `complex`, and others.
-
-subsetting vectors
-------------------
-
--   R is **1-indexed** and intervals are closed (not half-open)
-
-<!-- -->
-
-    animals <- c("mouse", "rat", "dog", "cat")
-    animals[2]
-
-    ## [1] "rat"
-
--   Subsetting is done with brackets `[]`
-
-<!-- -->
-
-    animals[c(3, 2)]
-
-    ## [1] "dog" "rat"
-
-conditional subsetting
-----------------------
-
-    weight_g <- c(21, 34, 39, 54, 55)
-    weight_g[c(TRUE, FALSE, FALSE, TRUE, TRUE)]
-
-    ## [1] 21 54 55
-
-Nobody works like this, instead we use **logical clauses** to
-**generate** these logical vectors
-
-logical clauses
----------------
-
--   equality or not: `==`, `!=`
--   inequalities: `<`. `>`, `<=`, `>=`
--   union (OR) `|`
--   intersection (AND) `&`
--   belonging `%in%`
--   differences between sets: `setdiff()`
--   negation works `!`: “not in” `!a %in% b`
-
-comparing vectors
------------------
-
-    animals      <- c("mouse", "rat", "dog", "cat")
-    more_animals <- c("rat", "cat", "dog", "duck", "goat")
-
-    animals %in% more_animals
-
-    ## [1] FALSE  TRUE  TRUE  TRUE
-
-    animals      <- c("mouse", "rat", "dog", "cat")
-    more_animals <- c("rat", "cat", "dog", "duck", "goat")
-
-    animals == more_animals
-
-    ## Warning in animals == more_animals: longer object length is not a multiple of
-    ## shorter object length
-
-    ## [1] FALSE FALSE  TRUE FALSE FALSE
-
--   Vectors are compared **one by one AND recycled** when one of them is
-    shorter, so use `%in%` when you want to check **belonging to a set**
-
-missing data
-------------
-
-    heights <- c(2, 4, 4, NA, 6)
-    mean(heights)
-
-    ## [1] NA
-
-    max(heights)
-
-    ## [1] NA
-
-    mean(heights, na.rm = TRUE)
-
-    ## [1] 4
-
-    max(heights, na.rm = TRUE)
-
-    ## [1] 6
-
-data structures
----------------
-
--   **vector**: lineal arrays (one dimension: only length)
--   **factors**: vectors (one-dimensional) representing **categorical
-    variables** and thus having **levels**
--   **matrices**: arrays of vectors -&gt; the same type (all numeric or
-    all character, for instance) (two dimensions: width and length)
--   **data frames**: two-dimensional arrays but might be of combined
-    types (i.e., column 1 with names, column 2 with numbers)
--   **arrays** are similar to matrices and dataframes but may be
-    three-dimensional (“layered” data frames)
--   **list**: literally a list of anything (a list of data frames, or
-    different objects)
-
-Starting with data
-==================
-
-the survey dataset
-------------------
-
--   One row per individual
-
-<img src="figs/columns.png" width="500" style="display: block; margin: auto;" />
-
-downloading the dataset
------------------------
-
-We are going to download the file to our `data/raw` sub folder:
-
-    if (!file.exists("data/raw")) dir.create("data/raw")
-    if (!file.exists("data/raw/portal_data_joined.csv")) {
-    download.file(url = "https://ndownloader.figshare.com/files/2292169",
-                  destfile = "data/raw/portal_data_joined.csv")
-    }
-
-reading files into R
---------------------
-
-Functions to read data are key to any project.  
-for data frames: `read.csv()`, `read.delim()`
-
-    surveys <- read.csv("data/raw/portal_data_joined.csv")
-    surveys_check <- read.table(file = "data/raw/portal_data_joined.csv", 
-                                sep = ",", 
-                                header = TRUE)
-    identical(surveys, surveys_check)
-
-    ## [1] TRUE
-
-There are **many other ways** to read data into R, some are specific for
-the type of data (GIS shapefiles or raster, and specific packages may
-come with their own reader functions)
-
-    str(surveys)
-
-    ## 'data.frame':    34786 obs. of  13 variables:
-    ##  $ record_id      : int  1 72 224 266 349 363 435 506 588 661 ...
-    ##  $ month          : int  7 8 9 10 11 11 12 1 2 3 ...
-    ##  $ day            : int  16 19 13 16 12 12 10 8 18 11 ...
-    ##  $ year           : int  1977 1977 1977 1977 1977 1977 1977 1978 1978 1978 ...
-    ##  $ plot_id        : int  2 2 2 2 2 2 2 2 2 2 ...
-    ##  $ species_id     : chr  "NL" "NL" "NL" "NL" ...
-    ##  $ sex            : chr  "M" "M" "" "" ...
-    ##  $ hindfoot_length: int  32 31 NA NA NA NA NA NA NA NA ...
-    ##  $ weight         : int  NA NA NA NA NA NA NA NA 218 NA ...
-    ##  $ genus          : chr  "Neotoma" "Neotoma" "Neotoma" "Neotoma" ...
-    ##  $ species        : chr  "albigula" "albigula" "albigula" "albigula" ...
-    ##  $ taxa           : chr  "Rodent" "Rodent" "Rodent" "Rodent" ...
-    ##  $ plot_type      : chr  "Control" "Control" "Control" "Control" ...
-
-    head(surveys) # 6 rows by default
-
-    ##   record_id month day year plot_id species_id sex hindfoot_length weight
-    ## 1         1     7  16 1977       2         NL   M              32     NA
-    ## 2        72     8  19 1977       2         NL   M              31     NA
-    ## 3       224     9  13 1977       2         NL                  NA     NA
-    ## 4       266    10  16 1977       2         NL                  NA     NA
-    ## 5       349    11  12 1977       2         NL                  NA     NA
-    ## 6       363    11  12 1977       2         NL                  NA     NA
-    ##     genus  species   taxa plot_type
-    ## 1 Neotoma albigula Rodent   Control
-    ## 2 Neotoma albigula Rodent   Control
-    ## 3 Neotoma albigula Rodent   Control
-    ## 4 Neotoma albigula Rodent   Control
-    ## 5 Neotoma albigula Rodent   Control
-    ## 6 Neotoma albigula Rodent   Control
-
-    tail(surveys)
-
-    ##       record_id month day year plot_id species_id sex hindfoot_length weight
-    ## 34781     26787     9  27 1997       7         PL   F              21     16
-    ## 34782     26966    10  25 1997       7         PL   M              20     16
-    ## 34783     27185    11  22 1997       7         PL   F              21     22
-    ## 34784     27792     5   2 1998       7         PL   F              20      8
-    ## 34785     28806    11  21 1998       7         PX                  NA     NA
-    ## 34786     30986     7   1 2000       7         PX                  NA     NA
-    ##             genus  species   taxa        plot_type
-    ## 34781  Peromyscus leucopus Rodent Rodent Exclosure
-    ## 34782  Peromyscus leucopus Rodent Rodent Exclosure
-    ## 34783  Peromyscus leucopus Rodent Rodent Exclosure
-    ## 34784  Peromyscus leucopus Rodent Rodent Exclosure
-    ## 34785 Chaetodipus      sp. Rodent Rodent Exclosure
-    ## 34786 Chaetodipus      sp. Rodent Rodent Exclosure
-
-    names(surveys)
-
-    ##  [1] "record_id"       "month"           "day"             "year"           
-    ##  [5] "plot_id"         "species_id"      "sex"             "hindfoot_length"
-    ##  [9] "weight"          "genus"           "species"         "taxa"           
-    ## [13] "plot_type"
-
-    summary(surveys)
-
-    ##    record_id         month             day            year         plot_id     
-    ##  Min.   :    1   Min.   : 1.000   Min.   : 1.0   Min.   :1977   Min.   : 1.00  
-    ##  1st Qu.: 8964   1st Qu.: 4.000   1st Qu.: 9.0   1st Qu.:1984   1st Qu.: 5.00  
-    ##  Median :17762   Median : 6.000   Median :16.0   Median :1990   Median :11.00  
-    ##  Mean   :17804   Mean   : 6.474   Mean   :16.1   Mean   :1990   Mean   :11.34  
-    ##  3rd Qu.:26655   3rd Qu.:10.000   3rd Qu.:23.0   3rd Qu.:1997   3rd Qu.:17.00  
-    ##  Max.   :35548   Max.   :12.000   Max.   :31.0   Max.   :2002   Max.   :24.00  
-    ##                                                                                
-    ##   species_id            sex            hindfoot_length     weight      
-    ##  Length:34786       Length:34786       Min.   : 2.00   Min.   :  4.00  
-    ##  Class :character   Class :character   1st Qu.:21.00   1st Qu.: 20.00  
-    ##  Mode  :character   Mode  :character   Median :32.00   Median : 37.00  
-    ##                                        Mean   :29.29   Mean   : 42.67  
-    ##                                        3rd Qu.:36.00   3rd Qu.: 48.00  
-    ##                                        Max.   :70.00   Max.   :280.00  
-    ##                                        NA's   :3348    NA's   :2503    
-    ##     genus             species              taxa            plot_type        
-    ##  Length:34786       Length:34786       Length:34786       Length:34786      
-    ##  Class :character   Class :character   Class :character   Class :character  
-    ##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-    ##                                                                             
-    ##                                                                             
-    ##                                                                             
-    ## 
-
-    length(surveys) # number of columns 
-
-    ## [1] 13
-
-inspecting `data.frame` objects
--------------------------------
-
-Based on the output of `str(surveys)`, can you answer the following
-questions?
-
--   What is the class of the object surveys?
-
-<!-- -->
-
-    class(surveys)
-
-    ## [1] "data.frame"
-
--   How many rows and how many columns are in this object?
-
-<!-- -->
-
-    ncol(surveys)
-
-    ## [1] 13
-
-    nrow(surveys)
-
-    ## [1] 34786
-
-    dim(surveys)
-
-    ## [1] 34786    13
-
--   How many species have been recorded during these surveys?
-
-<!-- -->
-
-    names(surveys)
-
-    ##  [1] "record_id"       "month"           "day"             "year"           
-    ##  [5] "plot_id"         "species_id"      "sex"             "hindfoot_length"
-    ##  [9] "weight"          "genus"           "species"         "taxa"           
-    ## [13] "plot_type"
-
-    unique(surveys$species_id)
-
-    ##  [1] "NL" "DM" "PF" "PE" "DS" "PP" "SH" "OT" "DO" "OX" "SS" "OL" "RM" "SA" "PM"
-    ## [16] "AH" "DX" "AB" "CM" "CQ" "RF" "UR" "UP" "UL" "BA" "RO" "SO" "PB" "CB" "PC"
-    ## [31] "PH" "SF" "PI" "PL" "PX" "CV" "US" "PG" "AS" "ZL" "CS" "SU" "PU" "ST" "RX"
-    ## [46] "CT" "SC" "CU"
-
-    length(unique(surveys$species_id))
-
-    ## [1] 48
-
-    length(unique(surveys$species))
-
-    ## [1] 40
-
-Indexing and subsetting data frames
-===================================
-
--   a vector has only one dimension, so:
-
-    -   `length()` refers to number of **elements**
-    -   `dim()`
-    -   selection between brackets `[]`
-
-<!-- -->
-
-    sp <- surveys$species_id
-    length(sp)
-
-    ## [1] 34786
-
-    sp[3]
-
-    ## [1] "NL"
-
--   a data.frame has **two** dimensions, so `dim()`, `ncol()`, `nrow()`
-
-<!-- -->
-
-    dim(surveys)
-
-    ## [1] 34786    13
-
-    ncol(surveys)
-
-    ## [1] 13
-
-    nrow(surveys)
-
-    ## [1] 34786
-
--   selection between brackets `[]` BUT with the two dimensions
-    separated by a comma: `[rows, columns]`
-
-<!-- -->
-
-    names(surveys)
-    surveys[, 6]
-    surveys[1, ]
-    surveys[ , 13]
-    surveys[4 , 13]
-
-    # first element in the first column of the data frame (as a vector)
-    surveys[1, 1]   
-    # first element in the 6th column (as a vector)
-    surveys[1, 6]   
-    # first column of the data frame (as a vector)
-    surveys[, 1]    
-    # first column of the data frame (as a data.frame)
-    surveys[1]      
-    # first three elements in the 7th column (as a vector)
-    surveys[1:3, 7] 
-    # the 3rd row of the data frame (as a data.frame)
-    surveys[3, ]    
-    # equivalent to head_surveys <- head(surveys)
-    head_surveys <- surveys[1:6, ] 
-
--   minus sign to **remove** the indexed column or row
-
-<!-- -->
-
-    # The whole data frame, except the first column
-    # surveys[, -1]          
-    surveys[-(7:34786), ] # Equivalent to head(surveys)
-
-    ##   record_id month day year plot_id species_id sex hindfoot_length weight
-    ## 1         1     7  16 1977       2         NL   M              32     NA
-    ## 2        72     8  19 1977       2         NL   M              31     NA
-    ## 3       224     9  13 1977       2         NL                  NA     NA
-    ## 4       266    10  16 1977       2         NL                  NA     NA
-    ## 5       349    11  12 1977       2         NL                  NA     NA
-    ## 6       363    11  12 1977       2         NL                  NA     NA
-    ##     genus  species   taxa plot_type
-    ## 1 Neotoma albigula Rodent   Control
-    ## 2 Neotoma albigula Rodent   Control
-    ## 3 Neotoma albigula Rodent   Control
-    ## 4 Neotoma albigula Rodent   Control
-    ## 5 Neotoma albigula Rodent   Control
-    ## 6 Neotoma albigula Rodent   Control
-
-subsetting by name
-------------------
-
-      surveys["species_id"]       # Result is a data.frame
-      surveys[, "species_id"]     # Result is a vector
-      surveys[["species_id"]]     # Result is a vector
-      surveys$species_id          # Result is a vector
-
--   R has several ways to do some things
-
-challenge
----------
-
--   Create a data.frame (`surveys_200`) containing only the data in row
-    200 of the `surveys` dataset
-
--   Notice how `nrow()` gave you the number of rows in a data.frame? Use
-    that number to pull out just that last row in the data frame
-
--   Compare that with what you see as the last row using `tail()` to
-    make sure it’s meeting expectations
-
--   Pull out that last row using `nrow()` instead of the row number.
-
--   Create a new data frame (`surveys_last`) from that last row.
-
--   Use `nrow()` to extract the row that is in the middle of the data
-    frame. Store the content of this row in an object named
-    `surveys_middle`.
-
--   Combine `nrow()` with the - notation above to reproduce the behavior
-    of `head(surveys)`, keeping just the first through 6th rows of the
-    surveys dataset.
-
-factors
--------
-
--   **factors**: vectors (one-dimensional) representing **categorical
-    variables** and thus having **levels**. ordered or unordered
-    (`c(“low”, “medium”, “high”)`
-
--   R &lt; 4.0 had a default behavior `stringsAsFactors = TRUE` so any
-    character column was transformed into a factor
-
-<!-- -->
-
-    `?read.csv()`
-    ?default.stringsAsFactors
-
--   **today if we want factors we have to transform the vectors**
-
-<!-- -->
-
-    ## Compare the difference between our data read as
-    #`factor` vs `character`.
-    surveys <- read.csv("data/raw/portal_data_joined.csv",
-                        stringsAsFactors = TRUE)
-    str(surveys)
-    surveys <- read.csv("data/raw/portal_data_joined.csv",
-                        stringsAsFactors = FALSE)
-    str(surveys)
-    ## Convert the column "plot_type" and sex into a factor
-    surveys$plot_type <- factor(surveys$plot_type)
-    surveys$sex <- factor(surveys$sex)
-
-### working with factors
-
-    sex <- factor(c("male", "female", "female", "male"))
-    levels(sex) # in alphabetical order!
-    nlevels(sex) 
-    sex
-    sex <- factor(sex, levels = c("male", "female"))
-    sex # after re-ordering
-    as.character(sex)
-
-    year_fct <- factor(c(1990, 1983, 1977, 1998, 1990))
-    as.numeric(year_fct)               # Wrong! And there is no warning...
-    as.numeric(as.character(year_fct)) # Works...
-    as.numeric(levels(year_fct))
-    as.numeric(levels(year_fct))[year_fct]    # The recommended way.
-
-**Let’s make a plot of a factor variable**
-
-`plot(as.factor(surveys$sex))`
-
-let’s rename this label
-
-![](README_files/figure-markdown_strict/plot-1.png)
-
-`plot(sex)`
-
-let’s rename this label
-
-![](README_files/figure-markdown_strict/plot2-1.png)
-
-### challenge
-
-    levels(sex)[2] <- "female"
-    levels(sex)[3] <- "male"
-    sex <- factor(sex, levels = c("female", "male", "undetermined"))
-    plot(as.factor(sex))
-
-![](README_files/figure-markdown_strict/unnamed-chunk-22-1.png)
-
--   Rename “F” and “M” to “female” and “male” respectively.
-
--   Now that we have renamed the factor level to “undetermined”, can you
-    recreate the barplot such that “undetermined” is last (after
-    “male”)?
-
-------------------------------------------------------------------------
+<table style="width:7%;">
+<colgroup>
+<col style="width: 6%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td># Introduction to R</td>
+</tr>
+<tr class="even">
+<td>+ <code>&lt;-</code> is the assignment operation in R and it does not return output + overwriting objects <strong>does not affect other objects</strong> + <strong>naming things</strong>: don’t begin with a number or symbol. be consistent with your <strong>coding style</strong>! + separators can be anything and (you could use <code>.</code> but be nice).</td>
+</tr>
+<tr class="odd">
+<td><!-- + <!--html_preserve--><i class="fab  fa-python "></i><!--/html_preserve--> R doesn’t care about indentation –&gt;</td>
+</tr>
+<tr class="even">
+<td>## data types in R</td>
+</tr>
+<tr class="odd">
+<td><code>r animals  &lt;- c("mouse", "rat", "dog") weight_g &lt;- c(50, 60, 65, 82)</code></td>
+</tr>
+<tr class="even">
+<td><code>r class(animals)</code></td>
+</tr>
+<tr class="odd">
+<td><code>## [1] "character"</code></td>
+</tr>
+<tr class="even">
+<td><code>r class(weight_g)</code></td>
+</tr>
+<tr class="odd">
+<td><code>## [1] "numeric"</code></td>
+</tr>
+<tr class="even">
+<td><code>character</code> and <code>numeric</code> but also <code>logical</code> and <code>integer</code> (“whole” numbers, with no decimal component, in <span class="math inline"><em>N</em></span>), <code>complex</code>, and others.</td>
+</tr>
+<tr class="odd">
+<td>## subsetting vectors</td>
+</tr>
+<tr class="even">
+<td>+ R is <strong>1-indexed</strong> and intervals are closed (not half-open)</td>
+</tr>
+<tr class="odd">
+<td><code>r animals &lt;- c("mouse", "rat", "dog", "cat") animals[2]</code></td>
+</tr>
+<tr class="even">
+<td><code>## [1] "rat"</code></td>
+</tr>
+<tr class="odd">
+<td>+ Subsetting is done with brackets <code>[]</code></td>
+</tr>
+<tr class="even">
+<td><code>r animals[c(3, 2)]</code></td>
+</tr>
+<tr class="odd">
+<td><code>## [1] "dog" "rat"</code></td>
+</tr>
+<tr class="even">
+<td>## conditional subsetting</td>
+</tr>
+<tr class="odd">
+<td><code>r weight_g &lt;- c(21, 34, 39, 54, 55) weight_g[c(TRUE, FALSE, FALSE, TRUE, TRUE)]</code></td>
+</tr>
+<tr class="even">
+<td><code>## [1] 21 54 55</code></td>
+</tr>
+<tr class="odd">
+<td>Nobody works like this, instead we use <strong>logical clauses</strong> to <strong>generate</strong> these logical vectors</td>
+</tr>
+<tr class="even">
+<td>## logical clauses</td>
+</tr>
+<tr class="odd">
+<td>+ equality or not: <code>==</code>, <code>!=</code> + inequalities: <code>&lt;</code>. <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code> + union (OR) <code>|</code> + intersection (AND) <code>&amp;</code> + belonging <code>%in%</code> + differences between sets: <code>setdiff()</code> + negation works <code>!</code>: “not in” <code>!a %in% b</code></td>
+</tr>
+<tr class="even">
+<td>## comparing vectors</td>
+</tr>
+<tr class="odd">
+<td>```r animals &lt;- c(“mouse”, “rat”, “dog”, “cat”) more_animals &lt;- c(“rat”, “cat”, “dog”, “duck”, “goat”)</td>
+</tr>
+<tr class="even">
+<td>animals %in% more_animals ```</td>
+</tr>
+<tr class="odd">
+<td><code>## [1] FALSE  TRUE  TRUE  TRUE</code></td>
+</tr>
+<tr class="even">
+<td>```r animals &lt;- c(“mouse”, “rat”, “dog”, “cat”) more_animals &lt;- c(“rat”, “cat”, “dog”, “duck”, “goat”)</td>
+</tr>
+<tr class="odd">
+<td>animals == more_animals ```</td>
+</tr>
+<tr class="even">
+<td><code>## Warning in animals == more_animals: longer object length is not a multiple of ## shorter object length</code></td>
+</tr>
+<tr class="odd">
+<td><code>## [1] FALSE FALSE  TRUE FALSE FALSE</code></td>
+</tr>
+<tr class="even">
+<td>+ Vectors are compared <strong>one by one AND recycled</strong> when one of them is shorter, so use <code>%in%</code> when you want to check <strong>belonging to a set</strong></td>
+</tr>
+<tr class="odd">
+<td>## missing data</td>
+</tr>
+<tr class="even">
+<td><code>r heights &lt;- c(2, 4, 4, NA, 6) mean(heights)</code></td>
+</tr>
+<tr class="odd">
+<td><code>## [1] NA</code></td>
+</tr>
+<tr class="even">
+<td><code>r max(heights)</code></td>
+</tr>
+<tr class="odd">
+<td><code>## [1] NA</code></td>
+</tr>
+<tr class="even">
+<td><code>r mean(heights, na.rm = TRUE)</code></td>
+</tr>
+<tr class="odd">
+<td><code>## [1] 4</code></td>
+</tr>
+<tr class="even">
+<td><code>r max(heights, na.rm = TRUE)</code></td>
+</tr>
+<tr class="odd">
+<td><code>## [1] 6</code></td>
+</tr>
+<tr class="even">
+<td>## data structures</td>
+</tr>
+<tr class="odd">
+<td>+ <strong>vector</strong>: lineal arrays (one dimension: only length) + <strong>factors</strong>: vectors (one-dimensional) representing <strong>categorical variables</strong> and thus having <strong>levels</strong> + <strong>matrices</strong>: arrays of vectors -&gt; the same type (all numeric or all character, for instance) (two dimensions: width and length) + <strong>data frames</strong>: two-dimensional arrays but might be of combined types (i.e., column 1 with names, column 2 with numbers) + <strong>arrays</strong> are similar to matrices and dataframes but may be three-dimensional (“layered” data frames) + <strong>list</strong>: literally a list of anything (a list of data frames, or different objects)</td>
+</tr>
+<tr class="even">
+<td># Starting with data</td>
+</tr>
+<tr class="odd">
+<td>## the survey dataset</td>
+</tr>
+<tr class="even">
+<td>+ One row per individual</td>
+</tr>
+<tr class="odd">
+<td><img src="figs/columns.png" width="500" style="display: block; margin: auto;" /></td>
+</tr>
+<tr class="even">
+<td>## downloading the dataset</td>
+</tr>
+<tr class="odd">
+<td>We are going to download the file to our <code>data/raw</code> sub folder:</td>
+</tr>
+<tr class="even">
+<td><code>r if (!file.exists("data/raw")) dir.create("data/raw") if (!file.exists("data/raw/portal_data_joined.csv")) { download.file(url = "https://ndownloader.figshare.com/files/2292169", destfile = "data/raw/portal_data_joined.csv") }</code></td>
+</tr>
+<tr class="odd">
+<td>## reading files into R</td>
+</tr>
+<tr class="even">
+<td>Functions to read data are key to any project. for data frames: <code>read.csv()</code>, <code>read.delim()</code></td>
+</tr>
+<tr class="odd">
+<td><code>r surveys &lt;- read.csv("data/raw/portal_data_joined.csv") surveys_check &lt;- read.table(file = "data/raw/portal_data_joined.csv", sep = ",", header = TRUE) identical(surveys, surveys_check)</code></td>
+</tr>
+<tr class="even">
+<td><code>## [1] TRUE</code></td>
+</tr>
+<tr class="odd">
+<td>There are <strong>many other ways</strong> to read data into R, some are specific for the type of data (GIS shapefiles or raster, and specific packages may come with their own reader functions)</td>
+</tr>
+<tr class="even">
+<td><code>r str(surveys)</code></td>
+</tr>
+<tr class="odd">
+<td><code>## 'data.frame':    34786 obs. of  13 variables: ##  $ record_id      : int  1 72 224 266 349 363 435 506 588 661 ... ##  $ month          : int  7 8 9 10 11 11 12 1 2 3 ... ##  $ day            : int  16 19 13 16 12 12 10 8 18 11 ... ##  $ year           : int  1977 1977 1977 1977 1977 1977 1977 1978 1978 1978 ... ##  $ plot_id        : int  2 2 2 2 2 2 2 2 2 2 ... ##  $ species_id     : chr  "NL" "NL" "NL" "NL" ... ##  $ sex            : chr  "M" "M" "" "" ... ##  $ hindfoot_length: int  32 31 NA NA NA NA NA NA NA NA ... ##  $ weight         : int  NA NA NA NA NA NA NA NA 218 NA ... ##  $ genus          : chr  "Neotoma" "Neotoma" "Neotoma" "Neotoma" ... ##  $ species        : chr  "albigula" "albigula" "albigula" "albigula" ... ##  $ taxa           : chr  "Rodent" "Rodent" "Rodent" "Rodent" ... ##  $ plot_type      : chr  "Control" "Control" "Control" "Control" ...</code></td>
+</tr>
+<tr class="even">
+<td><code>r head(surveys) # 6 rows by default</code></td>
+</tr>
+<tr class="odd">
+<td><code>##   record_id month day year plot_id species_id sex hindfoot_length weight ## 1         1     7  16 1977       2         NL   M              32     NA ## 2        72     8  19 1977       2         NL   M              31     NA ## 3       224     9  13 1977       2         NL                  NA     NA ## 4       266    10  16 1977       2         NL                  NA     NA ## 5       349    11  12 1977       2         NL                  NA     NA ## 6       363    11  12 1977       2         NL                  NA     NA ##     genus  species   taxa plot_type ## 1 Neotoma albigula Rodent   Control ## 2 Neotoma albigula Rodent   Control ## 3 Neotoma albigula Rodent   Control ## 4 Neotoma albigula Rodent   Control ## 5 Neotoma albigula Rodent   Control ## 6 Neotoma albigula Rodent   Control</code></td>
+</tr>
+<tr class="even">
+<td><code>r tail(surveys)</code></td>
+</tr>
+<tr class="odd">
+<td><code>##       record_id month day year plot_id species_id sex hindfoot_length weight ## 34781     26787     9  27 1997       7         PL   F              21     16 ## 34782     26966    10  25 1997       7         PL   M              20     16 ## 34783     27185    11  22 1997       7         PL   F              21     22 ## 34784     27792     5   2 1998       7         PL   F              20      8 ## 34785     28806    11  21 1998       7         PX                  NA     NA ## 34786     30986     7   1 2000       7         PX                  NA     NA ##             genus  species   taxa        plot_type ## 34781  Peromyscus leucopus Rodent Rodent Exclosure ## 34782  Peromyscus leucopus Rodent Rodent Exclosure ## 34783  Peromyscus leucopus Rodent Rodent Exclosure ## 34784  Peromyscus leucopus Rodent Rodent Exclosure ## 34785 Chaetodipus      sp. Rodent Rodent Exclosure ## 34786 Chaetodipus      sp. Rodent Rodent Exclosure</code></td>
+</tr>
+<tr class="even">
+<td><code>r names(surveys)</code></td>
+</tr>
+<tr class="odd">
+<td><code>##  [1] "record_id"       "month"           "day"             "year" ##  [5] "plot_id"         "species_id"      "sex"             "hindfoot_length" ##  [9] "weight"          "genus"           "species"         "taxa" ## [13] "plot_type"</code></td>
+</tr>
+<tr class="even">
+<td><code>r summary(surveys)</code></td>
+</tr>
+<tr class="odd">
+<td><code>##    record_id         month             day            year         plot_id ##  Min.   :    1   Min.   : 1.000   Min.   : 1.0   Min.   :1977   Min.   : 1.00 ##  1st Qu.: 8964   1st Qu.: 4.000   1st Qu.: 9.0   1st Qu.:1984   1st Qu.: 5.00 ##  Median :17762   Median : 6.000   Median :16.0   Median :1990   Median :11.00 ##  Mean   :17804   Mean   : 6.474   Mean   :16.1   Mean   :1990   Mean   :11.34 ##  3rd Qu.:26655   3rd Qu.:10.000   3rd Qu.:23.0   3rd Qu.:1997   3rd Qu.:17.00 ##  Max.   :35548   Max.   :12.000   Max.   :31.0   Max.   :2002   Max.   :24.00 ## ##   species_id            sex            hindfoot_length     weight ##  Length:34786       Length:34786       Min.   : 2.00   Min.   :  4.00 ##  Class :character   Class :character   1st Qu.:21.00   1st Qu.: 20.00 ##  Mode  :character   Mode  :character   Median :32.00   Median : 37.00 ##                                        Mean   :29.29   Mean   : 42.67 ##                                        3rd Qu.:36.00   3rd Qu.: 48.00 ##                                        Max.   :70.00   Max.   :280.00 ##                                        NA's   :3348    NA's   :2503 ##     genus             species              taxa            plot_type ##  Length:34786       Length:34786       Length:34786       Length:34786 ##  Class :character   Class :character   Class :character   Class :character ##  Mode  :character   Mode  :character   Mode  :character   Mode  :character ## ## ## ##</code></td>
+</tr>
+<tr class="even">
+<td><code>r length(surveys) # number of columns</code></td>
+</tr>
+<tr class="odd">
+<td><code>## [1] 13</code></td>
+</tr>
+<tr class="even">
+<td>## inspecting <code>data.frame</code> objects</td>
+</tr>
+<tr class="odd">
+<td>Based on the output of <code>str(surveys)</code>, can you answer the following questions?</td>
+</tr>
+<tr class="even">
+<td>+ What is the class of the object surveys?</td>
+</tr>
+<tr class="odd">
+<td><code>r class(surveys)</code></td>
+</tr>
+<tr class="even">
+<td><code>## [1] "data.frame"</code></td>
+</tr>
+<tr class="odd">
+<td>+ How many rows and how many columns are in this object?</td>
+</tr>
+<tr class="even">
+<td><code>r ncol(surveys)</code></td>
+</tr>
+<tr class="odd">
+<td><code>## [1] 13</code></td>
+</tr>
+<tr class="even">
+<td><code>r nrow(surveys)</code></td>
+</tr>
+<tr class="odd">
+<td><code>## [1] 34786</code></td>
+</tr>
+<tr class="even">
+<td><code>r dim(surveys)</code></td>
+</tr>
+<tr class="odd">
+<td><code>## [1] 34786    13</code></td>
+</tr>
+<tr class="even">
+<td>+ How many species have been recorded during these surveys?</td>
+</tr>
+<tr class="odd">
+<td><code>r names(surveys)</code></td>
+</tr>
+<tr class="even">
+<td><code>##  [1] "record_id"       "month"           "day"             "year" ##  [5] "plot_id"         "species_id"      "sex"             "hindfoot_length" ##  [9] "weight"          "genus"           "species"         "taxa" ## [13] "plot_type"</code></td>
+</tr>
+<tr class="odd">
+<td><code>r unique(surveys$species_id)</code></td>
+</tr>
+<tr class="even">
+<td><code>##  [1] "NL" "DM" "PF" "PE" "DS" "PP" "SH" "OT" "DO" "OX" "SS" "OL" "RM" "SA" "PM" ## [16] "AH" "DX" "AB" "CM" "CQ" "RF" "UR" "UP" "UL" "BA" "RO" "SO" "PB" "CB" "PC" ## [31] "PH" "SF" "PI" "PL" "PX" "CV" "US" "PG" "AS" "ZL" "CS" "SU" "PU" "ST" "RX" ## [46] "CT" "SC" "CU"</code></td>
+</tr>
+<tr class="odd">
+<td><code>r length(unique(surveys$species_id))</code></td>
+</tr>
+<tr class="even">
+<td><code>## [1] 48</code></td>
+</tr>
+<tr class="odd">
+<td><code>r length(unique(surveys$species))</code></td>
+</tr>
+<tr class="even">
+<td><code>## [1] 40</code></td>
+</tr>
+<tr class="odd">
+<td># Indexing and subsetting data frames</td>
+</tr>
+<tr class="even">
+<td>+ a vector has only one dimension, so:</td>
+</tr>
+<tr class="odd">
+<td>+ <code>length()</code> refers to number of <strong>elements</strong> + <code>dim()</code> + selection between brackets <code>[]</code></td>
+</tr>
+<tr class="even">
+<td><code>r sp &lt;- surveys$species_id length(sp)</code></td>
+</tr>
+<tr class="odd">
+<td><code>## [1] 34786</code></td>
+</tr>
+<tr class="even">
+<td><code>r sp[3]</code></td>
+</tr>
+<tr class="odd">
+<td><code>## [1] "NL"</code></td>
+</tr>
+<tr class="even">
+<td>+ a data.frame has <strong>two</strong> dimensions, so <code>dim()</code>, <code>ncol()</code>, <code>nrow()</code></td>
+</tr>
+<tr class="odd">
+<td><code>r dim(surveys)</code></td>
+</tr>
+<tr class="even">
+<td><code>## [1] 34786    13</code></td>
+</tr>
+<tr class="odd">
+<td><code>r ncol(surveys)</code></td>
+</tr>
+<tr class="even">
+<td><code>## [1] 13</code></td>
+</tr>
+<tr class="odd">
+<td><code>r nrow(surveys)</code></td>
+</tr>
+<tr class="even">
+<td><code>## [1] 34786</code></td>
+</tr>
+<tr class="odd">
+<td>+ selection between brackets <code>[]</code> BUT with the two dimensions separated by a comma: <code>[rows, columns]</code></td>
+</tr>
+<tr class="even">
+<td><code>r names(surveys) surveys[, 6] surveys[1, ] surveys[ , 13] surveys[4 , 13]</code></td>
+</tr>
+<tr class="odd">
+<td><code>r # first element in the first column of the data frame (as a vector) surveys[1, 1] # first element in the 6th column (as a vector) surveys[1, 6] # first column of the data frame (as a vector) surveys[, 1] # first column of the data frame (as a data.frame) surveys[1] # first three elements in the 7th column (as a vector) surveys[1:3, 7] # the 3rd row of the data frame (as a data.frame) surveys[3, ] # equivalent to head_surveys &lt;- head(surveys) head_surveys &lt;- surveys[1:6, ]</code></td>
+</tr>
+<tr class="even">
+<td>+ minus sign to <strong>remove</strong> the indexed column or row</td>
+</tr>
+<tr class="odd">
+<td><code>r # The whole data frame, except the first column # surveys[, -1] surveys[-(7:34786), ] # Equivalent to head(surveys)</code></td>
+</tr>
+<tr class="even">
+<td><code>##   record_id month day year plot_id species_id sex hindfoot_length weight ## 1         1     7  16 1977       2         NL   M              32     NA ## 2        72     8  19 1977       2         NL   M              31     NA ## 3       224     9  13 1977       2         NL                  NA     NA ## 4       266    10  16 1977       2         NL                  NA     NA ## 5       349    11  12 1977       2         NL                  NA     NA ## 6       363    11  12 1977       2         NL                  NA     NA ##     genus  species   taxa plot_type ## 1 Neotoma albigula Rodent   Control ## 2 Neotoma albigula Rodent   Control ## 3 Neotoma albigula Rodent   Control ## 4 Neotoma albigula Rodent   Control ## 5 Neotoma albigula Rodent   Control ## 6 Neotoma albigula Rodent   Control</code></td>
+</tr>
+<tr class="odd">
+<td>## subsetting by name</td>
+</tr>
+<tr class="even">
+<td><code>r surveys["species_id"]       # Result is a data.frame surveys[, "species_id"]     # Result is a vector surveys[["species_id"]]     # Result is a vector surveys$species_id          # Result is a vector</code></td>
+</tr>
+<tr class="odd">
+<td>+ R has several ways to do some things</td>
+</tr>
+<tr class="even">
+<td>## challenge</td>
+</tr>
+<tr class="odd">
+<td>+ Create a data.frame (<code>surveys_200</code>) containing only the data in row 200 of the <code>surveys</code> dataset</td>
+</tr>
+<tr class="even">
+<td>+ Notice how <code>nrow()</code> gave you the number of rows in a data.frame? Use that number to pull out just that last row in the data frame</td>
+</tr>
+<tr class="odd">
+<td>+ Compare that with what you see as the last row using <code>tail()</code> to make sure it’s meeting expectations</td>
+</tr>
+<tr class="even">
+<td>+ Pull out that last row using <code>nrow()</code> instead of the row number.</td>
+</tr>
+<tr class="odd">
+<td>+ Create a new data frame (<code>surveys_last</code>) from that last row.</td>
+</tr>
+<tr class="even">
+<td>+ Use <code>nrow()</code> to extract the row that is in the middle of the data frame. Store the content of this row in an object named <code>surveys_middle</code>.</td>
+</tr>
+<tr class="odd">
+<td>+ Combine <code>nrow()</code> with the - notation above to reproduce the behavior of <code>head(surveys)</code>, keeping just the first through 6th rows of the surveys dataset.</td>
+</tr>
+<tr class="even">
+<td>## factors</td>
+</tr>
+<tr class="odd">
+<td>+ <strong>factors</strong>: vectors (one-dimensional) representing <strong>categorical variables</strong> and thus having <strong>levels</strong>. ordered or unordered (<code>c(“low”, “medium”, “high”)</code></td>
+</tr>
+<tr class="even">
+<td>+ R &lt; 4.0 had a default behavior <code>stringsAsFactors = TRUE</code> so any character column was transformed into a factor</td>
+</tr>
+<tr class="odd">
+<td><code>`?read.csv()` ?default.stringsAsFactors</code></td>
+</tr>
+<tr class="even">
+<td>+ <strong>today if we want factors we have to transform the vectors</strong></td>
+</tr>
+<tr class="odd">
+<td><code>r ## Compare the difference between our data read as #`factor` vs `character`. surveys &lt;- read.csv("data/raw/portal_data_joined.csv", stringsAsFactors = TRUE) str(surveys) surveys &lt;- read.csv("data/raw/portal_data_joined.csv", stringsAsFactors = FALSE) str(surveys) ## Convert the column "plot_type" and sex into a factor surveys$plot_type &lt;- factor(surveys$plot_type) surveys$sex &lt;- factor(surveys$sex)</code></td>
+</tr>
+<tr class="even">
+<td>### working with factors</td>
+</tr>
+<tr class="odd">
+<td>```r sex &lt;- factor(c(“male”, “female”, “female”, “male”)) levels(sex) # in alphabetical order! nlevels(sex) sex sex &lt;- factor(sex, levels = c(“male”, “female”)) sex # after re-ordering as.character(sex)</td>
+</tr>
+<tr class="even">
+<td>year_fct &lt;- factor(c(1990, 1983, 1977, 1998, 1990)) as.numeric(year_fct) # Wrong! And there is no warning… as.numeric(as.character(year_fct)) # Works… as.numeric(levels(year_fct)) as.numeric(levels(year_fct))[year_fct] # The recommended way. ```</td>
+</tr>
+<tr class="odd">
+<td><strong>Let’s make a plot of a factor variable</strong></td>
+</tr>
+<tr class="even">
+<td><code>plot(as.factor(surveys$sex))</code></td>
+</tr>
+<tr class="odd">
+<td>let’s rename this label</td>
+</tr>
+<tr class="even">
+<td><img src="README_files/figure-markdown_strict/plot-1.png" /></td>
+</tr>
+<tr class="odd">
+<td><code>plot(sex)</code></td>
+</tr>
+<tr class="even">
+<td>let’s rename this label</td>
+</tr>
+<tr class="odd">
+<td><img src="README_files/figure-markdown_strict/plot2-1.png" /></td>
+</tr>
+<tr class="even">
+<td>### challenge</td>
+</tr>
+<tr class="odd">
+<td><code>r levels(sex)[2] &lt;- "female" levels(sex)[3] &lt;- "male" sex &lt;- factor(sex, levels = c("female", "male", "undetermined")) plot(as.factor(sex))</code></td>
+</tr>
+<tr class="even">
+<td><img src="README_files/figure-markdown_strict/unnamed-chunk-22-1.png" /></td>
+</tr>
+<tr class="odd">
+<td>+ Rename “F” and “M” to “female” and “male” respectively.</td>
+</tr>
+<tr class="even">
+<td>+ Now that we have renamed the factor level to “undetermined”, can you recreate the barplot such that “undetermined” is last (after “male”)?</td>
+</tr>
+</tbody>
+</table>
 
 Manipulating and analyzing data with dplyr and the tidyverse
 ============================================================

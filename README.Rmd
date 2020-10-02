@@ -92,7 +92,7 @@ To designate them:
 
 # The RStudio IDE
 
-```{r, out.width=200, echo = FALSE}
+```{r, out.width=400, echo = FALSE}
 knitr::include_graphics("./figs/00_rstudio.png")
 ```
 
@@ -171,7 +171,7 @@ RStudio projects create a .Rproj file in your folder that acts as a shortcut for
 + __you can lose track of how you created the objects in the workspace__
 + `#goodpractices` don't save the workspace
 
-```{r, out.width=200, echo = FALSE}
+```{r, out.width=400, echo = FALSE}
 knitr::include_graphics("figs/0b_soft_wrap.png")
 ```
 
@@ -181,7 +181,7 @@ __soft wrap__ your scripts so you don't have to scroll side to side
 __soft wrap__ your scripts so you don't </br> have to scroll side to side
 
 
-```{r, out.width=200, echo = FALSE}
+```{r, out.width=400, echo = FALSE}
 knitr::include_graphics("figs/0d_terminal.png")
 ```
 
@@ -191,12 +191,7 @@ check your terminal
 + how did package installation go?
 
 
-```{r gif, out.width=300, echo = FALSE, fig.align='center'}
-knitr::include_graphics("https://media.giphy.com/media/3oriO04qxVReM5rJEA/giphy.gif")
-```
-
-
-
+----
 # Introduction to R 
 
 + `<-` is the assignment operation in R and it does not return output
