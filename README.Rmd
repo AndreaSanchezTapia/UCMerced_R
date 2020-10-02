@@ -6,7 +6,9 @@ date: '`r Sys.Date()`'
 editor_options: 
   chunk_output_type: inline
 output: 
-  md_document: default
+  md_document:
+    toc: true
+    number_sections: true
   html_notebook:
     toc: true
     number_sections: true
@@ -192,14 +194,13 @@ check your terminal
 
 
 ----
+
 # Introduction to R 
 
 + `<-` is the assignment operation in R and it does not return output
 + overwriting objects __does not affect other objects__ 
 +  __naming things__: don't begin with a number or symbol. be consistent with your __coding style__! 
-+ separators can be anything and (you could use `.` but be nice).
-
- <!-- + `r icon::fa("python")` R doesn't care about indentation --> 
++ separators can be anything and (you could use `.` but be nice to fellow `r icon::fa("python")` users
 
 
 ## data types in R
