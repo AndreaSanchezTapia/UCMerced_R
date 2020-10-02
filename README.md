@@ -750,7 +750,7 @@ challenge
 manipulating and analyzing data with dplyr
 ==========================================
 
-![](https://d33wubrfki0l68.cloudfront.net/621a9c8c5d7b47c4b6d72e8f01f28d14310e8370/193fc/css/images/hex/dplyr.png){50%}
+<img src="https://d33wubrfki0l68.cloudfront.net/621a9c8c5d7b47c4b6d72e8f01f28d14310e8370/193fc/css/images/hex/dplyr.png" width="150" />
 
 the tidyverse: an “umbrella” package
 ------------------------------------
@@ -1153,7 +1153,7 @@ ggplot2 plots are built sequentially in layers
            mapping = aes(x = weight, y = hindfoot_length)) + # aesthetics
       geom_point()                                        # plot function
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-42-1.png" width="350" />
+<img src="README_files/figure-markdown_strict/unnamed-chunk-43-1.png" width="350" />
 
 you can assign a plot to an object and build on it
 --------------------------------------------------
@@ -1164,7 +1164,7 @@ you can assign a plot to an object and build on it
     surveys_plot + 
         geom_point()
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-43-1.png" width="350" />
+<img src="README_files/figure-markdown_strict/unnamed-chunk-44-1.png" width="350" />
 
 ggplot2 plots are built sequentially in layers
 ----------------------------------------------
@@ -1172,24 +1172,24 @@ ggplot2 plots are built sequentially in layers
     surveys_plot + 
         geom_point(alpha = 0.1) #transparency
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-44-1.png" width="350" />
+<img src="README_files/figure-markdown_strict/unnamed-chunk-45-1.png" width="350" />
 
     surveys_plot + 
         geom_point(alpha = 0.1, color = "blue") #color
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-45-1.png" width="350" />
+<img src="README_files/figure-markdown_strict/unnamed-chunk-46-1.png" width="350" />
 
     surveys_plot + 
         geom_point(alpha = 0.1, aes(color = "blue")) #this is a mistake!
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-46-1.png" width="350" />
+<img src="README_files/figure-markdown_strict/unnamed-chunk-47-1.png" width="350" />
 
     #blue is not a variable so it should not go inside aes()
 
     surveys_plot + 
         geom_point(alpha = 0.1, aes(color = species_id))
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-47-1.png" width="350" />
+<img src="README_files/figure-markdown_strict/unnamed-chunk-48-1.png" width="350" />
 
     # but variables do go inside aes()
 
@@ -1200,7 +1200,7 @@ challenge: change x to categorial variable
            mapping = aes(x = species_id, y = weight)) +
        geom_point(aes(color = plot_type))
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-48-1.png" width="350" />
+<img src="README_files/figure-markdown_strict/unnamed-chunk-49-1.png" width="350" />
 
 boxplots!
 ---------
@@ -1210,7 +1210,7 @@ boxplots!
            mapping = aes(x = species_id, y = weight)) +
        geom_boxplot()
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-49-1.png" width="350" />
+<img src="README_files/figure-markdown_strict/unnamed-chunk-50-1.png" width="350" />
 
 theme options `theme_`
 ----------------------
@@ -1220,7 +1220,7 @@ theme options `theme_`
        geom_boxplot() +
       theme_classic()
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-50-1.png" width="350" />
+<img src="README_files/figure-markdown_strict/unnamed-chunk-51-1.png" width="350" />
 
 add jitter layer
 ----------------
@@ -1231,7 +1231,7 @@ add jitter layer
       geom_jitter(alpha = 0.3, color = "dodgerblue", width = 0.2) +
       theme_classic()
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-51-1.png" width="350" />
+<img src="README_files/figure-markdown_strict/unnamed-chunk-52-1.png" width="350" />
 
 change plot order
 -----------------
@@ -1242,7 +1242,7 @@ change plot order
       geom_boxplot() +
       theme_classic()
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-52-1.png" width="350" />
+<img src="README_files/figure-markdown_strict/unnamed-chunk-53-1.png" width="350" />
 
 violin plots
 ------------
@@ -1251,7 +1251,7 @@ violin plots
            mapping = aes(x = species_id, y = weight)) +
        geom_violin() + theme_classic()
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-53-1.png" width="350" />
+<img src="README_files/figure-markdown_strict/unnamed-chunk-54-1.png" width="350" />
 
 change scale (`scale_xx` options)
 ---------------------------------
@@ -1261,7 +1261,7 @@ change scale (`scale_xx` options)
        geom_violin() + scale_y_log10() + theme_classic() #nice!
     p
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-54-1.png" width="350" />
+<img src="README_files/figure-markdown_strict/unnamed-chunk-55-1.png" width="350" />
 
 add title `ggtitle()`
 ---------------------
@@ -1269,7 +1269,7 @@ add title `ggtitle()`
     p +  #remember the plot can be an object
       ggtitle("Nice violin plot")
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-55-1.png" width="350" />
+<img src="README_files/figure-markdown_strict/unnamed-chunk-56-1.png" width="350" />
 
     ggplot(data = surveys_complete, 
            mapping = aes(x = species_id, y = hindfoot_length)) +
@@ -1279,4 +1279,4 @@ add title `ggtitle()`
       theme_classic() +
       ggtitle("Nice violin plot")
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-56-1.png" width="350" />
+<img src="README_files/figure-markdown_strict/unnamed-chunk-57-1.png" width="350" />

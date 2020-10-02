@@ -565,8 +565,10 @@ plot(as.factor(sex))
 # manipulating and analyzing data with dplyr
 
 
+```{r, out.width=150, echo = FALSE}
+knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/621a9c8c5d7b47c4b6d72e8f01f28d14310e8370/193fc/css/images/hex/dplyr.png")
+```
 
-![](https://d33wubrfki0l68.cloudfront.net/621a9c8c5d7b47c4b6d72e8f01f28d14310e8370/193fc/css/images/hex/dplyr.png){50%}
 
 ## the tidyverse: an "umbrella" package
 
