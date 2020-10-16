@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data analysis and visualization in R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrea Sánchez-Tapia   Rio de Janeiro Botanical Garden - ¡liibre! - RLadies+" />
+    <meta name="date" content="2020-10-15" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Data analysis and visualization in R
+## UC Merced R curriculum
+### Andrea Sánchez-Tapia <br> Rio de Janeiro Botanical Garden - ¡liibre! - RLadies+
+### 2020-10-15
+
+---
+
+# outline
+
+
+
+
+
+
++ Overview to R and RStudio
++ Introduction to R
++ Starting with Data
++ Exploratory data analysis and basic statistics with R
++ Manipulating Data Frames with __dplyr__
++ Data visualisation with `ggplot2`
+
+---
+class: inverse, middle, center
+
+# overview of R and RStudio
+
+---
+
+## why learn `R`?
+
++ the language of choice for academic statisticians
+
+--
+
++ **_libre_ software**: free and free-to-be-used-and-modified for any means -&gt; one of the pillars of open science
+
+--
+
++ __script-based__: reproducibility, easier to scale up your analyses, transparency (track errors), great way to learn about methods.
+
+--
+
++ __interdisciplinary and modular__: lots of code written by area specialists. At the core of its philosophy is a smooth transition from user to programmer.
+
+--
+
++ __communication__ with other tools: manuscripts, presentations, apps and dashboards
+
+
+---
+## why learn `R`?
+
++ communication with __other programming languages__ (ex. __reticulate__ to run python scripts) 
+
+--
+
++ great __graphic capabilities__!
+
+--
+
+
++ __official support__: help in documentation, mailing lists
+
+--
+
++ __an active and welcoming community__:  email lists, Stack Overflow, [RStudio community](community.rstudio.com/), useR groups, .purple[R-Ladies+] chapters, Slack communities, <i class="fab  fa-twitter "></i> `#rstats`
+
+&lt;center&gt;
+&lt;img src="https://github.com/rladies/starter-kit/blob/master/stickers/rainbow-inclusive.png" width="150" /&gt;
+
+---
+## `R` has a modular structure: __packages__
+
+
++ `R` __base__ installation includes base packages developed and maintained by the __`R` Core Development Team__
+
+--
+
++ other packages are created by the community and hosted in __CRAN__ (The Comprehensive `R` Archive Network) or Bioconductor, GitHub, rOpenSci.org
+
+--
+
++ to install packages from CRAN: `install.packages("tidyverse")`
+
+---
+background-image:url("figs/00_rstudio.png")
+background-size: 50%
+# Running R in RStudio
+
+
+<i class="fas  fa-laptop-code fa-3x "></i>
+
+---
+class: inverse, middle, center
+# Setup and project organization
+
+---
+## working directory
+
++ you have to tell R where you will be working, so that it understands where to read tables, where to save outputs etc: __working directory__
+
+--
+
++ `getwd()` in the console
+
+--
+
++ the default is __"home"__: check general options and the "File" tab
+
+--
+
++ you can tell R and RStudio where you want to work with `setwd()`
+
+--
+
++ even better: instead of opening RStudio open an __R script__ or a __RStudio project__ (just as you would in MS Word   <i class="fas  fa-file-word "></i>)
+
+---
+## project organization and best practices
+
++ projects are better organized if we use __one folder per project__ and  __subfolders__ within our working directory
+
+--
+
++ we shouldn't modify __raw data files__ but __save processed data__ (and the corresponding scripts)
+
+--
+
++ instead of __absolute paths__ we should use __relative paths__:
+  + `.` "here"
+  + `./figs` a subfolder called `figs`
+  + the upper level `..`
+  
+--
+
++ avoid `C:users/your_name/your_file_structure/your_working_directory`
+
+---
+## In this and the following sessions
+
+
+```
+project/
+*    ├── data/
+*    │   ├── raw
+*    │   └── processed
+     ├── docs/
+*    ├── figs/
+     ├── R/
+*    ├── output/
+*    └── README.md
+```
+
++ unzip the .zip file into a folder of your preference
+
+&lt;right&gt;
+<i class="fas  fa-laptop-code fa-3x "></i>
+&lt;/right&gt;
+
+---
+## RStudio projects 
+
+RStudio projects create a __.Rproj__ file in your folder that acts as a shortcut for your projects
+
+
+--
+
+&lt;img src="https://media.giphy.com/media/3oriO04qxVReM5rJEA/giphy.gif" width="300" style="display: block; margin: auto;" /&gt;
+
+
+---
+class:middle, inverse, center
+# introduction to R 
+
+---
+## introduction to R 
+
++ `&lt;-` is the assignment operation in R and it does not return output it __creates objects__ that are saved in the workspace
+(`Alt + -`)
+
+--
+
++ overwriting objects __does not affect other objects__ 
+
+--
+
++  __naming object tips__: 
+ + don't begin with a number or symbol.
+ + there are forbidden words 
+ + be consistent with your __coding style__! 
+ + avoid dots
+ + __name functions as verbs and objects as nouns__
+
+--
+
++ you can see which objects are saved in the workspace by using `ls()`
+
+---
+
+## about the workspace
+
++ R creates __objects__ that occupy RAM memory: the __workspace__
+
+--
+
++ the __workspace__ can be saved and loaded between sessions BUT
+
+--
+
++ __you can lose track of how you created the objects in the workspace__
+
+--
+
++ `#goodpractices` don't save the workspace
+
+---
+background-image:url("figs/0a_setup.png")
+background-size: 60%
+background-position: 100% 100%
+
+.pull-left[in the general options]
+
+---
+class: inverse, middle, center
+# functions, arguments and understanding the  help
+
+---
+## functions and arguments
+
+```
+weight_kg &lt;- sqrt(10)
+
+round(3.14159)
+
+args(round)
+```
+
+---
+## if you know the name of the function
+```
+help(function)
+?function
+args(function)
+```
+
++ select the name of the function and click __F1__
+
+Check the structure of the help file:
+
++ Description
++ Usage
++ Arguments
++ Details
+
+---
+## if you don't know the name of the function
+
+```
+??kruskal
+```
+
+(or search it - google it - duckduckgo it)
+
+---
+## the structure of a function help
+
+`args(function)`
+
++ The arguments of a function are coded:
+  + in order
+  + with or without default settings
+  
+--
+
+You can either
++ use the arguments in order, without naming them
++ use the first arguments without naming them and then some optional arguments, with name
+
+
+---
+## data types in R
+
+&lt;small&gt;
+
+```r
+animals  &lt;- c("mouse", "rat", "dog")
+weight_g &lt;- c(50, 60, 65, 82)
+```
+
+--
+
+
+```r
+class(animals)
+```
+
+```
+## [1] "character"
+```
+
+--
+
+
+```r
+class(weight_g)
+```
+
+```
+## [1] "numeric"
+```
+&lt;/small&gt;
+
+--
+
+`character` and `numeric` but also `logical` and `integer` ("whole" numbers, with no decimal component, in `\(N\)`), `complex`, and others. 
+
+---
+class: center, middle
+
+<i class="fas  fa-laptop-code fa-3x "></i>
+
+---
+## subsetting vectors
+
++ R is __1-indexed__ and intervals are closed (not half-open)
+
+
+```r
+animals &lt;- c("mouse", "rat", "dog", "cat")
+animals[2]
+```
+
+```
+## [1] "rat"
+```
+
++ Subsetting is done with brackets `[]`
+
+
+```r
+animals[c(3, 2)]
+```
+
+```
+## [1] "dog" "rat"
+```
+
+---
+## conditional subsetting
+
+
+```r
+weight_g &lt;- c(21, 34, 39, 54, 55)
+weight_g[c(TRUE, FALSE, FALSE, TRUE, TRUE)]
+```
+
+```
+## [1] 21 54 55
+```
+
+Nobody works like this, instead we use __logical clauses__ to __generate__ these logical vectors
+
+---
+
+
+## logical clauses
+
++ equality or not: `==`, `!=`
++ inequalities: `&lt;`. `&gt;`, `&lt;=`, `&gt;=`
++ union (OR) `|`
++ intersection (AND) `&amp;`
++ belonging `%in%`
++ differences between sets: `setdiff()`
++ negation works `!`: "not in" `!a %in% b`
+
+---
+## comparing vectors
+
+&lt;small&gt;
+
+```r
+animals      &lt;- c("mouse", "rat", "dog", "cat")
+more_animals &lt;- c("rat", "cat", "dog", "duck", "goat")
+
+animals %in% more_animals
+```
+
+```
+## [1] FALSE  TRUE  TRUE  TRUE
+```
+
+---
+##comparing vectors
+
+&lt;small&gt;
+
+```r
+animals      &lt;- c("mouse", "rat", "dog", "cat")
+more_animals &lt;- c("rat", "cat", "dog", "duck", "goat")
+
+animals == more_animals
+```
+
+```
+## Warning in animals == more_animals: longer object length is not a multiple of
+## shorter object length
+```
+
+```
+## [1] FALSE FALSE  TRUE FALSE FALSE
+```
+
++ Vectors are compared __one by one AND recycled__ when one of them is shorter, so use `%in%` when you want to check __belonging to a set__
+
+---
+## missing data
+
+&lt;small&gt;
+
+```r
+heights &lt;- c(2, 4, 4, NA, 6)
+mean(heights)
+```
+
+```
+## [1] NA
+```
+
+```r
+max(heights)
+```
+
+```
+## [1] NA
+```
+
+```r
+mean(heights, na.rm = TRUE)
+```
+
+```
+## [1] 4
+```
+
+```r
+max(heights, na.rm = TRUE)
+```
+
+```
+## [1] 6
+```
+
+---
+
+## data structures
+
++ __vector__: lineal arrays (one dimension: only length)
+
+--
+
++ __factors__: vectors (one-dimensional) representing __categorical variables__ and thus having __levels__
+
+--
+
++ __matrices__: arrays of vectors -&gt; the same type (all numeric or all character, for instance) (two dimensions: width and length)
+
+--
+
++ __data frames__: two-dimensional arrays but might be of combined types (i.e., column 1 with names, column 2 with numbers)
+
+--
+
++ __arrays__ are similar to matrices and dataframes but may be three-dimensional ("layered" data frames)
+
+--
+
++ __list__: literally a list of anything (a list of data frames, or different objects)
+
+---
+class: inverse, middle, center
+
+# Getting help in R
+
+---
+
+---
+## Other sources of help
+
++ Taskviews 
+
+[https://cran.r-project.org/web/views/](https://cran.r-project.org/web/views/)
+
+
+---
+# ¡Thanks!
+
+&lt;center&gt;
+<i class="fas  fa-paper-plane " style="color:#562457;"></i> [andreasancheztapia@gmail.com](mailto:andreasancheztapia@gmail.com) 
+
+<i class="fab  fa-twitter " style="color:#562457;"></i> [@SanchezTapiaA](https://twitter.com/SanchezTapiaA) 
+
+<i class="fab  fa-github " style="color:#562457;"></i> <i class="fab  fa-gitlab " style="color:#562457;"></i> <i class="fab  fa-bitbucket " style="color:#562457;"></i> [andreasancheztapia](http://github.com/andreasancheztapia) 
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": true,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
