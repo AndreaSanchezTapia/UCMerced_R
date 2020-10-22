@@ -539,7 +539,7 @@ as.character(sex)
 + Now that we have renamed the factor level to “undetermined”, can you recreate the barplot such that “undetermined” is last (after “male”)?
 ]
 
----
+
 ---
 ## some basic plotting 
 
@@ -561,16 +561,9 @@ plot(sort(surveys$weight))
 x &lt;- surveys$weight
 y &lt;- surveys$hindfoot_length
 plot(x, y) 
-```
-
-![](02_Starting_with_data_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
-
-```r
 #but you can also avoid creating the vectors
 plot(surveys$weight, surveys$hindfoot_length) #check the help for parameter order, x, y axis.
 ```
-
-![](02_Starting_with_data_files/figure-html/unnamed-chunk-20-2.png)&lt;!-- --&gt;
 
 ---
 ## boxplots
@@ -578,21 +571,7 @@ plot(surveys$weight, surveys$hindfoot_length) #check the help for parameter orde
 
 ```r
 head(surveys$plot_type)
-```
-
-```
-## [1] Control Control Control Control Control Control
-## 5 Levels: Control Long-term Krat Exclosure ... Spectab exclosure
-```
-
-```r
 levels(surveys$plot_type)
-```
-
-```
-## [1] "Control"                   "Long-term Krat Exclosure" 
-## [3] "Rodent Exclosure"          "Short-term Krat Exclosure"
-## [5] "Spectab exclosure"
 ```
 
 # boxplots
@@ -601,8 +580,6 @@ levels(surveys$plot_type)
 ```r
 plot(surveys$weight ~ surveys$plot_type)
 ```
-
-![](02_Starting_with_data_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
 
 + check the __tilde__ `~` notation, formula:
 "as a function of"
@@ -618,143 +595,16 @@ all parameters for plotting are in function `par()`
 
 ```r
 plot(x, y)
-```
-
-![](02_Starting_with_data_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
-
-```r
 plot(x, y, xlab = "Hindfoot length", ylab = "Weight", cex = 0.9, pch = 19)
-```
-
-![](02_Starting_with_data_files/figure-html/unnamed-chunk-23-2.png)&lt;!-- --&gt;
-
-```r
 plot(x, y, xlab = "Hindfoot length", ylab = "Weight", cex = 0.9, pch = 19, col = "red")
-```
-
-![](02_Starting_with_data_files/figure-html/unnamed-chunk-23-3.png)&lt;!-- --&gt;
-
-```r
 plot(x, y, xlab = "Hindfoot length", ylab = "Weight", cex = 0.9, pch = 19, col = surveys$sex)
 ```
-
-![](02_Starting_with_data_files/figure-html/unnamed-chunk-23-4.png)&lt;!-- --&gt;
 
 + pch, cex, xlab, ylab, 
 
 + __saving a plot!__
 
----
-class:inverse
----
-## working with several tables
 
-+ in real analysis settings you will have many tables that are related
-
---
-
-+ in ecology for example:
-
---
-
-  - sites x species
-
---
-
-  - sites x environmental conditions
-
---
-
-  - species x characteristics
-
---
-
-  - individuals x individual measurement
-
----
-## working with several tables
-
-
-
-
-```r
-download.file("https://ndownloader.figshare.com/files/3299483",
-              "./data/raw/species.csv")
-download.file("https://ndownloader.figshare.com/files/10717177",
-              "./data/raw/surveys.csv")
-download.file("https://ndownloader.figshare.com/files/3299474",
-              "./data/raw/plots.csv")
-```
-
-
----
-
-
-```r
-library(readr)
-species &lt;- read.csv("./data/raw/species.csv")
-surveys &lt;- read.csv("./data/raw/surveys.csv")
-plots &lt;- read.csv("./data/raw/plots.csv")
-surveys_plots &lt;- merge(surveys, plots)
-dim(surveys)
-```
-
-```
-## [1] 35549     9
-```
-
-```r
-dim(plots)
-```
-
-```
-## [1] 24  2
-```
-
-```r
-dim(surveys_plots)
-```
-
-```
-## [1] 35549    10
-```
-
-```r
-names(species)
-```
-
-```
-## [1] "species_id" "genus"      "species"    "taxa"
-```
-
-```r
-head(species)
-```
-
-```
-##   species_id            genus         species   taxa
-## 1         AB       Amphispiza       bilineata   Bird
-## 2         AH Ammospermophilus         harrisi Rodent
-## 3         AS       Ammodramus      savannarum   Bird
-## 4         BA          Baiomys         taylori Rodent
-## 5         CB  Campylorhynchus brunneicapillus   Bird
-## 6         CM      Calamospiza     melanocorys   Bird
-```
-
-```r
-names(surveys_plots)
-```
-
-```
-##  [1] "plot_id"         "record_id"       "month"           "day"            
-##  [5] "year"            "species_id"      "sex"             "hindfoot_length"
-##  [9] "weight"          "plot_type"
-```
-
----
-# dplyr joins 
-
-&lt;img src="./figs/joins.png" width="1469" /&gt;
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

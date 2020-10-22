@@ -540,7 +540,7 @@ plot(as.factor(sex), xlab = "Sex")
 + Now that we have renamed the factor level to “undetermined”, can you recreate the barplot such that “undetermined” is last (after “male”)?
 ]
 
----
+
 ---
 ## some basic plotting 
 
@@ -557,7 +557,7 @@ plot(sort(surveys$weight))
 
 + two continuous variables
 
-```{r, results="hide"}
+```{r, eval =F}
 x <- surveys$weight
 y <- surveys$hindfoot_length
 plot(x, y) 
@@ -568,14 +568,14 @@ plot(surveys$weight, surveys$hindfoot_length) #check the help for parameter orde
 ---
 ## boxplots
 
-```{r}
+```{r, eval=FALSE}
 head(surveys$plot_type)
 levels(surveys$plot_type)
 ```
 
 # boxplots
 
-```{r}
+```{r, eval = F}
 plot(surveys$weight ~ surveys$plot_type)
 ```
 
@@ -590,7 +590,7 @@ plot(surveys$weight ~ surveys$plot_type)
 
 all parameters for plotting are in function `par()`
 
-```{r, results = "hide"}
+```{r, eval = FALSE}
 plot(x, y)
 plot(x, y, xlab = "Hindfoot length", ylab = "Weight", cex = 0.9, pch = 19)
 plot(x, y, xlab = "Hindfoot length", ylab = "Weight", cex = 0.9, pch = 19, col = "red")
@@ -601,82 +601,5 @@ plot(x, y, xlab = "Hindfoot length", ylab = "Weight", cex = 0.9, pch = 19, col =
 
 + __saving a plot!__
 
----
-class:inverse
----
-## working with several tables
 
-+ in real analysis settings you will have many tables that are related
-
---
-
-+ in ecology for example:
-
---
-
-  - sites x species
-
---
-
-  - sites x environmental conditions
-
---
-
-  - species x characteristics
-
---
-
-  - individuals x individual measurement
-
----
-## working with several tables
-
-```{r, echo = F}
-if (!file.exists("./data/raw")) dir.create("./data/raw")
-if (!file.exists("./data/raw/species.csv")) {
-download.file("https://ndownloader.figshare.com/files/3299483", "./data/raw/species.csv")
-}
-
-if (!file.exists("./data/raw/surveys.csv")) {
-download.file("https://ndownloader.figshare.com/files/10717177", "./data/raw/surveys.csv")
-}
-if (!file.exists("./data/raw/plots.csv")) {
-download.file("https://ndownloader.figshare.com/files/3299474",
-              "./data/raw/plots.csv")
-}
-```
-
-```{r, eval = F}
-download.file("https://ndownloader.figshare.com/files/3299483",
-              "./data/raw/species.csv")
-download.file("https://ndownloader.figshare.com/files/10717177",
-              "./data/raw/surveys.csv")
-download.file("https://ndownloader.figshare.com/files/3299474",
-              "./data/raw/plots.csv")
-```
-
-
----
-
-```{r}
-library(readr)
-species <- read.csv("./data/raw/species.csv")
-surveys <- read.csv("./data/raw/surveys.csv")
-plots <- read.csv("./data/raw/plots.csv")
-surveys_plots <- merge(surveys, plots)
-dim(surveys)
-dim(plots)
-dim(surveys_plots)
-names(species)
-head(species)
-names(surveys_plots)
-
-```
-
----
-# dplyr joins 
-
-```{r, echo = FALSE, eval = TRUE}
-knitr::include_graphics("./figs/joins.png")
-```
 
