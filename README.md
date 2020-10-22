@@ -1,156 +1,176 @@
--   [Data analysis and visualization in
+UCMerced R curriculum
+================
+Andrea Sánchez-Tapia <br> Rio de Janeiro Botanical Garden - ¡liibre\!
+2020-10-20
+
+  - [Data analysis and visualization in
     R](#data-analysis-and-visualization-in-r)
--   [1 Overview of R and RStudio](#overview-of-r-and-rstudio)
-    -   [1.1 why learn `R`?](#why-learn-r)
-    -   [1.2 `R` has a modular structure:
+      - [First week](#first-week)
+      - [Second week](#second-week)
+      - [Third week](#third-week)
+      - [Fourth week](#fourth-week)
+  - [1 Overview of R and RStudio](#overview-of-r-and-rstudio)
+      - [1.1 why learn `R`?](#why-learn-r)
+      - [1.2 `R` has a modular structure:
         **packages**](#r-has-a-modular-structure-packages)
-    -   [1.3 how to run R](#how-to-run-r)
-    -   [1.4 install, load, and cite
+      - [1.3 how to run R](#how-to-run-r)
+      - [1.4 install, load, and cite
         packages](#install-load-and-cite-packages)
--   [2 About notation](#about-notation)
--   [3 The RStudio IDE](#the-rstudio-ide)
-    -   [3.1 working directory](#working-directory)
--   [4 Project organization](#project-organization)
-    -   [4.1 RStudio projects](#rstudio-projects)
-    -   [4.2 about the workspace](#about-the-workspace)
--   [5 Introduction to R](#introduction-to-r)
-    -   [5.1 data types in R](#data-types-in-r)
-    -   [5.2 subsetting vectors](#subsetting-vectors)
-    -   [5.3 conditional subsetting](#conditional-subsetting)
-    -   [5.4 logical clauses](#logical-clauses)
-    -   [5.5 comparing vectors](#comparing-vectors)
-    -   [5.6 missing data](#missing-data)
-    -   [5.7 data structures](#data-structures)
--   [6 Starting with data](#starting-with-data)
-    -   [6.1 the survey dataset](#the-survey-dataset)
-    -   [6.2 downloading the dataset](#downloading-the-dataset)
-    -   [6.3 reading files into R](#reading-files-into-r)
-    -   [6.4 inspecting `data.frame`
+  - [2 About notation](#about-notation)
+  - [3 The RStudio IDE](#the-rstudio-ide)
+      - [3.1 working directory](#working-directory)
+  - [4 Project organization](#project-organization)
+      - [4.1 RStudio projects](#rstudio-projects)
+      - [4.2 about the workspace](#about-the-workspace)
+  - [5 Introduction to R](#introduction-to-r)
+      - [5.1 data types in R](#data-types-in-r)
+      - [5.2 subsetting vectors](#subsetting-vectors)
+      - [5.3 conditional subsetting](#conditional-subsetting)
+      - [5.4 logical clauses](#logical-clauses)
+      - [5.5 comparing vectors](#comparing-vectors)
+      - [5.6 missing data](#missing-data)
+      - [5.7 data structures](#data-structures)
+  - [6 Starting with data](#starting-with-data)
+      - [6.1 the survey dataset](#the-survey-dataset)
+      - [6.2 downloading the dataset](#downloading-the-dataset)
+      - [6.3 reading files into R](#reading-files-into-r)
+      - [6.4 inspecting `data.frame`
         objects](#inspecting-data.frame-objects)
--   [7 Indexing and subsetting data
+  - [7 Indexing and subsetting data
     frames](#indexing-and-subsetting-data-frames)
-    -   [7.1 subsetting by name](#subsetting-by-name)
-    -   [7.2 challenge](#challenge)
-    -   [7.3 factors](#factors)
-        -   [7.3.1 working with factors](#working-with-factors)
-        -   [7.3.2 challenge](#challenge-1)
--   [8 Manipulating and analyzing data with dplyr and the
-    tidyverse](#manipulating-and-analyzing-data-with-dplyr-and-the-tidyverse)
-    -   [8.1 the tidyverse: an “umbrella”
+      - [7.1 subsetting by name](#subsetting-by-name)
+      - [7.2 challenge](#challenge)
+      - [7.3 factors](#factors)
+          - [7.3.1 working with factors](#working-with-factors)
+          - [7.3.2 challenge](#challenge-1)
+  - [8 Week four: Manipulating and analyzing data with dplyr and the
+    tidyverse](#week-four-manipulating-and-analyzing-data-with-dplyr-and-the-tidyverse)
+      - [8.1 the tidyverse: an “umbrella”
         package](#the-tidyverse-an-umbrella-package)
-    -   [8.2 reading data with **readr**](#reading-data-with-readr)
-    -   [8.3 some principal functions in
+      - [8.2 reading data with **readr**](#reading-data-with-readr)
+      - [8.3 some principal functions in
         **dplyr**](#some-principal-functions-in-dplyr)
-        -   [8.3.1 `select()` columns](#select-columns)
-        -   [8.3.2 removing columns](#removing-columns)
-        -   [8.3.3 additional functions](#additional-functions)
-        -   [8.3.4 `filter()` rows](#filter-rows)
-        -   [8.3.5 `mutate()` creates or modifies
+          - [8.3.1 `select()` columns](#select-columns)
+          - [8.3.2 removing columns](#removing-columns)
+          - [8.3.3 additional functions](#additional-functions)
+          - [8.3.4 `filter()` rows](#filter-rows)
+          - [8.3.5 `mutate()` creates or modifies
             columns](#mutate-creates-or-modifies-columns)
-        -   [8.3.6 `group_by()` and
+          - [8.3.6 `group_by()` and
             `summarise()`](#group_by-and-summarise)
-        -   [8.3.7 another example:](#another-example)
-        -   [8.3.8 `arrange()` sorts by a
+          - [8.3.7 another example:](#another-example)
+          - [8.3.8 `arrange()` sorts by a
             column](#arrange-sorts-by-a-column)
-    -   [8.4 the pipe operator](#the-pipe-operator)
-        -   [8.4.1 `select()` and `filter()`](#select-and-filter)
-        -   [8.4.2 `group_by()` and
+      - [8.4 the pipe operator](#the-pipe-operator)
+          - [8.4.1 `select()` and `filter()`](#select-and-filter)
+          - [8.4.2 `group_by()` and
             `summarize()`](#group_by-and-summarize)
-        -   [8.4.3 `count()`](#count)
-        -   [8.4.4 challenge](#challenge-2)
-    -   [8.5 save data!](#save-data)
--   [9 **ggplot2**](#ggplot2)
-    -   [9.1 ggplot2 plots are built sequentially in
+          - [8.4.3 `count()`](#count)
+          - [8.4.4 challenge](#challenge-2)
+      - [8.5 save data\!](#save-data)
+  - [9 **ggplot2**](#ggplot2)
+      - [9.1 ggplot2 plots are built sequentially in
         layers](#ggplot2-plots-are-built-sequentially-in-layers)
-    -   [9.2 you can assign a plot to an object and build on
+      - [9.2 you can assign a plot to an object and build on
         it](#you-can-assign-a-plot-to-an-object-and-build-on-it)
-    -   [9.3 challenge: change x to categorial
+      - [9.3 challenge: change x to categorial
         variable](#challenge-change-x-to-categorial-variable)
-    -   [9.4 boxplots!](#boxplots)
-    -   [9.5 theme options `theme_`](#theme-options-theme_)
-    -   [9.6 add jitter layer](#add-jitter-layer)
-    -   [9.7 change plot order](#change-plot-order)
-    -   [9.8 violin plots](#violin-plots)
-    -   [9.9 change scale (`scale_xx`
+      - [9.4 boxplots\!](#boxplots)
+      - [9.5 theme options `theme_`](#theme-options-theme_)
+      - [9.6 add jitter layer](#add-jitter-layer)
+      - [9.7 change plot order](#change-plot-order)
+      - [9.8 violin plots](#violin-plots)
+      - [9.9 change scale (`scale_xx`
         options)](#change-scale-scale_xx-options)
-    -   [9.10 add title `ggtitle()`](#add-title-ggtitle)
+      - [9.10 add title `ggtitle()`](#add-title-ggtitle)
 
-Data analysis and visualization in R
-====================================
+# Data analysis and visualization in R
 
--   Overview to R and RStudio
--   Introduction to R
--   Starting with Data
--   Manipulating Data Frames with **dplyr**
--   Data visualisation
+## First week
 
-------------------------------------------------------------------------
+  - Overview to R and RStudio <!-- 15 -->
+  - Seeking help in R
+  - Introduction to R <!-- 45 -->
 
-1 Overview of R and RStudio
-===========================
+## Second week
 
-1.1 why learn `R`?
-------------------
+  - Starting with Data <!-- 20 -->
+  - Base plot functions
 
--   ***libre* software**: free and free-to-be-used-and-modified for any
-    means -&gt; one of the pillars of open science
--   **script-based**: reproducibility, easy to scale up your analyses,
+## Third week
+
+  - Exploratory data analysis
+  - Basic statistical functions
+
+## Fourth week
+
+  - Manipulating Data Frames with **dplyr** <!-- 60 -->
+  - Data visualisation with ggplot2 <!-- 60 -->
+
+-----
+
+# 1 Overview of R and RStudio
+
+## 1.1 why learn `R`?
+
+  - the language of choice for academic statisticians
+  - ***libre* software**: free and free-to-be-used-and-modified for any
+    means -\> one of the pillars of open science
+  - **script-based**: reproducibility, easy to scale up your analyses,
     transparency (track errors), great way to learn about methods.
--   **interdisciplinary and modular**: lots of code written by area
+  - **interdisciplinary and modular**: lots of code written by area
     specialists. At the core of its philosophy is a smooth transition
     from user to programmer.
--   **communication** with other tools: manuscripts, presentations, apps
+  - **communication** with other tools: manuscripts, presentations, apps
     and dashboards
--   communication with **other programming languages** (ex.
+  - communication with **other programming languages** (ex.
     **reticulate** to run python scripts)
--   great **graphic capabilities**!
--   **official support**: help in documentation, mailing lists
--   **an active and welcoming community**: email lists, Stack Overflow,
+  - great **graphic capabilities**\!
+  - **official support**: help in documentation, mailing lists
+  - **an active and welcoming community**: email lists, Stack Overflow,
     [RStudio community](community.rstudio.com/), useR groups,
     **R-Ladies+** chapters, Slack communities,
     <!--html_preserve--><i class="fab  fa-twitter "></i><!--/html_preserve-->
     `#rstats`
 
-1.2 `R` has a modular structure: **packages**
----------------------------------------------
+## 1.2 `R` has a modular structure: **packages**
 
--   `R` **base** installation includes base packages developed and
+  - `R` **base** installation includes base packages developed and
     maintained by the **`R` Core Development Team**
--   other packages are created by the community
--   hosted in **CRAN** (The Comprehensive `R` Archive Network) or
-    Bioconductor, GitHub, rOpenSci.org
--   a package is a collection of functions, it must be loaded to be used
-    (ex. `library(dplyr)`)
--   the whole package is loaded, not some functions or parts of it. if
-    you want to use one function you can use `package::function()`
+  - other packages are created by the community and hosted in **CRAN**
+    (The Comprehensive `R` Archive Network) or Bioconductor, GitHub,
+    rOpenSci.org
+  - to install packages from CRAN: `install.packages("tidyverse")`
 
-1.3 how to run R
-----------------
+## 1.3 how to run R
 
--   from the R program in Windows <s>but don’t</s>
--   directly in the **terminal** in Linux and Mac (just type `R`). this
+  - from the R program in Windows ~~but don’t~~
+  - directly in the **terminal** in Linux and Mac (just type `R`). this
     is important in **HPC** environments like the UC Merced cluster (R
     scripts can also be run from outside R)
--   many GUIs and text editors: rgedit, **emacs ESS**, Atom, Sublime
+  - many GUIs and text editors: rgedit, **emacs ESS**, Atom, Sublime
     Text etc.
--   **RStudio**: an Integrated Development Environment (IDE) - Desktop
+  - **RStudio**: an Integrated Development Environment (IDE) - Desktop
     Version but also Server and Cloud versions
 
-1.4 install, load, and cite packages
-------------------------------------
+## 1.4 install, load, and cite packages
 
-    install.packages("dplyr")
-    install.packages("ggplot2")
-    install.packages("tidyverse") # just an umbrella package
+``` r
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("tidyverse") # just an umbrella package
+```
 
--   to install dependencies:
-    `install.packages(xxx, dependencies = TRUE)`
--   if you get an error about a missing **dependency** copy the name of
+  - to install dependencies: `install.packages(xxx, dependencies =
+    TRUE)`
+  - if you get an error about a missing **dependency** copy the name of
     the missing package(s) and execute `install.packages()`
 
-<!-- -->
+<!-- end list -->
 
-    library("dplyr")
+``` r
+library("dplyr")
+```
 
     ## 
     ## Attaching package: 'dplyr'
@@ -163,7 +183,9 @@ Data analysis and visualization in R
     ## 
     ##     intersect, setdiff, setequal, union
 
-    citation("dplyr")
+``` r
+citation("dplyr")
+```
 
     ## 
     ## To cite package 'dplyr' in publications use:
@@ -183,7 +205,9 @@ Data analysis and visualization in R
     ##     url = {https://CRAN.R-project.org/package=dplyr},
     ##   }
 
-    toBibtex(citation("dplyr"))
+``` r
+toBibtex(citation("dplyr"))
+```
 
     ## @Manual{,
     ##   title = {dplyr: A Grammar of Data Manipulation},
@@ -194,65 +218,61 @@ Data analysis and visualization in R
     ##   url = {https://CRAN.R-project.org/package=dplyr},
     ## }
 
-2 About notation
-================
+# 2 About notation
 
--   **packages** are collections of **functions**
--   **functions** have **arguments** or **parameters** (options)
+  - **packages** are collections of **functions**
+  - **functions** have **arguments** or **parameters** (options)
 
 To designate them:
 
--   package name: **base** (in **bold** letters)
--   function name: `help()` (in fixed width font and with parentheses at
+  - package name: **base** (in **bold** letters)
+  - function name: `help()` (in fixed width font and with parentheses at
     the end)
--   objects and arguments: `data`, `na.rm` (in fixed width font)
--   sometimes you’ll see `stats::median()` this is correct syntaxis
+  - objects and arguments: `data`, `na.rm` (in fixed width font)
+  - sometimes you’ll see `stats::median()` this is correct syntaxis
     `program::function()` and helps distinguish **functions with the
     same name** or calling one function only (from an **installed**
     package)
 
-3 The RStudio IDE
-=================
+# 3 The RStudio IDE
 
-<img src="./figs/00_rstudio.png" width="400" />
+<img src="./docs/figs/00_rstudio.png" width="400" />
 
 Check for the following panes:
 
--   Environment -&gt; Objects in the **workspace**
--   Files
--   Plots
--   Help
--   Console
+  - Environment -\> Objects in the **workspace**
+  - Files
+  - Plots
+  - Help
+  - Console
 
 Some other that might be useful *later*:
 
--   **Terminal**
--   **Viewer** (for presentations and documents)
--   **git** (only when working inside an RStudio project)
+  - **Terminal**
+  - **Viewer** (for presentations and documents)
+  - **git** (only when working inside an RStudio project)
 
-3.1 working directory
----------------------
+## 3.1 working directory
 
--   the **files** pane is showing one folder location:
+  - the **files** pane is showing one folder location:
+    
+      - `Home/Documents`
+      - `~/Documents`
+      - `"/Users/andreasancheztapia/Documents"`
 
-    -   `Home/Documents`
-    -   `~/Documents`
-    -   `"/Users/andreasancheztapia/Documents"`
-
--   in `Global options > General > R Sessions` OR `cmd` + `,` “default
+  - in `Global options > General > R Sessions` OR `cmd` + `,` “default
     working directory when not in a project”
 
--   `getwd()` in the console
+  - `getwd()` in the console
 
--   we have to tell R where we are working -&gt; change the working
+  - we have to tell R where we are working -\> change the working
     directory
 
-4 Project organization
-======================
+# 4 Project organization
 
--   projects are better organized if we use **one folder per project**
+  - projects are better organized if we use **one folder per project**
     and **subfolders** within our working directory
--   take care of data **provenance**: we shouldn’t modify **raw data
+  - take care of data **provenance**: we shouldn’t modify **raw data
     files** but **save processed data** (and the corresponding scripts)
 
 In practice:
@@ -267,210 +287,226 @@ In practice:
          ├── output/
          └── README.md
 
--   Hands on:
+  - Hands on:
+
+<!-- end list -->
 
 1.  Select your folder for this project
 2.  Create a subfolder structure: `/figs`, and `/data`, with subfolders
     `/raw` and `processed`.
 
-4.1 RStudio projects
---------------------
+## 4.1 RStudio projects
 
 RStudio projects create a .Rproj file in your folder that acts as a
 shortcut for your projects
 
--   recognize the location
--   respect some project-specific preferences
--   reopen files
--   **git** pane available
+  - recognize the location
+  - respect some project-specific preferences
+  - reopen files
+  - **git** pane available
 
-4.2 about the workspace
------------------------
+## 4.2 about the workspace
 
--   R creates **objects** that occupy RAM memory: the **workspace**
--   the **workspace** can be saved and loaded between sessions BUT
--   **you can lose track of how you created the objects in the
+  - R creates **objects** that occupy RAM memory: the **workspace**
+  - the **workspace** can be saved and loaded between sessions BUT
+  - **you can lose track of how you created the objects in the
     workspace**
--   `#goodpractices` don’t save the workspace
+  - `#goodpractices` don’t save the workspace
 
-<img src="figs/0b_soft_wrap.png" width="400" />
+<img src="docs/figs/0b_soft_wrap.png" width="400" />
 
 **soft wrap** your scripts so you don’t have to scroll side to side
 
 **soft wrap** your scripts so you don’t </br> have to scroll side to
 side
 
-<img src="figs/0d_terminal.png" width="400" />
+<img src="docs/figs/0d_terminal.png" width="400" />
 
 check your terminal
 
--   we have an **RStudio project** in the correct **working directory**,
+  - we have an **RStudio project** in the correct **working directory**,
     with a nice file structure and RStudio is configured
--   how did package installation go?
+  - how did package installation go?
 
-------------------------------------------------------------------------
+-----
 
-5 Introduction to R
-===================
+# 5 Introduction to R
 
--   `<-` is the assignment operation in R and it does not return output
--   overwriting objects **does not affect other objects**
--   **naming things**: don’t begin with a number or symbol. be
-    consistent with your **coding style**!
--   separators can be anything and (you could use `.` but be nice to
+  - `<-` is the assignment operation in R and it does not return output
+  - overwriting objects **does not affect other objects**
+  - **naming things**: don’t begin with a number or symbol. be
+    consistent with your **coding style**\!
+  - separators can be anything and (you could use `.` but be nice to
     fellow
     <!--html_preserve--><i class="fab  fa-python "></i><!--/html_preserve-->
     users
 
-5.1 data types in R
--------------------
+## 5.1 data types in R
 
-    animals  <- c("mouse", "rat", "dog")
-    weight_g <- c(50, 60, 65, 82)
+``` r
+animals  <- c("mouse", "rat", "dog")
+weight_g <- c(50, 60, 65, 82)
+```
 
-    class(animals)
+``` r
+class(animals)
+```
 
     ## [1] "character"
 
-    class(weight_g)
+``` r
+class(weight_g)
+```
 
     ## [1] "numeric"
 
-`character` and `numeric` but also `logical` and `integer` (“whole”
-numbers, with no decimal component, in *N*), `complex`, and others.
+`character` and `numeric` but also `logical` and `integer` (entire
+numbers, with no decimal component), `complex`, and others.
 
-5.2 subsetting vectors
-----------------------
+## 5.2 subsetting vectors
 
--   R is **1-indexed** and intervals are closed (not half-open)
+  - R is **1-indexed** and intervals are closed (not half-open)
 
-<!-- -->
+<!-- end list -->
 
-    animals <- c("mouse", "rat", "dog", "cat")
-    animals[2]
+``` r
+animals <- c("mouse", "rat", "dog", "cat")
+animals[2]
+```
 
     ## [1] "rat"
 
--   Subsetting is done with brackets `[]`
+  - Subsetting is done with brackets `[]`
 
-<!-- -->
+<!-- end list -->
 
-    animals[c(3, 2)]
+``` r
+animals[c(3, 2)]
+```
 
     ## [1] "dog" "rat"
 
-5.3 conditional subsetting
---------------------------
+## 5.3 conditional subsetting
 
-    weight_g <- c(21, 34, 39, 54, 55)
-    weight_g[c(TRUE, FALSE, FALSE, TRUE, TRUE)]
+``` r
+weight_g <- c(21, 34, 39, 54, 55)
+weight_g[c(TRUE, FALSE, FALSE, TRUE, TRUE)]
+```
 
     ## [1] 21 54 55
 
 Nobody works like this, instead we use **logical clauses** to
 **generate** these logical vectors
 
-5.4 logical clauses
--------------------
+## 5.4 logical clauses
 
--   equality or not: `==`, `!=`
--   inequalities: `<`. `>`, `<=`, `>=`
--   union (OR) `|`
--   intersection (AND) `&`
--   belonging `%in%`
--   differences between sets: `setdiff()`
--   negation works `!`: “not in” `!a %in% b`
+  - equality or not: `==`, `!=`
+  - inequalities: `<`. `>`, `<=`, `>=`
+  - union (OR) `|`
+  - intersection (AND) `&`
+  - belonging `%in%`
+  - differences between sets: `setdiff()`
+  - negation works `!`: “not in” `!a %in% b`
 
-5.5 comparing vectors
----------------------
+## 5.5 comparing vectors
 
-    animals      <- c("mouse", "rat", "dog", "cat")
-    more_animals <- c("rat", "cat", "dog", "duck", "goat")
+``` r
+animals      <- c("mouse", "rat", "dog", "cat")
+more_animals <- c("rat", "cat", "dog", "duck", "goat")
 
-    animals %in% more_animals
+animals %in% more_animals
+```
 
     ## [1] FALSE  TRUE  TRUE  TRUE
 
-    animals      <- c("mouse", "rat", "dog", "cat")
-    more_animals <- c("rat", "cat", "dog", "duck", "goat")
+``` r
+animals      <- c("mouse", "rat", "dog", "cat")
+more_animals <- c("rat", "cat", "dog", "duck", "goat")
 
-    animals == more_animals
+animals == more_animals
+```
 
     ## Warning in animals == more_animals: longer object length is not a multiple of
     ## shorter object length
 
     ## [1] FALSE FALSE  TRUE FALSE FALSE
 
--   Vectors are compared **one by one AND recycled** when one of them is
+  - Vectors are compared **one by one AND recycled** when one of them is
     shorter, so use `%in%` when you want to check **belonging to a set**
 
-5.6 missing data
-----------------
+## 5.6 missing data
 
-    heights <- c(2, 4, 4, NA, 6)
-    mean(heights)
-
-    ## [1] NA
-
-    max(heights)
+``` r
+heights <- c(2, 4, 4, NA, 6)
+mean(heights)
+```
 
     ## [1] NA
 
-    mean(heights, na.rm = TRUE)
+``` r
+max(heights)
+```
+
+    ## [1] NA
+
+``` r
+mean(heights, na.rm = TRUE)
+```
 
     ## [1] 4
 
-    max(heights, na.rm = TRUE)
+``` r
+max(heights, na.rm = TRUE)
+```
 
     ## [1] 6
 
-5.7 data structures
--------------------
+## 5.7 data structures
 
--   **vector**: lineal arrays (one dimension: only length)
--   **factors**: vectors (one-dimensional) representing **categorical
+  - **vector**: lineal arrays (one dimension: only length)
+  - **factors**: vectors (one-dimensional) representing **categorical
     variables** and thus having **levels**
--   **matrices**: arrays of vectors -&gt; the same type (all numeric or
+  - **matrices**: arrays of vectors -\> the same type (all numeric or
     all character, for instance) (two dimensions: width and length)
--   **data frames**: two-dimensional arrays but might be of combined
+  - **data frames**: two-dimensional arrays but might be of combined
     types (i.e., column 1 with names, column 2 with numbers)
--   **arrays** are similar to matrices and dataframes but may be
+  - **arrays** are similar to matrices and dataframes but may be
     three-dimensional (“layered” data frames)
--   **list**: literally a list of anything (a list of data frames, or
+  - **list**: literally a list of anything (a list of data frames, or
     different objects)
 
-6 Starting with data
-====================
+# 6 Starting with data
 
-6.1 the survey dataset
-----------------------
+## 6.1 the survey dataset
 
--   One row per individual
+  - One row per individual
 
-<img src="figs/columns.png" width="500" style="display: block; margin: auto;" />
+<img src="docs/figs/columns.png" width="500" style="display: block; margin: auto;" />
 
-6.2 downloading the dataset
----------------------------
+## 6.2 downloading the dataset
 
 We are going to download the file to our `data/raw` sub folder:
 
-    if (!file.exists("data/raw")) dir.create("data/raw")
-    if (!file.exists("data/raw/portal_data_joined.csv")) {
-    download.file(url = "https://ndownloader.figshare.com/files/2292169",
-                  destfile = "data/raw/portal_data_joined.csv")
-    }
+``` r
+if (!file.exists("data/raw")) dir.create("data/raw")
+if (!file.exists("data/raw/portal_data_joined.csv")) {
+download.file(url = "https://ndownloader.figshare.com/files/2292169",
+              destfile = "data/raw/portal_data_joined.csv")
+}
+```
 
-6.3 reading files into R
-------------------------
+## 6.3 reading files into R
 
-Functions to read data are key to any project.  
-for data frames: `read.csv()`, `read.delim()`
+Functions to read data are key to any project. for data frames:
+`read.csv()`, `read.delim()`
 
-    surveys <- read.csv("data/raw/portal_data_joined.csv")
-    surveys_check <- read.table(file = "data/raw/portal_data_joined.csv", 
-                                sep = ",", 
-                                header = TRUE)
-    identical(surveys, surveys_check)
+``` r
+surveys <- read.csv("data/raw/portal_data_joined.csv")
+surveys_check <- read.table(file = "data/raw/portal_data_joined.csv",
+                            sep = ",",
+                            header = TRUE)
+identical(surveys, surveys_check)
+```
 
     ## [1] TRUE
 
@@ -478,7 +514,9 @@ There are **many other ways** to read data into R, some are specific for
 the type of data (GIS shapefiles or raster, and specific packages may
 come with their own reader functions)
 
-    str(surveys)
+``` r
+str(surveys)
+```
 
     ## 'data.frame':    34786 obs. of  13 variables:
     ##  $ record_id      : int  1 72 224 266 349 363 435 506 588 661 ...
@@ -495,7 +533,9 @@ come with their own reader functions)
     ##  $ taxa           : chr  "Rodent" "Rodent" "Rodent" "Rodent" ...
     ##  $ plot_type      : chr  "Control" "Control" "Control" "Control" ...
 
-    head(surveys) # 6 rows by default
+``` r
+head(surveys) # 6 rows by default
+```
 
     ##   record_id month day year plot_id species_id sex hindfoot_length weight
     ## 1         1     7  16 1977       2         NL   M              32     NA
@@ -512,7 +552,9 @@ come with their own reader functions)
     ## 5 Neotoma albigula Rodent   Control
     ## 6 Neotoma albigula Rodent   Control
 
-    tail(surveys)
+``` r
+tail(surveys)
+```
 
     ##       record_id month day year plot_id species_id sex hindfoot_length weight
     ## 34781     26787     9  27 1997       7         PL   F              21     16
@@ -529,14 +571,18 @@ come with their own reader functions)
     ## 34785 Chaetodipus      sp. Rodent Rodent Exclosure
     ## 34786 Chaetodipus      sp. Rodent Rodent Exclosure
 
-    names(surveys)
+``` r
+names(surveys)
+```
 
     ##  [1] "record_id"       "month"           "day"             "year"           
     ##  [5] "plot_id"         "species_id"      "sex"             "hindfoot_length"
     ##  [9] "weight"          "genus"           "species"         "taxa"           
     ## [13] "plot_type"
 
-    summary(surveys)
+``` r
+summary(surveys)
+```
 
     ##    record_id         month             day            year         plot_id     
     ##  Min.   :    1   Min.   : 1.000   Min.   : 1.0   Min.   :1977   Min.   : 1.00  
@@ -563,135 +609,167 @@ come with their own reader functions)
     ##                                                                             
     ## 
 
-    length(surveys) # number of columns 
+``` r
+length(surveys) # number of columns
+```
 
     ## [1] 13
 
-6.4 inspecting `data.frame` objects
------------------------------------
+## 6.4 inspecting `data.frame` objects
 
 Based on the output of `str(surveys)`, can you answer the following
 questions?
 
--   What is the class of the object surveys?
+  - What is the class of the object surveys?
 
-<!-- -->
+<!-- end list -->
 
-    class(surveys)
+``` r
+class(surveys)
+```
 
     ## [1] "data.frame"
 
--   How many rows and how many columns are in this object?
+  - How many rows and how many columns are in this object?
 
-<!-- -->
+<!-- end list -->
 
-    ncol(surveys)
+``` r
+ncol(surveys)
+```
 
     ## [1] 13
 
-    nrow(surveys)
+``` r
+nrow(surveys)
+```
 
     ## [1] 34786
 
-    dim(surveys)
+``` r
+dim(surveys)
+```
 
     ## [1] 34786    13
 
--   How many species have been recorded during these surveys?
+  - How many species have been recorded during these surveys?
 
-<!-- -->
+<!-- end list -->
 
-    names(surveys)
+``` r
+names(surveys)
+```
 
     ##  [1] "record_id"       "month"           "day"             "year"           
     ##  [5] "plot_id"         "species_id"      "sex"             "hindfoot_length"
     ##  [9] "weight"          "genus"           "species"         "taxa"           
     ## [13] "plot_type"
 
-    unique(surveys$species_id)
+``` r
+unique(surveys$species_id)
+```
 
     ##  [1] "NL" "DM" "PF" "PE" "DS" "PP" "SH" "OT" "DO" "OX" "SS" "OL" "RM" "SA" "PM"
     ## [16] "AH" "DX" "AB" "CM" "CQ" "RF" "UR" "UP" "UL" "BA" "RO" "SO" "PB" "CB" "PC"
     ## [31] "PH" "SF" "PI" "PL" "PX" "CV" "US" "PG" "AS" "ZL" "CS" "SU" "PU" "ST" "RX"
     ## [46] "CT" "SC" "CU"
 
-    length(unique(surveys$species_id))
+``` r
+length(unique(surveys$species_id))
+```
 
     ## [1] 48
 
-    length(unique(surveys$species))
+``` r
+length(unique(surveys$species))
+```
 
     ## [1] 40
 
-7 Indexing and subsetting data frames
-=====================================
+# 7 Indexing and subsetting data frames
 
--   a vector has only one dimension, so:
+  - a vector has only one dimension, so:
+    
+      - `length()` refers to number of **elements**
+      - `dim()`
+      - selection between brackets `[]`
 
-    -   `length()` refers to number of **elements**
-    -   `dim()`
-    -   selection between brackets `[]`
+<!-- end list -->
 
-<!-- -->
-
-    sp <- surveys$species_id
-    length(sp)
+``` r
+sp <- surveys$species_id
+length(sp)
+```
 
     ## [1] 34786
 
-    sp[3]
+``` r
+sp[3]
+```
 
     ## [1] "NL"
 
--   a data.frame has **two** dimensions, so `dim()`, `ncol()`, `nrow()`
+  - a data.frame has **two** dimensions, so `dim()`, `ncol()`, `nrow()`
 
-<!-- -->
+<!-- end list -->
 
-    dim(surveys)
+``` r
+dim(surveys)
+```
 
     ## [1] 34786    13
 
-    ncol(surveys)
+``` r
+ncol(surveys)
+```
 
     ## [1] 13
 
-    nrow(surveys)
+``` r
+nrow(surveys)
+```
 
     ## [1] 34786
 
--   selection between brackets `[]` BUT with the two dimensions
+  - selection between brackets `[]` BUT with the two dimensions
     separated by a comma: `[rows, columns]`
 
-<!-- -->
+<!-- end list -->
 
-    names(surveys)
-    surveys[, 6]
-    surveys[1, ]
-    surveys[ , 13]
-    surveys[4 , 13]
+``` r
+names(surveys)
+surveys[, 6]
+surveys[1, ]
+surveys[ , 13]
+surveys[4 , 13]
+```
 
-    # first element in the first column of the data frame (as a vector)
-    surveys[1, 1]   
-    # first element in the 6th column (as a vector)
-    surveys[1, 6]   
-    # first column of the data frame (as a vector)
-    surveys[, 1]    
-    # first column of the data frame (as a data.frame)
-    surveys[1]      
-    # first three elements in the 7th column (as a vector)
-    surveys[1:3, 7] 
-    # the 3rd row of the data frame (as a data.frame)
-    surveys[3, ]    
-    # equivalent to head_surveys <- head(surveys)
-    head_surveys <- surveys[1:6, ] 
+``` r
+# first element in the first column of the data frame (as a vector)
+surveys[1, 1]
+# first element in the 6th column (as a vector)
+surveys[1, 6]
+# first column of the data frame (as a vector)
+surveys[, 1]
+# first column of the data frame (as a data.frame)
+surveys[1]
+# first three elements in the 7th column (as a vector)
+surveys[1:3, 7]
+# the 3rd row of the data frame (as a data.frame)
+surveys[3, ]
+# equivalent to head_surveys <- head(surveys)
+head_surveys <- surveys[1:6, ]
+```
 
--   minus sign to **remove** the indexed column or row
+  - minus sign to **remove** the indexed column or row
 
-<!-- -->
+<!-- end list -->
 
-    # The whole data frame, except the first column
-    # surveys[, -1]          
-    surveys[-(7:34786), ] # Equivalent to head(surveys)
+``` r
+# The whole data frame, except the first column
+# surveys[, -1]
+surveys[-(7:34786), ] # Equivalent to head(surveys)
+```
 
     ##   record_id month day year plot_id species_id sex hindfoot_length weight
     ## 1         1     7  16 1977       2         NL   M              32     NA
@@ -708,86 +786,89 @@ questions?
     ## 5 Neotoma albigula Rodent   Control
     ## 6 Neotoma albigula Rodent   Control
 
-7.1 subsetting by name
-----------------------
+## 7.1 subsetting by name
 
-      surveys["species_id"]       # Result is a data.frame
-      surveys[, "species_id"]     # Result is a vector
-      surveys[["species_id"]]     # Result is a vector
-      surveys$species_id          # Result is a vector
+``` r
+  surveys["species_id"]       # Result is a data.frame
+  surveys[, "species_id"]     # Result is a vector
+  surveys[["species_id"]]     # Result is a vector
+  surveys$species_id          # Result is a vector
+```
 
--   R has several ways to do some things
+  - R has several ways to do some things
 
-7.2 challenge
--------------
+## 7.2 challenge
 
--   Create a data.frame (`surveys_200`) containing only the data in row
+  - Create a data.frame (`surveys_200`) containing only the data in row
     200 of the `surveys` dataset
 
--   Notice how `nrow()` gave you the number of rows in a data.frame? Use
+  - Notice how `nrow()` gave you the number of rows in a data.frame? Use
     that number to pull out just that last row in the data frame
 
--   Compare that with what you see as the last row using `tail()` to
+  - Compare that with what you see as the last row using `tail()` to
     make sure it’s meeting expectations
 
--   Pull out that last row using `nrow()` instead of the row number.
+  - Pull out that last row using `nrow()` instead of the row number.
 
--   Create a new data frame (`surveys_last`) from that last row.
+  - Create a new data frame (`surveys_last`) from that last row.
 
--   Use `nrow()` to extract the row that is in the middle of the data
+  - Use `nrow()` to extract the row that is in the middle of the data
     frame. Store the content of this row in an object named
     `surveys_middle`.
 
--   Combine `nrow()` with the - notation above to reproduce the behavior
+  - Combine `nrow()` with the - notation above to reproduce the behavior
     of `head(surveys)`, keeping just the first through 6th rows of the
     surveys dataset.
 
-7.3 factors
------------
+## 7.3 factors
 
--   **factors**: vectors (one-dimensional) representing **categorical
+  - **factors**: vectors (one-dimensional) representing **categorical
     variables** and thus having **levels**. ordered or unordered
     (`c(“low”, “medium”, “high”)`
 
--   R &lt; 4.0 had a default behavior `stringsAsFactors = TRUE` so any
+  - R \< 4.0 had a default behavior `stringsAsFactors = TRUE` so any
     character column was transformed into a factor
 
-<!-- -->
+<!-- end list -->
 
     `?read.csv()`
     ?default.stringsAsFactors
 
--   **today if we want factors we have to transform the vectors**
+  - **today if we want factors we have to transform the vectors**
 
-<!-- -->
+<!-- end list -->
 
-    ## Compare the difference between our data read as
-    #`factor` vs `character`.
-    surveys <- read.csv("data/raw/portal_data_joined.csv",
-                        stringsAsFactors = TRUE)
-    str(surveys)
-    surveys <- read.csv("data/raw/portal_data_joined.csv",
-                        stringsAsFactors = FALSE)
-    str(surveys)
-    ## Convert the column "plot_type" and sex into a factor
-    surveys$plot_type <- factor(surveys$plot_type)
-    surveys$sex <- factor(surveys$sex)
+``` r
+## Compare the difference between our data read as
+#`factor` vs `character`.
+surveys <- read.csv("data/raw/portal_data_joined.csv",
+                    stringsAsFactors = TRUE)
+str(surveys)
+surveys <- read.csv("data/raw/portal_data_joined.csv",
+                    stringsAsFactors = FALSE)
+str(surveys)
+## Convert the column "plot_type" and sex into a factor
+surveys$plot_type <- factor(surveys$plot_type)
+surveys$sex <- factor(surveys$sex)
+```
 
 ### 7.3.1 working with factors
 
-    sex <- factor(c("male", "female", "female", "male"))
-    levels(sex) # in alphabetical order!
-    nlevels(sex) 
-    sex
-    sex <- factor(sex, levels = c("male", "female"))
-    sex # after re-ordering
-    as.character(sex)
+``` r
+sex <- factor(c("male", "female", "female", "male"))
+levels(sex) # in alphabetical order!
+nlevels(sex)
+sex
+sex <- factor(sex, levels = c("male", "female"))
+sex # after re-ordering
+as.character(sex)
 
-    year_fct <- factor(c(1990, 1983, 1977, 1998, 1990))
-    as.numeric(year_fct)               # Wrong! And there is no warning...
-    as.numeric(as.character(year_fct)) # Works...
-    as.numeric(levels(year_fct))
-    as.numeric(levels(year_fct))[year_fct]    # The recommended way.
+year_fct <- factor(c(1990, 1983, 1977, 1998, 1990))
+as.numeric(year_fct)               # Wrong! And there is no warning...
+as.numeric(as.character(year_fct)) # Works...
+as.numeric(levels(year_fct))
+as.numeric(levels(year_fct))[year_fct]    # The recommended way.
+```
 
 **Let’s make a plot of a factor variable**
 
@@ -795,60 +876,63 @@ questions?
 
 let’s rename this label
 
-![](README_files/figure-markdown_strict/plot-1.png)
+![](README_files/figure-gfm/plot-1.png)<!-- -->
 
 `plot(sex)`
 
 let’s rename this label
 
-![](README_files/figure-markdown_strict/plot2-1.png)
+![](README_files/figure-gfm/plot2-1.png)<!-- -->
 
 ### 7.3.2 challenge
 
-    levels(sex)[2] <- "female"
-    levels(sex)[3] <- "male"
-    sex <- factor(sex, levels = c("female", "male", "undetermined"))
-    plot(as.factor(sex))
+``` r
+levels(sex)[2] <- "female"
+levels(sex)[3] <- "male"
+sex <- factor(sex, levels = c("female", "male", "undetermined"))
+plot(as.factor(sex))
+```
 
-![](README_files/figure-markdown_strict/unnamed-chunk-22-1.png)
+![](README_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
 
--   Rename “F” and “M” to “female” and “male” respectively.
+  - Rename “F” and “M” to “female” and “male” respectively.
 
--   Now that we have renamed the factor level to “undetermined”, can you
+  - Now that we have renamed the factor level to “undetermined”, can you
     recreate the barplot such that “undetermined” is last (after
     “male”)?
 
-------------------------------------------------------------------------
+-----
 
-8 Manipulating and analyzing data with dplyr and the tidyverse
-==============================================================
+# 8 Week four: Manipulating and analyzing data with dplyr and the tidyverse
 
 <img src="https://d33wubrfki0l68.cloudfront.net/621a9c8c5d7b47c4b6d72e8f01f28d14310e8370/193fc/css/images/hex/dplyr.png" width="150" />
 
-8.1 the tidyverse: an “umbrella” package
-----------------------------------------
+## 8.1 the tidyverse: an “umbrella” package
 
--   **ggplot2**: a “grammar of graphics” by Hadley Wickham. Divide the
+  - **ggplot2**: a “grammar of graphics” by Hadley Wickham. Divide the
     data and the <br> aesthetics. Create and modify the plots layer by
     layer
--   **dplyr**: a way to lead with data frames, sql external data bases,
+  - **dplyr**: a way to lead with data frames, sql external data bases,
     written in `C++`
--   **readr**: read data
--   **tidyr**: format data frames
--   **stringr**: deals with strings
--   additional packages for other tasks: **tibble**, **lubridate** and
+  - **readr**: read data
+  - **tidyr**: format data frames
+  - **stringr**: deals with strings
+  - additional packages for other tasks: **tibble**, **lubridate** and
     many more
 
 Most of R is still **base**-based and both philosophies communicate well
 with each other
 
-8.2 reading data with **readr**
--------------------------------
+## 8.2 reading data with **readr**
 
-    library(dplyr)
-    library(readr)
+``` r
+library(dplyr)
+library(readr)
+```
 
-    surveys <- readr::read_csv("data/raw/portal_data_joined.csv")
+``` r
+surveys <- readr::read_csv("data/raw/portal_data_joined.csv")
+```
 
     ## Parsed with column specification:
     ## cols(
@@ -867,26 +951,33 @@ with each other
     ##   plot_type = col_character()
     ## )
 
-    ## inspect the data
-    str(surveys)
+``` r
+## inspect the data
+str(surveys)
+```
 
-    View(surveys)
+``` r
+View(surveys)
+```
 
-    surveys
+``` r
+surveys
+```
 
-8.3 some principal functions in **dplyr**
------------------------------------------
+## 8.3 some principal functions in **dplyr**
 
--   **select** (columns)
--   **filter** (rows)
--   **rename** (columns)
--   **mutate** (create new columns or modify existing columns)
--   **arrange** to sort according to a column
--   **count** cases of one or many columns
+  - **select** (columns)
+  - **filter** (rows)
+  - **rename** (columns)
+  - **mutate** (create new columns or modify existing columns)
+  - **arrange** to sort according to a column
+  - **count** cases of one or many columns
 
 ### 8.3.1 `select()` columns
 
-    select(surveys, plot_id, species_id, weight)
+``` r
+select(surveys, plot_id, species_id, weight)
+```
 
     ## # A tibble: 34,786 x 3
     ##    plot_id species_id weight
@@ -906,48 +997,64 @@ with each other
 1.  there is no need to put quotes
 2.  there is no need to put variables between `c()`
 
-**base R still works in a tibble!**
+**base R still works in a tibble\!**
 
-    surveys[, c("plot_id", "species_id", "weight")]
+``` r
+surveys[, c("plot_id", "species_id", "weight")]
+```
 
 ### 8.3.2 removing columns
 
-    select(surveys, -record_id, -species_id)
+``` r
+select(surveys, -record_id, -species_id)
+```
 
 ### 8.3.3 additional functions
 
-    select(surveys, -ends_with("id"))
+``` r
+select(surveys, -ends_with("id"))
+```
 
 ### 8.3.4 `filter()` rows
 
-**logical clauses!**
+**logical clauses\!**
 
-    surv_1995 <- filter(surveys, year == 1995)
+``` r
+surv_1995 <- filter(surveys, year == 1995)
+```
 
 **No need to use $ or brackets**
 
-    surveys$year == 1995
-    surveys[surveys$year == 1995 , ]
+``` r
+surveys$year == 1995
+surveys[surveys$year == 1995 , ]
+```
 
 ### 8.3.5 `mutate()` creates or modifies columns
 
-    surveys <- mutate(surveys, weight_kg = weight / 1000)
+``` r
+surveys <- mutate(surveys, weight_kg = weight / 1000)
+```
 
-    mutate(surveys,
-           weight_kg = weight / 1000,
-           weight_lb = weight_kg * 2.2)
+``` r
+mutate(surveys,
+       weight_kg = weight / 1000,
+       weight_lb = weight_kg * 2.2)
+```
 
 ### 8.3.6 `group_by()` and `summarise()`
 
--   if you have a column factor (e.g. sex) and want to apply a function
+  - if you have a column factor (e.g. sex) and want to apply a function
     to the levels of this factor
 
-<!-- -->
+<!-- end list -->
 
-    surveys_g <-group_by(surveys, sex) #does nothing?
-    summary_sex <- summarize(surveys_g, 
-                             mean_weight = mean(weight, na.rm = TRUE))
-    summary_sex
+``` r
+surveys_g <-group_by(surveys, sex) #does nothing?
+summary_sex <- summarize(surveys_g,
+                         mean_weight = mean(weight, na.rm = TRUE))
+summary_sex
+```
 
     ## # A tibble: 3 x 2
     ##   sex   mean_weight
@@ -958,11 +1065,15 @@ with each other
 
 ### 8.3.7 another example:
 
-    surveys_g2 <-group_by(surveys, sex, species_id)
-    mean_w <- summarize(surveys_g2, 
-                        mean_weight = mean(weight, na.rm = TRUE))
+``` r
+surveys_g2 <-group_by(surveys, sex, species_id)
+mean_w <- summarize(surveys_g2,
+                    mean_weight = mean(weight, na.rm = TRUE))
+```
 
-    mean_w
+``` r
+mean_w
+```
 
     ## # A tibble: 92 x 3
     ## # Groups:   sex [3]
@@ -982,36 +1093,43 @@ with each other
 
 ### 8.3.8 `arrange()` sorts by a column
 
-    arrange(mean_w, mean_weight)
+``` r
+arrange(mean_w, mean_weight)
 
 
-    arrange(mean_w, desc(mean_weight))
+arrange(mean_w, desc(mean_weight))
+```
 
 ![](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.kBwKFkkvi_Ye6osZkQrjnwAAAA%26pid%3DApi&f=1)
 
-8.4 the pipe operator
----------------------
+## 8.4 the pipe operator
 
 Classic syntax goes like this
 
-    object1
-    object2 <- function1(object1)
-    object3 <- function2(object2)
+``` r
+object1
+object2 <- function1(object1)
+object3 <- function2(object2)
+```
 
 The pipe operator allows to apply functions sequentially:
 
-    object3 <- object1 %>% function1() %>% function2()
+``` r
+object3 <- object1 %>% function1() %>% function2()
+```
 
--   functions in the tidyverse work very well with pipes
+  - functions in the tidyverse work very well with pipes
 
 ### 8.4.1 `select()` and `filter()`
 
-    surveys2 <- filter(surveys, weight < 5)
-    surveys_sml <- select(surveys2, species_id, sex, weight)
+``` r
+surveys2 <- filter(surveys, weight < 5)
+surveys_sml <- select(surveys2, species_id, sex, weight)
 
-    surveys %>%
-      filter(weight < 5) %>%
-      select(species_id, sex, weight)
+surveys %>%
+  filter(weight < 5) %>%
+  select(species_id, sex, weight)
+```
 
     ## # A tibble: 17 x 3
     ##    species_id sex   weight
@@ -1036,19 +1154,23 @@ The pipe operator allows to apply functions sequentially:
 
 ### 8.4.2 `group_by()` and `summarize()`
 
-    surveys_g   <- group_by(surveys, sex) #does nothing?
-    summary_sex <- summarize(surveys_g, 
-                             mean_weight = mean(weight, na.rm = TRUE))
+``` r
+surveys_g   <- group_by(surveys, sex) #does nothing?
+summary_sex <- summarize(surveys_g,
+                         mean_weight = mean(weight, na.rm = TRUE))
 
 
-    summary_sex <- surveys %>%
-      group_by(sex) %>% 
-      summarize(mean_weight = mean(weight, na.rm = TRUE))
+summary_sex <- surveys %>%
+  group_by(sex) %>%
+  summarize(mean_weight = mean(weight, na.rm = TRUE))
+```
 
 ### 8.4.3 `count()`
 
-    surveys %>%
-        count(sex)
+``` r
+surveys %>%
+    count(sex)
+```
 
     ## # A tibble: 3 x 2
     ##   sex       n
@@ -1057,8 +1179,10 @@ The pipe operator allows to apply functions sequentially:
     ## 2 M     17348
     ## 3 <NA>   1748
 
-    surveys %>%
-      count(sex, species) 
+``` r
+surveys %>%
+  count(sex, species)
+```
 
     ## # A tibble: 81 x 3
     ##    sex   species         n
@@ -1075,9 +1199,11 @@ The pipe operator allows to apply functions sequentially:
     ## 10 F     maniculatus   382
     ## # … with 71 more rows
 
-    surveys %>%
-      count(sex, species) %>%
-      arrange(species, desc(n))
+``` r
+surveys %>%
+  count(sex, species) %>%
+  arrange(species, desc(n))
+```
 
     ## # A tibble: 81 x 3
     ##    sex   species             n
@@ -1096,15 +1222,17 @@ The pipe operator allows to apply functions sequentially:
 
 ### 8.4.4 challenge
 
--   How many animals were caught in each `plot_type` surveyed?
--   Use `group_by()` and `summarize()` to find the mean, min, and max
+  - How many animals were caught in each `plot_type` surveyed?
+  - Use `group_by()` and `summarize()` to find the mean, min, and max
     hindfoot length for each species (using `species_id`). Also add the
     number of observations (hint: see `?n`).
 
-<!-- -->
+<!-- end list -->
 
-    surveys %>%
-        count(plot_type) 
+``` r
+surveys %>%
+    count(plot_type)
+```
 
     ## # A tibble: 5 x 2
     ##   plot_type                     n
@@ -1115,15 +1243,17 @@ The pipe operator allows to apply functions sequentially:
     ## 4 Short-term Krat Exclosure  5906
     ## 5 Spectab exclosure          3918
 
-    surveys %>%
-        filter(!is.na(hindfoot_length)) %>%
-        group_by(species_id) %>%
-        summarize(
-            mean_hindfoot_length = mean(hindfoot_length),
-            min_hindfoot_length = min(hindfoot_length),
-            max_hindfoot_length = max(hindfoot_length),
-            n = n()
-        )
+``` r
+surveys %>%
+    filter(!is.na(hindfoot_length)) %>%
+    group_by(species_id) %>%
+    summarize(
+        mean_hindfoot_length = mean(hindfoot_length),
+        min_hindfoot_length = min(hindfoot_length),
+        max_hindfoot_length = max(hindfoot_length),
+        n = n()
+    )
+```
 
     ## `summarise()` ungrouping output (override with `.groups` argument)
 
@@ -1142,10 +1272,11 @@ The pipe operator allows to apply functions sequentially:
     ## 10 PB                         26.1                   2                  47  2864
     ## # … with 15 more rows
 
-8.5 save data!
---------------
+## 8.5 save data\!
 
-    surveys <- readr::read_csv("data/raw/portal_data_joined.csv")
+``` r
+surveys <- readr::read_csv("data/raw/portal_data_joined.csv")
+```
 
     ## Parsed with column specification:
     ## cols(
@@ -1164,179 +1295,208 @@ The pipe operator allows to apply functions sequentially:
     ##   plot_type = col_character()
     ## )
 
-    surveys_complete <- surveys %>%
-      filter(!is.na(weight),
-             !is.na(hindfoot_length),
-             !is.na(sex))
+``` r
+surveys_complete <- surveys %>%
+  filter(!is.na(weight),
+         !is.na(hindfoot_length),
+         !is.na(sex))
 
-    species_counts <- surveys_complete %>%
-        count(species_id) %>% 
-        filter(n >= 50)
+species_counts <- surveys_complete %>%
+    count(species_id) %>%
+    filter(n >= 50)
 
-    surveys_complete <- surveys_complete %>%
-      filter(species_id %in% species_counts$species_id)
+surveys_complete <- surveys_complete %>%
+  filter(species_id %in% species_counts$species_id)
 
-    write_csv(surveys_complete, path = "data/processed/surveys_complete_dplyr.csv")
+write_csv(surveys_complete, path = "data/processed/surveys_complete_dplyr.csv")
+```
 
 <!-- dim(surveys_complete) # 304463, 13 -->
 
 class: middle, center \#\# data visualization with **ggplot2**
 
-9 **ggplot2**
-=============
+# 9 **ggplot2**
 
--   **ggplot2** separates the data from the aesthetics part and allows
+  - **ggplot2** separates the data from the aesthetics part and allows
     layers of information to be added sequentially with `+`
 
-<!-- -->
+<!-- end list -->
 
-    ggplot(data = <data>,
-           mapping = aes(<mappings>)) +
-      geom_xxx()
+``` r
+ggplot(data = <data>,
+       mapping = aes(<mappings>)) +
+  geom_xxx()
+```
 
--   **data**
--   **mappings**: the specific variables (x, y, z, group…)
--   **geom\_xxx()**: functions for plotting options `geom_point()`,
+  - **data**
+  - **mappings**: the specific variables (x, y, z, group…)
+  - **geom\_xxx()**: functions for plotting options `geom_point()`,
     `geom_line()`
 
 [cheat sheet
 link](https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
 
-9.1 ggplot2 plots are built sequentially in layers
---------------------------------------------------
+## 9.1 ggplot2 plots are built sequentially in layers
 
-    library(ggplot2)
-    library(readr)
+``` r
+library(ggplot2)
+library(readr)
 
-    surveys_complete <- read_csv("data/processed/surveys_complete.csv")
+surveys_complete <- read_csv("data/processed/surveys_complete.csv")
+```
 
-    ggplot(data = surveys_complete,                          # data
-           mapping = aes(x = weight, y = hindfoot_length)) + # aesthetics
-      geom_point()                                        # plot function
+``` r
+ggplot(data = surveys_complete,                          # data
+       mapping = aes(x = weight, y = hindfoot_length)) + # aesthetics
+  geom_point()                                        # plot function
+```
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-43-1.png" width="350" />
+<img src="README_files/figure-gfm/unnamed-chunk-43-1.png" width="350" />
 
-9.2 you can assign a plot to an object and build on it
-------------------------------------------------------
+## 9.2 you can assign a plot to an object and build on it
 
-    surveys_plot <- ggplot(data = surveys_complete, 
-                           mapping = aes(x = weight,
-                                         y = hindfoot_length))
-    surveys_plot + 
-        geom_point()
+``` r
+surveys_plot <- ggplot(data = surveys_complete,
+                       mapping = aes(x = weight,
+                                     y = hindfoot_length))
+surveys_plot +
+    geom_point()
+```
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-44-1.png" width="350" />
+<img src="README_files/figure-gfm/unnamed-chunk-44-1.png" width="350" />
 
 you can modify each layer
 
-    surveys_plot + 
-        geom_point(alpha = 0.1) #transparency
+``` r
+surveys_plot +
+    geom_point(alpha = 0.1) #transparency
+```
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-45-1.png" width="350" />
+<img src="README_files/figure-gfm/unnamed-chunk-45-1.png" width="350" />
 
-    surveys_plot + 
-        geom_point(alpha = 0.1, color = "blue") #color
+``` r
+surveys_plot +
+    geom_point(alpha = 0.1, color = "blue") #color
+```
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-46-1.png" width="350" />
+<img src="README_files/figure-gfm/unnamed-chunk-46-1.png" width="350" />
 
-    surveys_plot + 
-        geom_point(alpha = 0.1, aes(color = "blue")) #this is a mistake!
+``` r
+surveys_plot +
+    geom_point(alpha = 0.1, aes(color = "blue")) #this is a mistake!
+```
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-47-1.png" width="350" />
+<img src="README_files/figure-gfm/unnamed-chunk-47-1.png" width="350" />
 
-    #blue is not a variable so it should not go inside aes()
+``` r
+#blue is not a variable so it should not go inside aes()
+```
 
-    surveys_plot + 
-        geom_point(alpha = 0.1, aes(color = species_id))
+``` r
+surveys_plot +
+    geom_point(alpha = 0.1, aes(color = species_id))
+```
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-48-1.png" width="350" />
+<img src="README_files/figure-gfm/unnamed-chunk-48-1.png" width="350" />
 
-    # but variables do go inside aes()
+``` r
+# but variables do go inside aes()
+```
 
-9.3 challenge: change x to categorial variable
-----------------------------------------------
+## 9.3 challenge: change x to categorial variable
 
-    ggplot(data = surveys_complete, 
-           mapping = aes(x = species_id, y = weight)) +
-       geom_point(aes(color = plot_type))
+``` r
+ggplot(data = surveys_complete,
+       mapping = aes(x = species_id, y = weight)) +
+   geom_point(aes(color = plot_type))
+```
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-49-1.png" width="350" />
+<img src="README_files/figure-gfm/unnamed-chunk-49-1.png" width="350" />
 
-9.4 boxplots!
--------------
+## 9.4 boxplots\!
 
-    # boxplots
-    ggplot(data = surveys_complete, 
-           mapping = aes(x = species_id, y = weight)) +
-       geom_boxplot()
+``` r
+# boxplots
+ggplot(data = surveys_complete,
+       mapping = aes(x = species_id, y = weight)) +
+   geom_boxplot()
+```
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-50-1.png" width="350" />
+<img src="README_files/figure-gfm/unnamed-chunk-50-1.png" width="350" />
 
-9.5 theme options `theme_`
---------------------------
+## 9.5 theme options `theme_`
 
-    ggplot(data = surveys_complete, 
-           mapping = aes(x = species_id, y = weight)) +
-       geom_boxplot() +
-      theme_classic()
+``` r
+ggplot(data = surveys_complete,
+       mapping = aes(x = species_id, y = weight)) +
+   geom_boxplot() +
+  theme_classic()
+```
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-51-1.png" width="350" />
+<img src="README_files/figure-gfm/unnamed-chunk-51-1.png" width="350" />
 
-9.6 add jitter layer
---------------------
+## 9.6 add jitter layer
 
-    ggplot(data = surveys_complete, 
-           mapping = aes(x = species_id, y = weight)) +
-       geom_boxplot() +
-      geom_jitter(alpha = 0.3, color = "dodgerblue", width = 0.2) +
-      theme_classic()
+``` r
+ggplot(data = surveys_complete,
+       mapping = aes(x = species_id, y = weight)) +
+   geom_boxplot() +
+  geom_jitter(alpha = 0.3, color = "dodgerblue", width = 0.2) +
+  theme_classic()
+```
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-52-1.png" width="350" />
+<img src="README_files/figure-gfm/unnamed-chunk-52-1.png" width="350" />
 
-9.7 change plot order
----------------------
+## 9.7 change plot order
 
-    ggplot(data = surveys_complete, 
-           mapping = aes(x = species_id, y = weight)) +
-      geom_jitter(alpha = 0.3, color = "dodgerblue", width = 0.2) +
-      geom_boxplot() +
-      theme_classic()
+``` r
+ggplot(data = surveys_complete,
+       mapping = aes(x = species_id, y = weight)) +
+  geom_jitter(alpha = 0.3, color = "dodgerblue", width = 0.2) +
+  geom_boxplot() +
+  theme_classic()
+```
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-53-1.png" width="350" />
+<img src="README_files/figure-gfm/unnamed-chunk-53-1.png" width="350" />
 
-9.8 violin plots
-----------------
+## 9.8 violin plots
 
-    ggplot(data = surveys_complete, 
-           mapping = aes(x = species_id, y = weight)) +
-       geom_violin() + theme_classic()
+``` r
+ggplot(data = surveys_complete,
+       mapping = aes(x = species_id, y = weight)) +
+   geom_violin() + theme_classic()
+```
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-54-1.png" width="350" />
+<img src="README_files/figure-gfm/unnamed-chunk-54-1.png" width="350" />
 
-9.9 change scale (`scale_xx` options)
--------------------------------------
+## 9.9 change scale (`scale_xx` options)
 
-    p <- ggplot(data = surveys_complete, 
-           mapping = aes(x = species_id, y = weight)) +
-       geom_violin() + scale_y_log10() + theme_classic() #nice!
-    p
+``` r
+p <- ggplot(data = surveys_complete,
+       mapping = aes(x = species_id, y = weight)) +
+   geom_violin() + scale_y_log10() + theme_classic() #nice!
+p
+```
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-55-1.png" width="350" />
+<img src="README_files/figure-gfm/unnamed-chunk-55-1.png" width="350" />
 
-9.10 add title `ggtitle()`
---------------------------
+## 9.10 add title `ggtitle()`
 
-    p +  #remember the plot can be an object
-      ggtitle("Nice violin plot")
+``` r
+p +  #remember the plot can be an object
+  ggtitle("Nice violin plot")
+```
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-56-1.png" width="350" />
+<img src="README_files/figure-gfm/unnamed-chunk-56-1.png" width="350" />
 
-    ggplot(data = surveys_complete, 
-           mapping = aes(x = species_id, y = hindfoot_length)) +
-      geom_jitter(size = 0.5, alpha = 0.1, width = 0.2, aes(col = plot_id)) +
-      geom_boxplot() +
-      scale_y_log10() +
-      theme_classic() +
-      ggtitle("Nice violin plot")
+``` r
+ggplot(data = surveys_complete,
+       mapping = aes(x = species_id, y = hindfoot_length)) +
+  geom_jitter(size = 0.5, alpha = 0.1, width = 0.2, aes(col = plot_id)) +
+  geom_boxplot() +
+  scale_y_log10() +
+  theme_classic() +
+  ggtitle("Nice violin plot")
+```
 
-<img src="README_files/figure-markdown_strict/unnamed-chunk-57-1.png" width="350" />
+<img src="README_files/figure-gfm/unnamed-chunk-57-1.png" width="350" />

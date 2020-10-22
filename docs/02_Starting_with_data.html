@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data analysis and visualization in R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrea Sánchez-Tapia   Rio de Janeiro Botanical Garden - ¡liibre! - RLadies+" />
+    <meta name="date" content="2020-10-22" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Data analysis and visualization in R
+## UC Merced R curriculum
+### Andrea Sánchez-Tapia <br> Rio de Janeiro Botanical Garden - ¡liibre! - RLadies+
+### 2020-10-22
+
+---
+
+## last time
+
+
+
+
+
++ we setup a project and its file structure
+
++ we started using R inside RStudio
+
++ we created numerical, character and logical vectors with `c()` 
+
++ we learned to subset vectors with brackets `[]` and other functions: `length()`, `:`, `seq(from, to, interval)`
+
++ vector subset can be done via numeric or logical indexes
+
+---
+## data structures in R
+
++ __vector__: lineal arrays (one dimension: only length)
+--
+
++ __matrices__: arrays of vectors of the same type (all numeric or all character, for instance) (two dimensions: width and length)
+--
+
++ __data frames__: two-dimensional structures ("rectangular") but might be of combined types (i.e., column 1 with names, column 2 with numbers)
+--
+
++ __factors__: vectors (one-dimensional) representing __categorical variables__ and thus having __levels__
+--
+
++ __lists__: literally lists, of objects that can be of any type (a list of data frames, or different objects)
+--
+
++ __arrays__ are similar to matrices and dataframes but may be three-dimensional ("layered" data frames)
+
+
+
+
+---
+## matrices
+
++ data have to be of the same type
+
+
+```r
+?matrix
+matrix(nrow = 4, ncol = 3)
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]   NA   NA   NA
+## [2,]   NA   NA   NA
+## [3,]   NA   NA   NA
+## [4,]   NA   NA   NA
+```
+
+---
+## matrices
+
+
+```r
+nums &lt;- 1:12
+matrix(data = nums, nrow = 3)
+matrix(data = nums, nrow = 3, byrow = TRUE)
+m &lt;- matrix(data = nums, nrow = 3, byrow = TRUE, 
+       dimnames = list(c(LETTERS[1:3]), letters[1:4]))
+m
+```
+
++ matrix algebra 
+
+---
+class: inverse, middle, center
+## starting with data
+
+---
+## the survey dataset
+
++ Data frames: one row per sampling unit (individual), one column per variable
+
+
+```r
+knitr::include_graphics("./docs/figs/columns.png")
+```
+
+![](./docs/figs/columns.png)&lt;!-- --&gt;
+
+
+---
+## downloading the dataset
+
+We are going to download the file to our `data/raw` sub folder:
+
+
+
+
+```r
+download.file(url = "https://ndownloader.figshare.com/files/2292169",
+              destfile = "data/raw/portal_data_joined.csv")
+```
+
+---
+## reading files into R
+
+Functions to read data are key to any project.
+for data frames: `read.csv()`, `read.delim()`
+
+
+
+```r
+surveys &lt;- read.csv("data/raw/portal_data_joined.csv")
+surveys_check &lt;- read.table(file = "data/raw/portal_data_joined.csv",
+                            sep = ",",
+                            header = TRUE)
+identical(surveys, surveys_check)
+```
+
+```
+## [1] TRUE
+```
+
+---
+## reading files into R
+
++ Package __readr__ 
++ Package __data.table__ (`data.table::fread()`) when you need to open a large file
++ Excel spreadsheets: `readxl::read_excel()`
++ __Graphic interface__
+
+There are __many other ways__ to read data into R, some are specific for the type of data (GIS shapefiles or raster, and specific packages may come with their own reader functions)
+
+---
+## basic functions to explore dataframes
+
+
+```r
+str(surveys)
+dim(surveys)
+nrow(surveys)
+ncol(surveys)
+head(surveys) # 6 rows by default
+head(surveys)[,1:3]
+tail(surveys)
+names(surveys)
+rownames(surveys)
+length(surveys) # number of columns
+summary(surveys)
+```
+
+---
+## inspecting `data.frame` objects
+
+Based on the output of `str(surveys)`, can you answer the following questions?
+
++ What is the class of the object surveys?
+
++ How many rows and how many columns are in this object?
+
++ What is the type of data of the columns?
+
+
+---
+## indexing and subsetting data frames
+
++ a vector has only one dimension, so:
+
+  + `length()` refers to number of __elements__
+  + `dim()`
+  + selection between brackets `[]`
+
+--
+
++ a data.frame has __two__ dimensions, so `dim()`, `ncol()`, `nrow()` selection between brackets `[]` __BUT with the two dimensions separated by a comma__: `[rows, columns]`
+
+---
+## indexing and subsetting data frames
+
+
+```r
+names(surveys)
+surveys[, 6]
+surveys[1, ]
+surveys[ , 13]
+surveys[4, 13]
+```
+
+---
+## indexing and subsetting data frames
+
+&lt;small&gt;
+
+```r
+sub &lt;- surveys[1:10,]
+# first element in the first column of the data frame
+
+# first element in the 6th column
+
+# first column of the data frame
+
+# first three elements in the 7th column
+
+# the 3rd row of the data frame
+```
+
+---
+## indexing and subsetting data frames
+
+&lt;small&gt;
+
+```r
+# first element in the first column of the data frame
+sub[1, 1]
+# first element in the 6th column
+sub[1, 6]
+# first column of the data frame
+sub[, 1]
+# first column of the data frame
+sub[1]
+# first three elements in the 7th column (as a vector)
+sub[1:3, 7]
+# the 3rd row of the data frame
+sub[3, ]
+# equivalent to head_surveys &lt;- head(surveys)
+head_surveys &lt;- surveys[1:6, ]
+```
+
+
+---
+## indexing and subsetting data frames
+
++ minus sign to __remove__ the indexed column or row
+
+
+```r
+# The whole data frame, except the first column
+surveys[, -1]
+surveys[-(7:34786), ] # Equivalent to head(surveys)
+```
+
+---
+## selecting columns by name
+
+
+```r
+  surveys["species_id"]       # Result is a data.frame
+* surveys[, "species_id"]     # Result is a vector
+  surveys[["species_id"]]     # Result is a vector
+* surveys$species_id          # Result is a vector
+```
+
++ R has several ways to do some things
+
+---
+## challenge
+
+&lt;small&gt;
+
++ Create a data.frame (`surveys_200`) containing only the data in row 200 of the `surveys` dataset
+
+--
+
++ Notice how `nrow()` gave you the number of rows in a data.frame? Use that number to pull out just that last row in the data frame
+
+--
+
++ Compare that with what you see as the last row using `tail()` to make sure it’s meeting expectations
+
+--
+
++ Pull out that last row using `nrow()` instead of the row number.
+
+--
+
++ Create a new data frame (`surveys_last`) from that last row.
+
+--
+
++ Use `nrow()` to extract the row that is in the middle of the data frame. Store the content of this row in an object named `surveys_middle`.
+
+--
+
++ Combine `nrow()` with the - notation above to reproduce the behavior of `head(surveys)`, keeping just the first through 6th rows of the surveys dataset.
+
+&lt;/small&gt;
+
+
+
+---
+## some basic plotting 
+
+.pull.left[
+
+```r
+x &lt;- surveys$weight
+y &lt;- surveys$hindfoot_length
+plot(x, y)
+```
+
+![](02_Starting_with_data_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+]
+
+---
+## plotting a single variable
+
+
+```r
+plot(surveys$hindfoot_length)
+```
+
+![](02_Starting_with_data_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+
+```r
+plot(sort(surveys$hindfoot_length))
+```
+
+![](02_Starting_with_data_files/figure-html/unnamed-chunk-11-2.png)&lt;!-- --&gt;
+
+---
+## factors
+
++ __factors__: vectors (one-dimensional) representing __categorical variables__ and thus having __levels__. ordered (`c(“low”, “medium”, “high”)` or unordered (`c("green", "blue", "red")`)
+
++ R &lt; 4.0 had a default behavior `stringsAsFactors = TRUE` so any character column was transformed into a factor
+
+```r
+`?read.csv()`
+?default.stringsAsFactors
+```
+
+#### today if we want factors we have to transform the vectors
+
+---
+## factors
+
+&lt;small&gt;
+
+```r
+## Compare the difference between our data read as
+#`factor` vs `character`.
+surveys &lt;- read.csv("data_raw/portal_data_joined.csv",
+                    stringsAsFactors = TRUE)
+str(surveys)
+surveys &lt;- read.csv("data_raw/portal_data_joined.csv",
+                    stringsAsFactors = FALSE)
+str(surveys)
+```
+
+---
+## factors
+
+Convert the column "plot_type" and "sex" into a factor:
+
+
+```r
+surveys$plot_type &lt;- factor(surveys$plot_type)
+surveys$sex &lt;- factor(surveys$sex)
+```
+
+
+---
+
+
+```r
+head(surveys$plot_type)
+```
+
+```
+## [1] Control Control Control Control Control Control
+## 5 Levels: Control Long-term Krat Exclosure ... Spectab exclosure
+```
+
+```r
+levels(surveys$plot_type)
+```
+
+```
+## [1] "Control"                   "Long-term Krat Exclosure" 
+## [3] "Rodent Exclosure"          "Short-term Krat Exclosure"
+## [5] "Spectab exclosure"
+```
+
+```r
+plot(surveys$weight ~ surveys$plot_type)
+```
+
+![](02_Starting_with_data_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+
++ check the __tilde__ `~` notation, formula:
+"as a function of"
+
+`plot(a ~ b)`
+`plot(b, a)`
+
+---
+## working with factors
+
+&lt;small&gt;
+
+```r
+sex &lt;- factor(c("male", "female", "female", "male"))
+levels(sex) # in alphabetical order!
+nlevels(sex)
+sex
+sex &lt;- factor(sex, levels = c("male", "female"))
+sex # after re-ordering
+as.character(sex)
+
+year_fct &lt;- factor(c(1990, 1983, 1977, 1998, 1990))
+as.numeric(year_fct)               # Wrong! And there is no warning...
+as.numeric(as.character(year_fct)) # Works...
+as.numeric(levels(year_fct))
+as.numeric(levels(year_fct))[year_fct]    # The recommended way.
+```
+
+---
+## let's make a plot of a factor variable
+
+`plot(as.factor(surveys$sex))`
+
+.pull-right[let's rename this label]
+
+![](02_Starting_with_data_files/figure-html/plot-1.png)&lt;!-- --&gt;
+
+---
+## let's make a plot of a factor variable
+
+`plot(sex)`
+
+.pull-right[let's rename this label]
+
+![](02_Starting_with_data_files/figure-html/plot2-1.png)&lt;!-- --&gt;
+
+
+---
+## challenge
+
+&lt;small&gt;
+
+.pull-left[
+![](02_Starting_with_data_files/figure-html/remedy003-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+
++ Rename “F” and “M” to “female” and “male” respectively.
+
++ Now that we have renamed the factor level to “undetermined”, can you recreate the barplot such that “undetermined” is last (after “male”)?
+]
+
+
+---
+## working with several tables
+
++ in real analysis settings you will have many tables that are related
+
+--
+
++ in ecology for example:
+
+--
+
+  - sites x species
+
+--
+
+  - sites x environmental conditions
+
+--
+
+  - species x characteristics
+
+--
+
+  - individuals x individual measurement
+
+---
+## working with several tables
+
+
+
+
+```r
+download.file("https://ndownloader.figshare.com/files/3299483",
+              "data/raw/species.csv")
+download.file("https://ndownloader.figshare.com/files/10717177",
+              "data/raw/surveys.csv")
+download.file("https://ndownloader.figshare.com/files/3299474",
+              "data/raw/plots.csv")
+```
+
+
+---
+
+
+```r
+library(readr)
+species &lt;- read.csv("data/raw/species.csv")
+surveys &lt;- read.csv("data/raw/surveys.csv")
+plots &lt;- read.csv("data/raw/plots.csv")
+surveys_plots &lt;- merge(surveys, plots)
+dim(surveys)
+```
+
+```
+## [1] 35549     9
+```
+
+```r
+dim(plots)
+```
+
+```
+## [1] 24  2
+```
+
+```r
+dim(surveys_plots)
+```
+
+```
+## [1] 35549    10
+```
+
+```r
+names(species)
+```
+
+```
+## [1] "species_id" "genus"      "species"    "taxa"
+```
+
+```r
+head(species)
+```
+
+```
+##   species_id            genus         species   taxa
+## 1         AB       Amphispiza       bilineata   Bird
+## 2         AH Ammospermophilus         harrisi Rodent
+## 3         AS       Ammodramus      savannarum   Bird
+## 4         BA          Baiomys         taylori Rodent
+## 5         CB  Campylorhynchus brunneicapillus   Bird
+## 6         CM      Calamospiza     melanocorys   Bird
+```
+
+```r
+names(surveys_plots)
+```
+
+```
+##  [1] "plot_id"         "record_id"       "month"           "day"            
+##  [5] "year"            "species_id"      "sex"             "hindfoot_length"
+##  [9] "weight"          "plot_type"
+```
+
+---
+# dplyr joins 
+
+![](docs/figs/joins.png)&lt;!-- --&gt;
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": true,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

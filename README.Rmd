@@ -1,29 +1,43 @@
 ---
 title: "UCMerced R curriculum"
-author: Andrea Sánchez-Tapia
-affiliation: Rio de Janeiro Botanical Garden/¡liibre!/RLadies Rio de Janeiro/
-date: '`r Sys.Date()`'
-editor_options: 
-  chunk_output_type: inline
-output: 
-  md_document:
-    toc: true
-    number_sections: true
+author: "Andrea Sánchez-Tapia <br> Rio de Janeiro Botanical Garden - ¡liibre!"
+date: "`r Sys.Date()`"
+output:
+  github_document:
+    toc: yes
+    number_sections: yes
   html_notebook:
-    toc: true
-    number_sections: true
-always_allow_html: true
+    toc: yes
+    number_sections: yes
+  html_document:
+    toc: yes
+    df_print: paged
+editor_options:
+  chunk_output_type: inline
+affiliation: Rio de Janeiro Botanical Garden/¡liibre!/RLadies Rio de Janeiro/
+always_allow_html: yes
 ---
 
 
 
 # Data analysis and visualization in R {-}
 
-+ Overview to R and RStudio
-+ Introduction to R
-+ Starting with Data
-+ Manipulating Data Frames with __dplyr__
-+ Data visualisation
+## First week {-}
++ Overview to R and RStudio  <!-- 15 -->
++ Seeking help in R
++ Introduction to R  <!-- 45 -->
+
+## Second week {-}
++ Starting with Data  <!-- 20 -->
++ Base plot functions
+
+## Third week {-}
++ Exploratory data analysis
++ Basic statistical functions
+
+## Fourth week {-}
++ Manipulating Data Frames with __dplyr__  <!-- 60 -->
++ Data visualisation with ggplot2  <!-- 60 -->
 
 ----
 
@@ -31,16 +45,18 @@ always_allow_html: true
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(echo = TRUE, fig.asp = 1)
 ```
+
 # Overview of R and RStudio
 
 
 ## why learn `R`?
 
++ the language of choice for academic statisticians
 + **_libre_ software**: free and free-to-be-used-and-modified for any means -> one of the pillars of open science
 + __script-based__: reproducibility, easy to scale up your analyses, transparency (track errors), great way to learn about methods.
 + __interdisciplinary and modular__: lots of code written by area specialists. At the core of its philosophy is a smooth transition from user to programmer.
 + __communication__ with other tools: manuscripts, presentations, apps and dashboards
-+ communication with __other programming languages__ (ex. __reticulate__ to run python scripts) 
++ communication with __other programming languages__ (ex. __reticulate__ to run python scripts)
 + great __graphic capabilities__!
 + __official support__: help in documentation, mailing lists
 + __an active and welcoming community__:  email lists, Stack Overflow, [RStudio community](community.rstudio.com/), useR groups, __R-Ladies+__ chapters, Slack communities, `r icon::fa("twitter")` `#rstats`
@@ -50,10 +66,9 @@ knitr::opts_chunk$set(echo = TRUE, fig.asp = 1)
 
 
 + `R` __base__ installation includes base packages developed and maintained by the __`R` Core Development Team__
-+ other packages are created by the community
-+ hosted in __CRAN__ (The Comprehensive `R` Archive Network) or Bioconductor, GitHub, rOpenSci.org
-+ a package is a collection of functions, it must be loaded to be used (ex. `library(dplyr)`)
-+ the whole package is loaded, not some functions or parts of it. if you want to use one function you can use `package::function()`
++ other packages are created by the community and hosted in __CRAN__ (The Comprehensive `R` Archive Network) or Bioconductor, GitHub, rOpenSci.org
++ to install packages from CRAN: `install.packages("tidyverse")`
+
 
 ## how to run R
 
@@ -74,7 +89,7 @@ install.packages("tidyverse") # just an umbrella package
 + to install dependencies: `install.packages(xxx, dependencies = TRUE)`
 + if you get an error about a missing __dependency__ copy the name of the missing package(s) and execute `install.packages()`
 
-```{r, paged.print=TRUE}
+```{r}
 library("dplyr")
 citation("dplyr")
 toBibtex(citation("dplyr"))
@@ -83,7 +98,7 @@ toBibtex(citation("dplyr"))
 # About notation
 
 + __packages__ are collections of __functions__
-+ __functions__ have __arguments__ or __parameters__ (options) 
++ __functions__ have __arguments__ or __parameters__ (options)
 
 To designate them:
 
@@ -95,12 +110,12 @@ To designate them:
 # The RStudio IDE
 
 ```{r, out.width=400, echo = FALSE}
-knitr::include_graphics("./figs/00_rstudio.png")
+knitr::include_graphics("./docs/figs/00_rstudio.png")
 ```
 
 
 
-Check for the following panes: 
+Check for the following panes:
 
 + Environment -> Objects in the __workspace__
 + Files
@@ -108,7 +123,7 @@ Check for the following panes:
 + Help
 + Console
 
-Some other that might be useful _later_: 
+Some other that might be useful _later_:
 
   + __Terminal__
   + __Viewer__ (for presentations and documents)
@@ -135,7 +150,7 @@ Some other that might be useful _later_:
 # Project organization
 
 + projects are better organized if we use __one folder per project__ and  __subfolders__ within our working directory
-+ take care of data __provenance__: we shouldn't modify __raw data files__ but __save processed data__ (and the corresponding scripts) 
++ take care of data __provenance__: we shouldn't modify __raw data files__ but __save processed data__ (and the corresponding scripts)
 
 In practice:
 
@@ -152,12 +167,12 @@ project/
 ```
 
 
-+ Hands on: 
++ Hands on:
 
 1. Select your folder for this project
 2. Create a subfolder structure: `/figs`, and `/data`, with subfolders `/raw` and `processed`.
 
-## RStudio projects 
+## RStudio projects
 
 RStudio projects create a .Rproj file in your folder that acts as a shortcut for your projects
 
@@ -174,7 +189,7 @@ RStudio projects create a .Rproj file in your folder that acts as a shortcut for
 + `#goodpractices` don't save the workspace
 
 ```{r, out.width=400, echo = FALSE}
-knitr::include_graphics("figs/0b_soft_wrap.png")
+knitr::include_graphics("docs/figs/0b_soft_wrap.png")
 ```
 
 
@@ -184,7 +199,7 @@ __soft wrap__ your scripts so you don't </br> have to scroll side to side
 
 
 ```{r, out.width=400, echo = FALSE}
-knitr::include_graphics("figs/0d_terminal.png")
+knitr::include_graphics("docs/figs/0d_terminal.png")
 ```
 
 check your terminal
@@ -195,12 +210,13 @@ check your terminal
 
 ----
 
-# Introduction to R 
+# Introduction to R
 
 + `<-` is the assignment operation in R and it does not return output
-+ overwriting objects __does not affect other objects__ 
-+  __naming things__: don't begin with a number or symbol. be consistent with your __coding style__! 
++ overwriting objects __does not affect other objects__
++  __naming things__: don't begin with a number or symbol. be consistent with your __coding style__!
 + separators can be anything and (you could use `.` but be nice to fellow `r icon::fa("python")` users
+
 
 
 ## data types in R
@@ -221,7 +237,7 @@ class(weight_g)
 ```
 
 
-`character` and `numeric` but also `logical` and `integer` ("whole" numbers, with no decimal component, in $N$), `complex`, and others. 
+`character` and `numeric` but also `logical` and `integer` (entire numbers, with no decimal component), `complex`, and others.
 
 
 ## subsetting vectors
@@ -304,16 +320,17 @@ max(heights, na.rm = TRUE)
 
 + One row per individual
 
+
 ```{r columns, echo = FALSE, out.width = 500, fig.align='center'}
-knitr::include_graphics("figs/columns.png")
+knitr::include_graphics("docs/figs/columns.png")
 ```
 
 
 ## downloading the dataset
 
-We are going to download the file to our `data/raw` sub folder: 
+We are going to download the file to our `data/raw` sub folder:
 
-```{r, eval = TRUE}
+```{r, echo = FALSE, eval = TRUE}
 if (!file.exists("data/raw")) dir.create("data/raw")
 if (!file.exists("data/raw/portal_data_joined.csv")) {
 download.file(url = "https://ndownloader.figshare.com/files/2292169",
@@ -321,16 +338,23 @@ download.file(url = "https://ndownloader.figshare.com/files/2292169",
 }
 ```
 
+```{r, eval = FALSE}
+
+download.file(url = "https://ndownloader.figshare.com/files/2292169",
+              destfile = "data/raw/portal_data_joined.csv")
+```
+
+
 ## reading files into R
 
-Functions to read data are key to any project.   
+Functions to read data are key to any project.
 for data frames: `read.csv()`, `read.delim()`
 
 
 ```{r}
 surveys <- read.csv("data/raw/portal_data_joined.csv")
-surveys_check <- read.table(file = "data/raw/portal_data_joined.csv", 
-                            sep = ",", 
+surveys_check <- read.table(file = "data/raw/portal_data_joined.csv",
+                            sep = ",",
                             header = TRUE)
 identical(surveys, surveys_check)
 ```
@@ -338,13 +362,17 @@ identical(surveys, surveys_check)
 There are __many other ways__ to read data into R, some are specific for the type of data (GIS shapefiles or raster, and specific packages may come with their own reader functions)
 
 
-```{r try, echo = TRUE, eval= TRUE}
+```{r try, echo = TRUE, eval = TRUE}
 str(surveys)
 head(surveys) # 6 rows by default
 tail(surveys)
 names(surveys)
 summary(surveys)
-length(surveys) # number of columns 
+length(surveys) # number of columns
+dim(surveys)
+nrow(surveys)
+ncol(surveys)
+
 ```
 
 
@@ -380,7 +408,7 @@ length(unique(surveys$species))
 + a vector has only one dimension, so:
 
   + `length()` refers to number of __elements__
-  + `dim()` 
+  + `dim()`
   + selection between brackets `[]`
 
 ```{r}
@@ -389,7 +417,7 @@ length(sp)
 sp[3]
 ```
 
-+ a data.frame has __two__ dimensions, so `dim()`, `ncol()`, `nrow()` 
++ a data.frame has __two__ dimensions, so `dim()`, `ncol()`, `nrow()`
 
 ```{r}
 dim(surveys)
@@ -413,19 +441,19 @@ surveys[4 , 13]
 
 ```{r, eval = FALSE, echo = TRUE}
 # first element in the first column of the data frame (as a vector)
-surveys[1, 1]   
+surveys[1, 1]
 # first element in the 6th column (as a vector)
-surveys[1, 6]   
+surveys[1, 6]
 # first column of the data frame (as a vector)
-surveys[, 1]    
+surveys[, 1]
 # first column of the data frame (as a data.frame)
-surveys[1]      
+surveys[1]
 # first three elements in the 7th column (as a vector)
-surveys[1:3, 7] 
+surveys[1:3, 7]
 # the 3rd row of the data frame (as a data.frame)
-surveys[3, ]    
+surveys[3, ]
 # equivalent to head_surveys <- head(surveys)
-head_surveys <- surveys[1:6, ] 
+head_surveys <- surveys[1:6, ]
 ```
 
 
@@ -434,7 +462,7 @@ head_surveys <- surveys[1:6, ]
 
 ```{r, eval = TRUE}
 # The whole data frame, except the first column
-# surveys[, -1]          
+# surveys[, -1]
 surveys[-(7:34786), ] # Equivalent to head(surveys)
 ```
 
@@ -472,7 +500,7 @@ surveys[-(7:34786), ] # Equivalent to head(surveys)
 
 + __factors__: vectors (one-dimensional) representing __categorical variables__ and thus having __levels__. ordered or unordered (`c(“low”, “medium”, “high”)`
 
-+ R < 4.0 had a default behavior `stringsAsFactors = TRUE` so any character column was transformed into a factor 
++ R < 4.0 had a default behavior `stringsAsFactors = TRUE` so any character column was transformed into a factor
 
 ```
 `?read.csv()`
@@ -501,7 +529,7 @@ surveys$sex <- factor(surveys$sex)
 ```{r, echo = TRUE, eval = FALSE}
 sex <- factor(c("male", "female", "female", "male"))
 levels(sex) # in alphabetical order!
-nlevels(sex) 
+nlevels(sex)
 sex
 sex <- factor(sex, levels = c("male", "female"))
 sex # after re-ordering
@@ -523,7 +551,7 @@ let's rename this label
 ```{r plot, eval = TRUE, echo = FALSE}
 plot(as.factor(surveys$sex))
 #take the variable out
-sex <- factor(surveys$sex) 
+sex <- factor(surveys$sex)
 #head(sex, n = 6)
 #levels(sex)
 levels(sex)[1] <- "undetermined"
@@ -558,7 +586,7 @@ plot(as.factor(sex))
 
 
 ----
-# Manipulating and analyzing data with dplyr and the tidyverse
+# Week four: Manipulating and analyzing data with dplyr and the tidyverse
 
 
 ```{r, out.width=150, echo = FALSE}
@@ -658,7 +686,7 @@ select(surveys, -ends_with("id"))
 
 ### `filter()` rows
 
-__logical clauses!__ 
+__logical clauses!__
 
 ```{r remedy010, results='hide'}
 surv_1995 <- filter(surveys, year == 1995)
@@ -693,17 +721,17 @@ mutate(surveys,
 
 ```{r, message=F, warning=F}
 surveys_g <-group_by(surveys, sex) #does nothing?
-summary_sex <- summarize(surveys_g, 
+summary_sex <- summarize(surveys_g,
                          mean_weight = mean(weight, na.rm = TRUE))
 summary_sex
 ```
 
 
-### another example: 
+### another example:
 
 ```{r, warning=F, message=F}
 surveys_g2 <-group_by(surveys, sex, species_id)
-mean_w <- summarize(surveys_g2, 
+mean_w <- summarize(surveys_g2,
                     mean_weight = mean(weight, na.rm = TRUE))
 ```
 
@@ -767,12 +795,12 @@ surveys %>%
 
 ```{r, warning=F, message=F}
 surveys_g   <- group_by(surveys, sex) #does nothing?
-summary_sex <- summarize(surveys_g, 
+summary_sex <- summarize(surveys_g,
                          mean_weight = mean(weight, na.rm = TRUE))
 
 
 summary_sex <- surveys %>%
-  group_by(sex) %>% 
+  group_by(sex) %>%
   summarize(mean_weight = mean(weight, na.rm = TRUE))
 ```
 
@@ -784,7 +812,7 @@ surveys %>%
     count(sex)
 
 surveys %>%
-  count(sex, species) 
+  count(sex, species)
 
 surveys %>%
   count(sex, species) %>%
@@ -802,7 +830,7 @@ surveys %>%
 
 ```{r}
 surveys %>%
-    count(plot_type) 
+    count(plot_type)
 
 surveys %>%
     filter(!is.na(hindfoot_length)) %>%
@@ -827,7 +855,7 @@ surveys_complete <- surveys %>%
          !is.na(sex))
 
 species_counts <- surveys_complete %>%
-    count(species_id) %>% 
+    count(species_id) %>%
     filter(n >= 50)
 
 surveys_complete <- surveys_complete %>%
@@ -837,7 +865,7 @@ write_csv(surveys_complete, path = "data/processed/surveys_complete_dplyr.csv")
 
 ```
 
- <!-- dim(surveys_complete) # 304463, 13 --> 
+ <!-- dim(surveys_complete) # 304463, 13 -->
 
 
 class: middle, center
@@ -863,7 +891,7 @@ ggplot(data = <data>,
 [cheat sheet link](https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
 
 
-## ggplot2 plots are built sequentially in layers  
+## ggplot2 plots are built sequentially in layers
 
 
 ```{r ggplot, echo= TRUE, eval = TRUE, message=F, warning=F}
@@ -888,10 +916,10 @@ ggplot(data = surveys_complete,                          # data
 
 
 ```{r, out.width=350}
-surveys_plot <- ggplot(data = surveys_complete, 
+surveys_plot <- ggplot(data = surveys_complete,
                        mapping = aes(x = weight,
                                      y = hindfoot_length))
-surveys_plot + 
+surveys_plot +
     geom_point()
 ```
 
@@ -900,7 +928,7 @@ you can modify each layer
 
 
 ```{r, out.width=350}
-surveys_plot + 
+surveys_plot +
     geom_point(alpha = 0.1) #transparency
 ```
 
@@ -909,22 +937,22 @@ surveys_plot +
 
 
 ```{r, out.width=350}
-surveys_plot + 
+surveys_plot +
     geom_point(alpha = 0.1, color = "blue") #color
 ```
 
 
 ```{r, out.width=350}
-surveys_plot + 
+surveys_plot +
     geom_point(alpha = 0.1, aes(color = "blue")) #this is a mistake!
 #blue is not a variable so it should not go inside aes()
-``` 
+```
 
 
 
 
 ```{r, out.width=350}
-surveys_plot + 
+surveys_plot +
     geom_point(alpha = 0.1, aes(color = species_id))
 # but variables do go inside aes()
 ```
@@ -934,7 +962,7 @@ surveys_plot +
 
 
 ```{r, out.width=350}
-ggplot(data = surveys_complete, 
+ggplot(data = surveys_complete,
        mapping = aes(x = species_id, y = weight)) +
    geom_point(aes(color = plot_type))
 ```
@@ -946,7 +974,7 @@ ggplot(data = surveys_complete,
 
 ```{r, out.width=350}
 # boxplots
-ggplot(data = surveys_complete, 
+ggplot(data = surveys_complete,
        mapping = aes(x = species_id, y = weight)) +
    geom_boxplot()
 ```
@@ -957,7 +985,7 @@ ggplot(data = surveys_complete,
 
 
 ```{r, out.width=350}
-ggplot(data = surveys_complete, 
+ggplot(data = surveys_complete,
        mapping = aes(x = species_id, y = weight)) +
    geom_boxplot() +
   theme_classic()
@@ -965,11 +993,11 @@ ggplot(data = surveys_complete,
 
 
 
-## add jitter layer 
+## add jitter layer
 
 
 ```{r, out.width=350}
-ggplot(data = surveys_complete, 
+ggplot(data = surveys_complete,
        mapping = aes(x = species_id, y = weight)) +
    geom_boxplot() +
   geom_jitter(alpha = 0.3, color = "dodgerblue", width = 0.2) +
@@ -981,7 +1009,7 @@ ggplot(data = surveys_complete,
 
 
 ```{r, out.width=350}
-ggplot(data = surveys_complete, 
+ggplot(data = surveys_complete,
        mapping = aes(x = species_id, y = weight)) +
   geom_jitter(alpha = 0.3, color = "dodgerblue", width = 0.2) +
   geom_boxplot() +
@@ -994,7 +1022,7 @@ ggplot(data = surveys_complete,
 
 
 ```{r, out.width=350}
-ggplot(data = surveys_complete, 
+ggplot(data = surveys_complete,
        mapping = aes(x = species_id, y = weight)) +
    geom_violin() + theme_classic()
 ```
@@ -1005,7 +1033,7 @@ ggplot(data = surveys_complete,
 
 
 ```{r, out.width=350}
-p <- ggplot(data = surveys_complete, 
+p <- ggplot(data = surveys_complete,
        mapping = aes(x = species_id, y = weight)) +
    geom_violin() + scale_y_log10() + theme_classic() #nice!
 p
@@ -1023,8 +1051,8 @@ p +  #remember the plot can be an object
 
 
 
-```{r, out.width=350}  
-ggplot(data = surveys_complete, 
+```{r, out.width=350}
+ggplot(data = surveys_complete,
        mapping = aes(x = species_id, y = hindfoot_length)) +
   geom_jitter(size = 0.5, alpha = 0.1, width = 0.2, aes(col = plot_id)) +
   geom_boxplot() +
