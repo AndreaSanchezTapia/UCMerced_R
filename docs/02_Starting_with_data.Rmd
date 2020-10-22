@@ -110,7 +110,7 @@ class: inverse, middle, center
 
 + Data frames: one row per sampling unit (individual), one column per variable
 
-```{r columns}
+```{r columns, eval = F}
 knitr::include_graphics("./docs/figs/columns.png")
 ```
 
@@ -547,7 +547,7 @@ names(surveys_plots)
 ---
 # dplyr joins 
 
-```{r, echo = FALSE}
-include_graphics("docs/figs/joins.png")
+```{r, echo = FALSE, eval = F}
+knitr::include_graphics("./docs/figs/joins.png")
 ```
 
