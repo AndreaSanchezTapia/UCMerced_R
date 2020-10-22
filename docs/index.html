@@ -4,9 +4,8 @@
     <title>Data analysis and visualization in R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Andrea Sánchez-Tapia   Rio de Janeiro Botanical Garden - ¡liibre! - RLadies+" />
-    <meta name="date" content="2020-10-15" />
+    <meta name="date" content="2020-10-22" />
     <script src="libs/header-attrs/header-attrs.js"></script>
-    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -16,505 +15,571 @@ class: center, middle, inverse, title-slide
 # Data analysis and visualization in R
 ## UC Merced R curriculum
 ### Andrea Sánchez-Tapia <br> Rio de Janeiro Botanical Garden - ¡liibre! - RLadies+
-### 2020-10-15
+### 2020-10-22
 
 ---
 
-# outline
+## last time
 
 
 
 
 
++ we setup a project and its file structure
 
-+ Overview to R and RStudio
-+ Introduction to R
-+ Starting with Data
-+ Exploratory data analysis and basic statistics with R
-+ Manipulating Data Frames with __dplyr__
-+ Data visualisation with `ggplot2`
++ we started using R inside RStudio
 
----
-class: inverse, middle, center
++ we created numerical, character and logical vectors with `c()` 
 
-# overview of R and RStudio
++ we learned to subset vectors with brackets `[]` and other functions: `length()`, `:`, `seq(from, to, interval)`
+
++ vector subset can be done via numeric or logical indexes
 
 ---
-
-## why learn `R`?
-
-+ the language of choice for academic statisticians
-
---
-
-+ **_libre_ software**: free and free-to-be-used-and-modified for any means -&gt; one of the pillars of open science
-
---
-
-+ __script-based__: reproducibility, easier to scale up your analyses, transparency (track errors), great way to learn about methods.
-
---
-
-+ __interdisciplinary and modular__: lots of code written by area specialists. At the core of its philosophy is a smooth transition from user to programmer.
-
---
-
-+ __communication__ with other tools: manuscripts, presentations, apps and dashboards
-
-
----
-## why learn `R`?
-
-+ communication with __other programming languages__ (ex. __reticulate__ to run python scripts) 
-
---
-
-+ great __graphic capabilities__!
-
---
-
-
-+ __official support__: help in documentation, mailing lists
-
---
-
-+ __an active and welcoming community__:  email lists, Stack Overflow, [RStudio community](community.rstudio.com/), useR groups, .purple[R-Ladies+] chapters, Slack communities, <i class="fab  fa-twitter "></i> `#rstats`
-
-&lt;center&gt;
-&lt;img src="https://github.com/rladies/starter-kit/blob/master/stickers/rainbow-inclusive.png" width="150" /&gt;
-
----
-## `R` has a modular structure: __packages__
-
-
-+ `R` __base__ installation includes base packages developed and maintained by the __`R` Core Development Team__
-
---
-
-+ other packages are created by the community and hosted in __CRAN__ (The Comprehensive `R` Archive Network) or Bioconductor, GitHub, rOpenSci.org
-
---
-
-+ to install packages from CRAN: `install.packages("tidyverse")`
-
----
-background-image:url("figs/00_rstudio.png")
-background-size: 50%
-# Running R in RStudio
-
-
-<i class="fas  fa-laptop-code fa-3x "></i>
-
----
-class: inverse, middle, center
-# Setup and project organization
-
----
-## working directory
-
-+ you have to tell R where you will be working, so that it understands where to read tables, where to save outputs etc: __working directory__
-
---
-
-+ `getwd()` in the console
-
---
-
-+ the default is __"home"__: check general options and the "File" tab
-
---
-
-+ you can tell R and RStudio where you want to work with `setwd()`
-
---
-
-+ even better: instead of opening RStudio open an __R script__ or a __RStudio project__ (just as you would in MS Word   <i class="fas  fa-file-word "></i>)
-
----
-## project organization and best practices
-
-+ projects are better organized if we use __one folder per project__ and  __subfolders__ within our working directory
-
---
-
-+ we shouldn't modify __raw data files__ but __save processed data__ (and the corresponding scripts)
-
---
-
-+ instead of __absolute paths__ we should use __relative paths__:
-  + `.` "here"
-  + `./figs` a subfolder called `figs`
-  + the upper level `..`
-  
---
-
-+ avoid `C:users/your_name/your_file_structure/your_working_directory`
-
----
-## In this and the following sessions
-
-
-```
-project/
-*    ├── data/
-*    │   ├── raw
-*    │   └── processed
-     ├── docs/
-*    ├── figs/
-     ├── R/
-*    ├── output/
-*    └── README.md
-```
-
-+ unzip the .zip file into a folder of your preference
-
-&lt;right&gt;
-<i class="fas  fa-laptop-code fa-3x "></i>
-&lt;/right&gt;
-
----
-## RStudio projects 
-
-RStudio projects create a __.Rproj__ file in your folder that acts as a shortcut for your projects
-
-
---
-
-&lt;img src="https://media.giphy.com/media/3oriO04qxVReM5rJEA/giphy.gif" width="300" style="display: block; margin: auto;" /&gt;
-
-
----
-class:middle, inverse, center
-# introduction to R 
-
----
-## introduction to R 
-
-+ `&lt;-` is the assignment operation in R and it does not return output it __creates objects__ that are saved in the workspace
-(`Alt + -`)
-
---
-
-+ overwriting objects __does not affect other objects__ 
-
---
-
-+  __naming object tips__: 
- + don't begin with a number or symbol.
- + there are forbidden words 
- + be consistent with your __coding style__! 
- + avoid dots
- + __name functions as verbs and objects as nouns__
-
---
-
-+ you can see which objects are saved in the workspace by using `ls()`
-
----
-
-## about the workspace
-
-+ R creates __objects__ that occupy RAM memory: the __workspace__
-
---
-
-+ the __workspace__ can be saved and loaded between sessions BUT
-
---
-
-+ __you can lose track of how you created the objects in the workspace__
-
---
-
-+ `#goodpractices` don't save the workspace
-
----
-background-image:url("figs/0a_setup.png")
-background-size: 60%
-background-position: 100% 100%
-
-.pull-left[in the general options]
-
----
-class: inverse, middle, center
-# functions, arguments and understanding the  help
-
----
-## functions and arguments
-
-```
-weight_kg &lt;- sqrt(10)
-
-round(3.14159)
-
-args(round)
-```
-
----
-## if you know the name of the function
-```
-help(function)
-?function
-args(function)
-```
-
-+ select the name of the function and click __F1__
-
-Check the structure of the help file:
-
-+ Description
-+ Usage
-+ Arguments
-+ Details
-
----
-## if you don't know the name of the function
-
-```
-??kruskal
-```
-
-(or search it - google it - duckduckgo it)
-
----
-## the structure of a function help
-
-`args(function)`
-
-+ The arguments of a function are coded:
-  + in order
-  + with or without default settings
-  
---
-
-You can either
-+ use the arguments in order, without naming them
-+ use the first arguments without naming them and then some optional arguments, with name
-
-
----
-## data types in R
-
-&lt;small&gt;
-
-```r
-animals  &lt;- c("mouse", "rat", "dog")
-weight_g &lt;- c(50, 60, 65, 82)
-```
-
---
-
-
-```r
-class(animals)
-```
-
-```
-## [1] "character"
-```
-
---
-
-
-```r
-class(weight_g)
-```
-
-```
-## [1] "numeric"
-```
-&lt;/small&gt;
-
---
-
-`character` and `numeric` but also `logical` and `integer` ("whole" numbers, with no decimal component, in `\(N\)`), `complex`, and others. 
-
----
-class: center, middle
-
-<i class="fas  fa-laptop-code fa-3x "></i>
-
----
-## subsetting vectors
-
-+ R is __1-indexed__ and intervals are closed (not half-open)
-
-
-```r
-animals &lt;- c("mouse", "rat", "dog", "cat")
-animals[2]
-```
-
-```
-## [1] "rat"
-```
-
-+ Subsetting is done with brackets `[]`
-
-
-```r
-animals[c(3, 2)]
-```
-
-```
-## [1] "dog" "rat"
-```
-
----
-## conditional subsetting
-
-
-```r
-weight_g &lt;- c(21, 34, 39, 54, 55)
-weight_g[c(TRUE, FALSE, FALSE, TRUE, TRUE)]
-```
-
-```
-## [1] 21 54 55
-```
-
-Nobody works like this, instead we use __logical clauses__ to __generate__ these logical vectors
-
----
-
-
-## logical clauses
-
-+ equality or not: `==`, `!=`
-+ inequalities: `&lt;`. `&gt;`, `&lt;=`, `&gt;=`
-+ union (OR) `|`
-+ intersection (AND) `&amp;`
-+ belonging `%in%`
-+ differences between sets: `setdiff()`
-+ negation works `!`: "not in" `!a %in% b`
-
----
-## comparing vectors
-
-&lt;small&gt;
-
-```r
-animals      &lt;- c("mouse", "rat", "dog", "cat")
-more_animals &lt;- c("rat", "cat", "dog", "duck", "goat")
-
-animals %in% more_animals
-```
-
-```
-## [1] FALSE  TRUE  TRUE  TRUE
-```
-
----
-##comparing vectors
-
-&lt;small&gt;
-
-```r
-animals      &lt;- c("mouse", "rat", "dog", "cat")
-more_animals &lt;- c("rat", "cat", "dog", "duck", "goat")
-
-animals == more_animals
-```
-
-```
-## Warning in animals == more_animals: longer object length is not a multiple of
-## shorter object length
-```
-
-```
-## [1] FALSE FALSE  TRUE FALSE FALSE
-```
-
-+ Vectors are compared __one by one AND recycled__ when one of them is shorter, so use `%in%` when you want to check __belonging to a set__
-
----
-## missing data
-
-&lt;small&gt;
-
-```r
-heights &lt;- c(2, 4, 4, NA, 6)
-mean(heights)
-```
-
-```
-## [1] NA
-```
-
-```r
-max(heights)
-```
-
-```
-## [1] NA
-```
-
-```r
-mean(heights, na.rm = TRUE)
-```
-
-```
-## [1] 4
-```
-
-```r
-max(heights, na.rm = TRUE)
-```
-
-```
-## [1] 6
-```
-
----
-
-## data structures
+## data structures in R
 
 + __vector__: lineal arrays (one dimension: only length)
+--
 
++ __matrices__: arrays of vectors of the same type (all numeric or all character, for instance) (two dimensions: width and length)
+--
+
++ __data frames__: two-dimensional structures ("rectangular") but might be of combined types (i.e., column 1 with names, column 2 with numbers)
 --
 
 + __factors__: vectors (one-dimensional) representing __categorical variables__ and thus having __levels__
-
 --
 
-+ __matrices__: arrays of vectors -&gt; the same type (all numeric or all character, for instance) (two dimensions: width and length)
-
---
-
-+ __data frames__: two-dimensional arrays but might be of combined types (i.e., column 1 with names, column 2 with numbers)
-
++ __lists__: literally lists, of objects that can be of any type (a list of data frames, or different objects)
 --
 
 + __arrays__ are similar to matrices and dataframes but may be three-dimensional ("layered" data frames)
 
---
 
-+ __list__: literally a list of anything (a list of data frames, or different objects)
+
+
+---
+## matrices
+
++ data have to be of the same type
+
+
+```r
+?matrix
+matrix(nrow = 4, ncol = 3)
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]   NA   NA   NA
+## [2,]   NA   NA   NA
+## [3,]   NA   NA   NA
+## [4,]   NA   NA   NA
+```
+
+---
+## matrices
+
+
+```r
+nums &lt;- 1:12
+matrix(data = nums, nrow = 3)
+matrix(data = nums, nrow = 3, byrow = TRUE)
+m &lt;- matrix(data = nums, nrow = 3, byrow = TRUE, 
+       dimnames = list(c(LETTERS[1:3]), letters[1:4]))
+m
+```
+
++ matrix algebra 
 
 ---
 class: inverse, middle, center
+## starting with data
 
-# Getting help in R
+---
+## the survey dataset
+
++ Data frames: one row per sampling unit (individual), one column per variable
+
+
+```r
+knitr::include_graphics("./docs/figs/columns.png")
+```
+
+![](./docs/figs/columns.png)&lt;!-- --&gt;
+
+
+---
+## downloading the dataset
+
+We are going to download the file to our `data/raw` sub folder:
+
+
+
+
+```r
+download.file(url = "https://ndownloader.figshare.com/files/2292169",
+              destfile = "data/raw/portal_data_joined.csv")
+```
+
+---
+## reading files into R
+
+Functions to read data are key to any project.
+for data frames: `read.csv()`, `read.delim()`
+
+
+
+```r
+surveys &lt;- read.csv("data/raw/portal_data_joined.csv")
+surveys_check &lt;- read.table(file = "data/raw/portal_data_joined.csv",
+                            sep = ",",
+                            header = TRUE)
+identical(surveys, surveys_check)
+```
+
+```
+## [1] TRUE
+```
+
+---
+## reading files into R
+
++ Package __readr__ 
++ Package __data.table__ (`data.table::fread()`) when you need to open a large file
++ Excel spreadsheets: `readxl::read_excel()`
++ __Graphic interface__
+
+There are __many other ways__ to read data into R, some are specific for the type of data (GIS shapefiles or raster, and specific packages may come with their own reader functions)
+
+---
+## basic functions to explore dataframes
+
+
+```r
+str(surveys)
+dim(surveys)
+nrow(surveys)
+ncol(surveys)
+head(surveys) # 6 rows by default
+head(surveys)[,1:3]
+tail(surveys)
+names(surveys)
+rownames(surveys)
+length(surveys) # number of columns
+summary(surveys)
+```
+
+---
+## inspecting `data.frame` objects
+
+Based on the output of `str(surveys)`, can you answer the following questions?
+
++ What is the class of the object surveys?
+
++ How many rows and how many columns are in this object?
+
++ What is the type of data of the columns?
+
+
+---
+## indexing and subsetting data frames
+
++ a vector has only one dimension, so:
+
+  + `length()` refers to number of __elements__
+  + `dim()`
+  + selection between brackets `[]`
+
+--
+
++ a data.frame has __two__ dimensions, so `dim()`, `ncol()`, `nrow()` selection between brackets `[]` __BUT with the two dimensions separated by a comma__: `[rows, columns]`
+
+---
+## indexing and subsetting data frames
+
+
+```r
+names(surveys)
+surveys[, 6]
+surveys[1, ]
+surveys[ , 13]
+surveys[4, 13]
+```
+
+---
+## indexing and subsetting data frames
+
+&lt;small&gt;
+
+```r
+sub &lt;- surveys[1:10,]
+# first element in the first column of the data frame
+
+# first element in the 6th column
+
+# first column of the data frame
+
+# first three elements in the 7th column
+
+# the 3rd row of the data frame
+```
+
+---
+## indexing and subsetting data frames
+
+&lt;small&gt;
+
+```r
+# first element in the first column of the data frame
+sub[1, 1]
+# first element in the 6th column
+sub[1, 6]
+# first column of the data frame
+sub[, 1]
+# first column of the data frame
+sub[1]
+# first three elements in the 7th column (as a vector)
+sub[1:3, 7]
+# the 3rd row of the data frame
+sub[3, ]
+# equivalent to head_surveys &lt;- head(surveys)
+head_surveys &lt;- surveys[1:6, ]
+```
+
+
+---
+## indexing and subsetting data frames
+
++ minus sign to __remove__ the indexed column or row
+
+
+```r
+# The whole data frame, except the first column
+surveys[, -1]
+surveys[-(7:34786), ] # Equivalent to head(surveys)
+```
+
+---
+## selecting columns by name
+
+
+```r
+  surveys["species_id"]       # Result is a data.frame
+* surveys[, "species_id"]     # Result is a vector
+  surveys[["species_id"]]     # Result is a vector
+* surveys$species_id          # Result is a vector
+```
+
++ R has several ways to do some things
+
+---
+## challenge
+
+&lt;small&gt;
+
++ Create a data.frame (`surveys_200`) containing only the data in row 200 of the `surveys` dataset
+
+--
+
++ Notice how `nrow()` gave you the number of rows in a data.frame? Use that number to pull out just that last row in the data frame
+
+--
+
++ Compare that with what you see as the last row using `tail()` to make sure it’s meeting expectations
+
+--
+
++ Pull out that last row using `nrow()` instead of the row number.
+
+--
+
++ Create a new data frame (`surveys_last`) from that last row.
+
+--
+
++ Use `nrow()` to extract the row that is in the middle of the data frame. Store the content of this row in an object named `surveys_middle`.
+
+--
+
++ Combine `nrow()` with the - notation above to reproduce the behavior of `head(surveys)`, keeping just the first through 6th rows of the surveys dataset.
+
+&lt;/small&gt;
+
+
+
+---
+## some basic plotting 
+
+.pull.left[
+
+```r
+x &lt;- surveys$weight
+y &lt;- surveys$hindfoot_length
+plot(x, y)
+```
+
+![](02_Starting_with_data_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+]
+
+---
+## plotting a single variable
+
+
+```r
+plot(surveys$hindfoot_length)
+```
+
+![](02_Starting_with_data_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+
+```r
+plot(sort(surveys$hindfoot_length))
+```
+
+![](02_Starting_with_data_files/figure-html/unnamed-chunk-11-2.png)&lt;!-- --&gt;
+
+---
+## factors
+
++ __factors__: vectors (one-dimensional) representing __categorical variables__ and thus having __levels__. ordered (`c(“low”, “medium”, “high”)` or unordered (`c("green", "blue", "red")`)
+
++ R &lt; 4.0 had a default behavior `stringsAsFactors = TRUE` so any character column was transformed into a factor
+
+```r
+`?read.csv()`
+?default.stringsAsFactors
+```
+
+#### today if we want factors we have to transform the vectors
+
+---
+## factors
+
+&lt;small&gt;
+
+```r
+## Compare the difference between our data read as
+#`factor` vs `character`.
+surveys &lt;- read.csv("data_raw/portal_data_joined.csv",
+                    stringsAsFactors = TRUE)
+str(surveys)
+surveys &lt;- read.csv("data_raw/portal_data_joined.csv",
+                    stringsAsFactors = FALSE)
+str(surveys)
+```
+
+---
+## factors
+
+Convert the column "plot_type" and "sex" into a factor:
+
+
+```r
+surveys$plot_type &lt;- factor(surveys$plot_type)
+surveys$sex &lt;- factor(surveys$sex)
+```
+
 
 ---
 
+
+```r
+head(surveys$plot_type)
+```
+
+```
+## [1] Control Control Control Control Control Control
+## 5 Levels: Control Long-term Krat Exclosure ... Spectab exclosure
+```
+
+```r
+levels(surveys$plot_type)
+```
+
+```
+## [1] "Control"                   "Long-term Krat Exclosure" 
+## [3] "Rodent Exclosure"          "Short-term Krat Exclosure"
+## [5] "Spectab exclosure"
+```
+
+```r
+plot(surveys$weight ~ surveys$plot_type)
+```
+
+![](02_Starting_with_data_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+
++ check the __tilde__ `~` notation, formula:
+"as a function of"
+
+`plot(a ~ b)`
+`plot(b, a)`
+
 ---
-## Other sources of help
+## working with factors
 
-+ Taskviews 
+&lt;small&gt;
 
-[https://cran.r-project.org/web/views/](https://cran.r-project.org/web/views/)
+```r
+sex &lt;- factor(c("male", "female", "female", "male"))
+levels(sex) # in alphabetical order!
+nlevels(sex)
+sex
+sex &lt;- factor(sex, levels = c("male", "female"))
+sex # after re-ordering
+as.character(sex)
+
+year_fct &lt;- factor(c(1990, 1983, 1977, 1998, 1990))
+as.numeric(year_fct)               # Wrong! And there is no warning...
+as.numeric(as.character(year_fct)) # Works...
+as.numeric(levels(year_fct))
+as.numeric(levels(year_fct))[year_fct]    # The recommended way.
+```
+
+---
+## let's make a plot of a factor variable
+
+`plot(as.factor(surveys$sex))`
+
+.pull-right[let's rename this label]
+
+![](02_Starting_with_data_files/figure-html/plot-1.png)&lt;!-- --&gt;
+
+---
+## let's make a plot of a factor variable
+
+`plot(sex)`
+
+.pull-right[let's rename this label]
+
+![](02_Starting_with_data_files/figure-html/plot2-1.png)&lt;!-- --&gt;
 
 
 ---
-# ¡Thanks!
+## challenge
 
-&lt;center&gt;
-<i class="fas  fa-paper-plane " style="color:#562457;"></i> [andreasancheztapia@gmail.com](mailto:andreasancheztapia@gmail.com) 
+&lt;small&gt;
 
-<i class="fab  fa-twitter " style="color:#562457;"></i> [@SanchezTapiaA](https://twitter.com/SanchezTapiaA) 
+.pull-left[
+![](02_Starting_with_data_files/figure-html/remedy003-1.png)&lt;!-- --&gt;
+]
 
-<i class="fab  fa-github " style="color:#562457;"></i> <i class="fab  fa-gitlab " style="color:#562457;"></i> <i class="fab  fa-bitbucket " style="color:#562457;"></i> [andreasancheztapia](http://github.com/andreasancheztapia) 
+.pull-right[
+
++ Rename “F” and “M” to “female” and “male” respectively.
+
++ Now that we have renamed the factor level to “undetermined”, can you recreate the barplot such that “undetermined” is last (after “male”)?
+]
+
+
+---
+## working with several tables
+
++ in real analysis settings you will have many tables that are related
+
+--
+
++ in ecology for example:
+
+--
+
+  - sites x species
+
+--
+
+  - sites x environmental conditions
+
+--
+
+  - species x characteristics
+
+--
+
+  - individuals x individual measurement
+
+---
+## working with several tables
+
+
+
+
+```r
+download.file("https://ndownloader.figshare.com/files/3299483",
+              "data/raw/species.csv")
+download.file("https://ndownloader.figshare.com/files/10717177",
+              "data/raw/surveys.csv")
+download.file("https://ndownloader.figshare.com/files/3299474",
+              "data/raw/plots.csv")
+```
+
+
+---
+
+
+```r
+library(readr)
+species &lt;- read.csv("data/raw/species.csv")
+surveys &lt;- read.csv("data/raw/surveys.csv")
+plots &lt;- read.csv("data/raw/plots.csv")
+surveys_plots &lt;- merge(surveys, plots)
+dim(surveys)
+```
+
+```
+## [1] 35549     9
+```
+
+```r
+dim(plots)
+```
+
+```
+## [1] 24  2
+```
+
+```r
+dim(surveys_plots)
+```
+
+```
+## [1] 35549    10
+```
+
+```r
+names(species)
+```
+
+```
+## [1] "species_id" "genus"      "species"    "taxa"
+```
+
+```r
+head(species)
+```
+
+```
+##   species_id            genus         species   taxa
+## 1         AB       Amphispiza       bilineata   Bird
+## 2         AH Ammospermophilus         harrisi Rodent
+## 3         AS       Ammodramus      savannarum   Bird
+## 4         BA          Baiomys         taylori Rodent
+## 5         CB  Campylorhynchus brunneicapillus   Bird
+## 6         CM      Calamospiza     melanocorys   Bird
+```
+
+```r
+names(surveys_plots)
+```
+
+```
+##  [1] "plot_id"         "record_id"       "month"           "day"            
+##  [5] "year"            "species_id"      "sex"             "hindfoot_length"
+##  [9] "weight"          "plot_type"
+```
+
+---
+# dplyr joins 
+
+![](docs/figs/joins.png)&lt;!-- --&gt;
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
