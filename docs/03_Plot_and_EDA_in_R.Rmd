@@ -1,0 +1,820 @@
+---
+title: "Data analysis and visualization in R"
+subtitle: "UC Merced R curriculum"
+author: "Andrea Sánchez-Tapia - Sara Ribeiro Mortara<br> ¡liibre! - RLadies+"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: true
+      ratio: '16:9'
+---
+## last time
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(htmltools.dir.version = FALSE)
+library(knitr)
+```
+
+```{r xaringanthemer, include = FALSE}
+library(xaringanthemer)
+xaringanthemer::style_mono_accent(
+  base_color = "#A70000",
+  #  primary_color = "#A70000",
+  #secondary_color = "#ff0000",
+  white_color = "white",
+  colors = c(
+    red = "#A70000",
+    purple = "#88398a",
+    orange = "#ff8811",
+    green = "#136f63",
+    blue = "#4B4FFF",
+    white = "#FFFFFF",
+    black = "#181818"
+  ),
+  header_font_google = google_font("Roboto Condensed"),
+  text_font_google   = google_font("Roboto Condensed", "300", "300i"),
+  code_font_google   = google_font("Ubuntu Mono"),
+  text_font_size = "30px",
+  code_font_size = "26px",
+  )
+```
+
++ we talked about __matrices__ and __lists__ using function `matrix()` as an example
++ we talked about data frame objects, `str()`, `dim()`, `nrow()`, `ncol()`, and subsetting `[rows, columns]`
++ we downloaded a file, read it into disk, removed rows with NAs and saved it back into a __processed__ data folder
++ we talked about __factors__: in R>4.0 you need to specify them with `factor()`
+
+## today
+
++ exploratory data analysis [__Why__ do we plot our data?]
++ basic plotting functions [__How__ do we plot our data?]
+
+---
+class: inverse, middle, center
+
+# Exploratory data analysis
+
+---
+## exploratory data analysis (EDA)
+
++ control the quality of your data
+
+--
+
++ support the selection of statistical procedures 
+
+--
+
++ evaluate if data attend the __assumptions__ of the statistical tests (ex. normality)
+
+--
+
++ suggest hypotheses for the relationship of your data and new studies
+
+
+--
+
++ __EDA is NOT data wrangling or manipulation__
+
+--
+
++ your hypotheses based on theory are __central__ to guide these analyses
+
+---
+## exploratory data analysis (EDA)
+
++ EDA can take 20-50% of your analysis time
+
+--
+
++ it should be performed during the data collection
+
+--
+
++ uses a lot of visual techniques
+
+--
+
++ EDA will help you __understand__ your data
+
+---
+## what we need to know about our data 
+
++ do they contain NAs? do we have a lot of zeroes?
+
+--
+
++ how are the variables distributed? are they centered? are they symmetric? bimodal? 
+  
+--
+
++ are there outliers?
+
+--
+
++ do the variables follow some distribution?
+
+--
+
++ do they need to be transformed?
+
+--
+
++ are the variables related? what is the shape of the relationship between variables? (ex. linear)
+
+--
+
++ was the sampling effort sufficient? 
+
+
+---
+## what we need to know about our data 
+
++ central tendency measures: mean, median, mode
+
+--
+
++ variation/dispersion measures: range, range width, variance, standard deviation, variation coefficient
+
+--
+
++ data distribution: quantiles, inter-quantile ranges, _boxplots_, _histograms_.
+
+--
+
++ relationship between variables: _scatterplots_, correlations, linear models
+
+---
+class: inverse, center, middle
+
+## The Anscombe quartet
+
+---
+## The Anscombe quartet
+
+```{r}
+data("anscombe")
+dim(anscombe)
+head(anscombe)
+```
+
+---
+## The Anscombe quartet
+
+```{r}
+class(anscombe)
+str(anscombe)
+```
+
+---
+## Central tendency measures
+
+```{r}
+mean(anscombe$x1)
+mean(anscombe$x2)
+mean(anscombe$x3)
+mean(anscombe$x4)
+```
+
+---
+## Central tendency measures
+
+```{r}
+apply(anscombe[,1:4], 2, mean)
+apply(anscombe[,5:8], 2, mean)
+apply(anscombe, 2, var)
+
+```
+
+---
+## Correlations
+
+```{r}
+cor(anscombe$x1, anscombe$y1)
+cor(anscombe$x2, anscombe$y2)
+cor(anscombe$x3, anscombe$y3)
+cor(anscombe$x4, anscombe$y4)
+```
+
+---
+## Linear regression parameters
+
++ remember a linear regression: __y = a + bx__, where a is the intercept and b is the slope
+
+```{r, eval = T}
+m1 <- lm(anscombe$y1 ~ anscombe$x1)
+m2 <- lm(anscombe$y2 ~ anscombe$x2)
+m3 <- lm(anscombe$y3 ~ anscombe$x3)
+m4 <- lm(anscombe$y4 ~ anscombe$x4)
+
+coef(m1)
+coef(m2)
+coef(m3)
+coef(m4)
+```
+
+---
+## Linear regression coefficients
+
+```{r}
+mlist <- list(m1, m2, m3, m4)
+lapply(mlist, coef)
+```
+
+---
+## Let's plot the Anscombe data
+
+```{r, eval = F, echo = TRUE, fig.width=1200, fig.height = 400}
+#par(mfrow = c(2,2),
+#    las = 1,
+#    bty = "l")
+plot(anscombe$y1 ~ anscombe$x1)
+abline(mlist[[1]])
+plot(anscombe$y2 ~ anscombe$x2)
+abline(mlist[[2]])
+plot(anscombe$y3 ~ anscombe$x3)
+abline(mlist[[3]])
+plot(anscombe$y4 ~ anscombe$x4)
+abline(mlist[[4]])
+#par(mfrow=c(1, 1))
+```
+
+---
+## one example EDA workflow
+
+
+```{r}
+data(iris)
+#head(iris)
+summary(iris)
+```
+
+---
+## how many observations do we have?
+
+```{r, eval = F}
+table(iris$Species)
+plot(iris$Species) #barplot is the default funciton when you plot a categorical variable
+```
+
+---
+## central tendency measures
+
+```{r, eval = F}
+mean(iris$Sepal.Length)
+median(iris$Sepal.Length)
+
+## for each species: 
+tapply(X = iris$Sepal.Length,
+       INDEX = iris$Species,
+       FUN = mean)
+
+tapply(X = iris$Sepal.Length,
+       INDEX = iris$Species,
+       FUN = median)
+```
+
+---
+#central tendency measures
+
+```{r, eval = F}
+freqf <- sort(table(iris$Sepal.Length), 
+              decreasing = TRUE)
+freqf[1] #the most common value (mode) is 5, it appears 10 times
+```
+
+---
+## data dispersion measures
+
+```{r}
+range(iris$Sepal.Length)
+diff(range(iris$Sepal.Length))
+```
+
+---
+## data dispersion measures
+
++ variance, standard deviation
+
+```{r, eval = F}
+var(iris$Petal.Length) # variance
+sd(iris$Petal.Length) #standard deviation
+sd(iris$Petal.Length) / mean(iris$Petal.Length) * 100 # variation coefficient
+```
+
+---
+## data dispersion measures
+
++ for each species?
+
+```{r, eval = F}
+tapply(X = iris$Sepal.Length, INDEX = iris$Species, FUN = sd)
+tapply(X = iris$Sepal.Width, INDEX = iris$Species, FUN = sd)
+```
+
+
+---
+## data distribution: quantiles and inter-quantile range (IQR)
+
+```{r qq}
+quantile(iris$Petal.Length) #quantiles
+quantile(iris$Petal.Length, probs = c(0.05, 0.5, 0.95)) #other quantiles
+IQR(iris$Petal.Length) #inter-quantile range
+summary(iris$Petal.Length)
+```
+
+
+---
+## data distribution: boxplot
+
+.pull-left[
+```{r, fig.align='left', echo=TRUE, out.width=450}
+boxplot(iris$Petal.Length)
+```
+  ]
+
+.pull-right[  
+```{r, echo=FALSE,  fig.align='right', out.width=450}
+set.seed(2)
+par(bty = "n")
+bp <- rnorm(1000, 0, 0.1)
+boxplot(bp, yaxt = "n", xlim = c(0, 3), ylim=c(-0.3, 0.3))
+text(x = 2, y = min(bp), "last point (-1.5 x IIQ)", cex = 2)
+text(x = 2, y = quantile(bp)[2], "first quantile", cex = 2)
+text(x = 2, y = median(bp), "median", cex = 2)
+text(x = 2, y = quantile(bp)[4], "third quantile", cex = 2)
+text(x = 2, y = bp[203], "last point (+1.5 x IIQ)", cex = 2)
+arrows(x0 = 0.68, x1 = 0.68, y0 = quantile(bp)[2], y1 = quantile(bp)[4], code =
+         3, length = 0.05)
+text(x = 0.54, y = median(bp), "IIQ", cex = 2)
+```
+]
+
+---
+##  histogram
+  
+```{r, fig.align='center', echo=TRUE, out.width=400, eval = F}
+hist(iris$Sepal.Width)
+hist(iris$Sepal.Length)
+hist(iris$Petal.Length)
+```
+
+---
+## histogram types
+  
+  
+```{r, echo=TRUE, fig.width=9, fig.height=4.5}
+par(mfrow = c(1,2))
+hist(iris$Sepal.Length)
+hist(iris$Sepal.Length, probability = TRUE) # empirical probabilistic density curve
+par(mfrow = c(1,1))
+```
+
+---
+## histogram types
+  
+  
+```{r, echo=TRUE, fig.width=9, fig.height=4.5}
+par(mfrow = c(1,2))
+plot(density(iris$Sepal.Width))
+hist(iris$Sepal.Width, probability = TRUE) # empirical probabilistic density curve
+lines(density(iris$Sepal.Width), col="blue")
+par(mfrow = c(1,1))
+```
+
+
+---
+## histogram breaks
+  
+  
+```{r, echo=TRUE, fig.width=9, fig.height=3}
+par(mfrow = c(1,3))
+hist(iris$Petal.Length)
+hist(iris$Petal.Length, 
+     breaks = seq(0, max(iris$Petal.Length), length = 4))
+hist(iris$Petal.Length,  
+     breaks = seq(0, max(iris$Petal.Length), length = 6))
+par(mfrow = c(1,1))
+```
+
+
+---
+## relationships between variables: scatterplot
+  
+```{r, eval =T, results = "hide"}
+x <- iris$Petal.Length
+y <- iris$Petal.Width
+plot(x, y) 
+#but you can also avoid creating the vectors
+plot(iris$Petal.Length, iris$Petal.Width) #check the help for parameter order, x, y axis.
+plot(iris$Petal.Width ~ iris$Petal.Length)
+```
+
++ check the __tilde__ `~` notation, formula: "as a function of"
+
+---
+## relationship between variables: correlation
+  
+  
+```{r correlation}
+cor(x, y)
+```
+
++ when is a correlation high? (~0.7?)
+
+---
+## let's go back to out scatterplot
+
+```{r, eval = T, echo = F}
+plot(iris$Petal.Length, iris$Petal.Width)
+
+```
+
+---
+## plotting basics
+
++ All parameters for plotting are in function `par()`
+
++ `pch`, `cex`, `xlab`, `ylab`, `las`
+
++ `par(mfrow = c(1, 2))`
+
+
+---
+## let's go back to out scatterplot
+
+```{r, eval = F}
+plot(iris$Petal.Length, iris$Petal.Width)
+plot(iris$Petal.Length, iris$Petal.Width, 
+     xlab = "Petal Length (mm)", 
+     ylab = "Petal width (mm)", pch = 19)
+lmod <- lm(Petal.Width ~ Petal.Length, data = iris)
+coef(lmod)
+abline(lmod, col = "red")
+
+```
+---
+## what about species?
+
+```{r, echo = F}
+plot(iris$Petal.Length, iris$Petal.Width, 
+     xlab = "Petal Length (mm)", 
+     ylab = "Petal width (mm)", pch = 19, 
+     col = iris$Species)
+```
+
+---
+## what about species?
+
+```{r, echo = F}
+pal <- wesanderson::wes_palette(name = "Darjeeling1", n = 3)
+plot(iris$Petal.Length, iris$Petal.Width, 
+     xlab = "Petal Length (mm)", 
+     ylab = "Petal width (mm)", pch = 19, 
+     col = pal[iris$Species])
+as.character(pal)
+```
+
+
+---
+## let's go back to boxplots
+
+```{r, echo = F}
+colors <- c("#3B9AB2", "#EBCC2A", "#F21A00")
+sp <- paste("I.", unique(iris$Species), sep = " ")
+par(mfrow = c(2, 2),
+    mar = c(4, 3, 2, 2), 
+    bty = 'l',
+    las = 1)
+boxplot(Sepal.Length ~ Species,
+        data = iris,
+        xlab = "",
+        col = colors,
+        xaxt = "n")
+axis(1, at = 1:3, labels = sp, font = 3)
+boxplot(Sepal.Width ~ Species, 
+        data = iris, 
+        xlab = "", 
+        col = colors,
+        xaxt = "n")
+axis(1, at = 1:3, labels = sp, font = 3)
+boxplot(Petal.Length ~ Species, data = iris,  col = colors,
+        xaxt = "n")
+axis(1, at = 1:3, labels = sp, font = 3)
+boxplot(Petal.Width ~ Species,
+        data = iris,
+        col = colors,
+        xaxt = "n")
+axis(1, at = 1:3, labels = sp, font = 3)
+par(mfrow = c(1,1))
+```
+
+---
+## plot devices 
+
++ `plot()` opens a new graphic "device": a new window
+
+--
+
++ `hist()`, `barplot()`, `boxplot()` also call for new devices
+
+--
+
++ `points()` and `lines()` do not open new devices and need to be executed after `plot()` calls
+
+--
+
++ new `plot()` calls reset the graphic device. 
+
+--
+
++ `dev.off()` turns off the current plot device
+
+---
+## saving plots
+
++ to save plots in base R, new graphic devices must be called: `png()`, `pdf()`, etc- (check `capabilities()`)
+
+--
+
++ basic recommended formats: __.png__ and __.tiff__ because they are not lossy (try not to use __.jpeg__)
+
+--
+
++ `png()` calls for a new graphic device _different from the graphic window_
+
+  + plot code
+
++ `dev.off()` to close the device and save. 
+
+### you won't see the plot when you do that
+
+---
+## saving our plot
+
+```{r, eval = F, echo = F}
+colors <- c("#3B9AB2", "#EBCC2A", "#F21A00")
+sp <- paste("I.", unique(iris$Species), sep = " ")
+png(filename = "./figs/figure01.png")
+par(mfrow = c(2, 2),
+    mar = c(4, 3, 2, 2), 
+    bty = 'l',
+    las = 1)
+boxplot(Sepal.Length ~ Species,
+        data = iris,
+        xlab = "",
+        col = colors,
+        xaxt = "n")
+axis(1, at = 1:3, labels = sp, font = 3)
+boxplot(Sepal.Width ~ Species, 
+        data = iris, 
+        xlab = "", 
+        col = colors,
+        xaxt = "n")
+axis(1, at = 1:3, labels = sp, font = 3)
+boxplot(Petal.Length ~ Species, data = iris,  col = colors,
+        xaxt = "n")
+axis(1, at = 1:3, labels = sp, font = 3)
+boxplot(Petal.Width ~ Species,
+        data = iris,
+        col = colors,
+        xaxt = "n")
+axis(1, at = 1:3, labels = sp, font = 3)
+dev.off()
+```
+
+
+---
+class: middle
+## data visualization has many don'ts
+
+.pull-left[
+```{r, echo = F}
+library(lattice)
+library(latticeExtra)
+d <- read.table(text = ' x   y     z
+t1   5   high
+t1   2   low
+t1   4   med
+t2   8   high
+t2   1   low
+t2   3   med
+t3  50   high
+t3  12   med
+t3  35   low', header = TRUE)
+d$x <- factor(d$x)
+d$z <- factor(d$z)
+levels(d$z) <- c("high", "med", "low")
+
+cloud(y ~ x + z, d,
+      panel.3d.cloud = panel.3dbars,
+      col.facet = d$z,
+      xbase = 0.4,
+      ybase = 0.4,
+      scales = list(arrows = FALSE, col = 1),
+      par.settings = list(axis.line = list(col = "transparent")),
+      main = "my 3D plot")
+```
+]
+
+--
+
+.pull-right[
+```{r, echo = F, message=F, warning=F, out.width=400}
+library(ggplot2)
+pal <- wesanderson::wes_palette(3, name = "Zissou1", type = "continuous")
+p <- ggplot(data=d, aes(x=x, y=y, fill=z)) +
+  geom_bar(stat="identity") +
+  scale_fill_manual(values=pal[3:1])+
+  theme_classic() + 
+  theme(legend.text = element_text(size = 16),
+        legend.title = element_text(size = 16))
+p
+```
+]
+
+---
+
+## many
+
+.pull-left[
+```{r pie3d, echo=FALSE}
+library(plotrix)
+slices <- c(10, 12, 4, 16, 8) 
+lbls <- c("US", "UK", "Australia", "Germany", "France")
+pct <- round(slices / sum(slices) * 100)
+lbls <- paste(lbls, pct) # add percents to labels 
+lbls <- paste(lbls, "%", sep = "") # ad % to labels 
+pie3D(slices,labels = lbls, explode = 0.1,
+   main = "Pie Chart of Countries ")
+```
+]
+
+--
+
+.pull-right[
+
+```{r, echo = F}
+pie(slices,labels = lbls, col=rainbow(length(lbls)),
+   main="Pie Chart of Countries")
+```
+
+]
+
+---
+## there's always a better option than a pie chart
+
+.pull-left[
+
+```{r barplot, echo=FALSE}
+nomes <- c("US", "UK", "Australia", "Germany", "France")
+names(pct) <- nomes
+perc <- paste0(pct, "%")
+par(mai=c(1,1,1,1))
+barplot(pct, horiz=TRUE, las=1, xlim=c(0, max(pct)+3))
+text(x=pct+1.2,
+     y=c(0.7, 1.9, 3.1, 4.3, 5.5),
+     labels=perc)
+```
+
+]
+
+--
+
+.pull-right[
+
+```{r barplot2, echo=FALSE}
+nomes <- c("US", "UK", "Australia", "Germany", "France")
+perc <- paste0(sort(pct), "%")
+names(pct) <- nomes
+par(mai=c(1,1,1,1))
+barplot(sort(pct), horiz=TRUE, las=1, xlim=c(0, max(pct)+3))
+text(x=sort(pct)+1.2,
+     y=c(0.7, 1.9, 3.1, 4.3, 5.5),
+     labels=perc)
+```
+
+]
+
+---
+## barplots are not always very informative
+
+```{r, echo = F}
+set.seed(42)
+d2 <- data.frame(name = letters[1:5],
+                 value = sample(seq(4, 15), 5),
+                 sd = c(1, 0.2, 3, 2, 4))
+
+barplot(value ~ name, data = d2, las = 1, bty = 'l')
+```
+
+---
+## better with error bars...
+
+```{r, echo = F}
+barplot(value ~ name, data = d2, las = 1,
+        bty = 'l', ylim = c(0, 18))
+arrows(x0 = c(0.66, 1.88, 3.07, 4.25, 5.48),
+       y0 = d2$value + d2$sd,
+       y1 = d2$value - d2$sd, angle = 90, length = 0.1, code = 3)
+```
+
+---
+## but maybe don't even make a barplot
+
+```{r, echo = F}
+plot(x = 1:5, d2$value, las = 1, bty = 'l', ylim = c(0, 18),
+     pch = 19, xaxt = 'n',
+     xlab = "names", ylab = "value")
+axis(1, at = 1:5, labels = d2$name)
+arrows(x0 = 1:5,
+       y0 = d2$value + d2$sd,
+       y1 = d2$value - d2$sd,
+       angle = 90, length = 0.05, code = 3)
+```
+
+---
+##  ...or maybe don't even make a graph
+
+
+```{r, echo = F}
+d3 <- data.frame(media = c(6.7, 12.3),
+                 sd = c(0.4, 0.98),
+                 tratamento = c(1, 2))
+plot(media ~ c(1,2), data = d3, las = 1, bty = 'l',
+     xlab = "tratamento", pch = 19, xaxt = 'n',
+     ylim = c(2, 15))
+axis(1, at = 1:2, labels = c("1", "2"))
+arrows(x0 = 1:2,
+       y0 = d3$media + d3$sd,
+       y1 = d3$media - d3$sd,
+       angle = 90, length = 0.05, code = 3)
+```
+
+---
+## make a table or say it in the text 
+
+|Treatment| Effect|
+|-----------|--------|
+|1 |`r d3$media[1]` $\pm$ `r d3$sd[1]` | 
+|2 |`r d3$media[2]` $\pm$ `r d3$sd[2]` | 
+
+
+---
+## some basic tips in general
+
++ only make plots when you really need to
+
+--
+
++ don't spend more ink and colors than you need to
+
+--
+
++ don't fool your reader (no y-axis tampering, no undue transformation)
+
+--
+
++ show error measures
+
+
+---
+## some basic tips in R
+
+--
+
++ use `las = 1` for your axis labels
+
+--
+
++ use `bty = "l"` for your boxes
+
+--
+
++ change to at least `pch = 19`
+
+--
+
++ use `xlab` and `ylab`
+
+--
+
++ save to png and pdf formats
+
+---
+## Statistical procedures: package __stats__
+
++ Linear regression: `lm()`
++ Analysis of variance: `anova()`, `aov()`
++ t-tests: `t.test()`
++ p-values correction: `p.adjust()`
+
+__R TASKVIEWS__  [https://cran.r-project.org/web/views/](https://cran.r-project.org/web/views/)
+
+
