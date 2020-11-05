@@ -95,11 +95,13 @@ background-size: 150px
 
 --
 
-+ __forcats__: factors
++ __tibble__: a new data structure
 
 --
 
-+ additional packages for other tasks: __tibble__, __lubridate__ and many more
++ other packages: __lubridate__ (dates), __forcats__ (factors), and many more
+
+--
 
 Most of R is still __base__-based and both philosophies communicate well with each other
 
@@ -122,7 +124,7 @@ surveys <- readr::read_csv("data/raw/portal_data_joined.csv")
 
 ```{r remedy004, eval = FALSE}
 surveys
-vignette("tibble")
+vignette("tibble") #show what a vignette is
 ```
 
 + modified data frames
@@ -313,6 +315,8 @@ surveys %>%
 
 ```
 
++ you can append `head()` or `View()`
+
 ---
 ## `group_by()` and `summarize()`
 
@@ -349,7 +353,7 @@ surveys %>%
 + How many animals were caught in each `plot_type` surveyed?
 + Use `group_by()` and `summarize()` to find the mean, min, and max hindfoot length for each species (using `species_id`). Also add the number of observations (hint: see `?n`).
 
-```{r, echo = F}
+```{r, echo = F, eval=FALSE}
 surveys %>%
   group_by(plot_type) %>% 
   summarise(n = n())
@@ -381,7 +385,7 @@ surveys %>%
 ---
 ## save data!
 
-```{r remedy019, eval = TRUE, echo = TRUE}
+```{r remedy019, eval = F, echo = TRUE}
 surveys <- readr::read_csv("data/raw/portal_data_joined.csv")
 
 surveys_complete <- surveys %>%
@@ -405,22 +409,71 @@ write_csv(surveys_complete, path = "data/processed/surveys_mod_dplyr.csv")
 ---
 ## tidy data as a philosohpy
 
-+ most datasets are organized as observations in rows and variables in columns
-+ tidy data refer to reorganizing such data in pairs of observation-key-values
++ datasets should be organized as __observations in rows__ and __variables in columns__ -> "tidy data"
 
-+ do you have variables in the title of your dataframe? ex. if you have two columns: `1999` and `2000`,  they should be inside a variable called year.
+```{r, echo = FALSE}
+knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/6f1ddb544fc5c69a2478e444ab8112fb0eea23f8/91adc/images/tidy-1.png")
+```
 
-```{r}
+--
+
++ what is an observation? wht is the sampling unit?
+
+--
+
++ do you have information in your column names? ex. if you have two columns: `1999` and `2000`, they should be inside a variable called __year__.
+
+
+---
+## some examples 
+
+```{r, eval = FALSE, results="hide"}
+library(tidyr)
+table1
+table2
+table3
+table4a #cases
+table4b #population
+
+```
+
+---
+## `pivot_longer()` and `pivot_wider()`
+
+```{r, results = "hide"}
 library(tidyr)
 table4a
 table4a %>% 
   pivot_longer(cols = c(`1999`, `2000`), names_to = "year", values_to = "cases")
+
+table4b %>% 
+  pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "population")
+
 ```
 
 ---
-## pivoting to format tables
+## `pivot_wider()`
 
-+ `pivot_long()`, `pivot_large()`
+```{r, results = "hide"}
+table2 %>%
+    pivot_wider(names_from = type, values_from = count)
+```
+
+---
+## other options for tidying data
+
+```{r, results="hide"}
+table3
+table3 %>% 
+  separate(rate, into = c("cases", "population"))
+table3 %>% 
+  separate(rate, into = c("cases", "population"), convert = TRUE)
+
+table5 %>% 
+  unite(new, century, year)
+
+```
+
 
 ---
 ## working with several tables: merges and joins
@@ -429,12 +482,16 @@ table4a %>%
 
 --
 
++ relational datasets/databases
+
+--
+
 .pull-left[
   + in ecology for example:
     - sites x species
-  - sites x environmental conditions
-  - species x characteristics
-  - individuals x individual measurement
+    - sites x environmental conditions
+    - species x characteristics
+    - individuals x individual measurement
 ]
 
 .pull-right[
@@ -450,14 +507,15 @@ knitr::include_graphics("./figs/4thcorner.jpg")
 
 --
 
-+ for each data table have in mind which is your sampling unit. is it the species, is it the plot?
++ for each data table have in mind the __sampling unit__. is it the species, is it the plot? is it the individual, the city? 
 
 --
 
 + have a __unique identifier for each observation__ so you can merge the data
 
 ---
-## working with several tables: joins
+## working with several tables
+
 
 ```{r, echo = F}
 knitr::include_graphics(
@@ -467,6 +525,58 @@ knitr::include_graphics(
 ```
 
 .footnote[gadenbuie/tidyexplain]
+
+---
+## working with several tables
+
+```{r, echo = F}
+knitr::include_graphics(
+"https://raw.githubusercontent.com/gadenbuie/tidyexplain/master/images/right-join.gif")
+knitr::include_graphics(
+"https://raw.githubusercontent.com/gadenbuie/tidyexplain/master/images/anti-join.gif")
+```
+
+.footnote[gadenbuie/tidyexplain]
+
+---
+## a short example
+
+```{r}
+tidy4a <- table4a %>% 
+  pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "cases")
+tidy4b <- table4b %>% 
+  pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "population")
+
+left_join(tidy4a, tidy4b)
+```
+
+---
+## our survey data was created like that
+
+```{r, eval = F}
+download.file("https://ndownloader.figshare.com/files/3299483",
+              "./data/raw/species.csv")
+download.file("https://ndownloader.figshare.com/files/10717177",
+              "./data/raw/surveys.csv")
+download.file("https://ndownloader.figshare.com/files/3299474",
+              "./data/raw/plots.csv")
+```
+
+---
+## our survey data was created like that
+
+```{r, eval = FALSE}
+library(readr)
+library(dplyr)
+species <- read_csv("./data/raw/species.csv")
+head(species)
+surveys <- read_csv("./data/raw/surveys.csv")
+head(surveys)
+plots <- read_csv("./data/raw/plots.csv")
+head(plots)
+left_join(surveys, species) %>% left_join(plots) %>% dim()
+```
+
 
 ---
 class: middle, center
