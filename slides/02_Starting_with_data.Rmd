@@ -583,4 +583,13 @@ plot(x, y, xlab = "Hindfoot length", ylab = "Weight", cex = 0.9, pch = 19, col =
 + __saving a plot!__
 
 
+---
+class: center, middle
+# ¡Thanks!
 
+<center>
+`r icons::icon_style(icons::fontawesome("paper-plane", style = "solid"), scale = 1, fill = "#A70000")` [andreasancheztapia@gmail.com](mailto:andreasancheztapia@gmail.com) 
+
+`r icons::icon_style(icons::fontawesome("twitter", style = "brands"), scale = 1, fill = "#A70000")` [@SanchezTapiaA](https://twitter.com/SanchezTapiaA) 
+
+`r icons::icon_style(icons::fontawesome("github", style = "brands"), scale = 1, fill = "#A70000")``r icons::icon_style(icons::fontawesome("gitlab", style = "brands"), scale = 1, fill = "#A70000")` `r icons::icon_style(icons::fontawesome("bitbucket", style = "brands"), scale = 1, fill = "#A70000")` [andreasancheztapia](http://github.com/andreasancheztapia) 
