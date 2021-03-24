@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Plots and exploratory data analysis in R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrea Sánchez-Tapia - Sara Ribeiro Mortara  ¡liibre! - RLadies+" />
+    <meta name="date" content="2021-03-23" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Plots and exploratory data analysis in R
+## Data analysis and visualization in R <br> UC Merced
+### Andrea Sánchez-Tapia - Sara Ribeiro Mortara<br> ¡liibre! - RLadies+
+### 2021-03-23
+
+---
+
+## last time
+
+
+
+
+
++ we talked about __matrices__ and __lists__ using function `matrix()` as an example
++ we talked about data frame objects, `str()`, `dim()`, `nrow()`, `ncol()`, and subsetting `[rows, columns]`
++ we downloaded a file, read it into disk, removed rows with NAs and saved it back into a __processed__ data folder
++ we talked about __factors__: in R&gt;4.0 you need to specify them with `factor()`
+
+## today
+
++ exploratory data analysis [__Why__ do we plot our data?]
++ basic plotting functions [__How__ do we plot our data?]
+
+---
+class: inverse, middle, center
+
+# Exploratory data analysis
+
+---
+## exploratory data analysis (EDA)
+
++ control the quality of your data
+
+--
+
++ support the selection of statistical procedures 
+
+--
+
++ evaluate if data attend the __assumptions__ of the statistical tests (ex. normality)
+
+--
+
++ suggest hypotheses for the relationship of your data and new studies
+
+
+--
+
++ __EDA is NOT data wrangling or manipulation__
+
+--
+
++ your hypotheses based on theory are __central__ to guide these analyses
+
+---
+## exploratory data analysis (EDA)
+
++ EDA can take 20-50% of your analysis time
+
+--
+
++ it should be performed during the data collection
+
+--
+
++ uses a lot of visual techniques
+
+--
+
++ EDA will help you __understand__ your data
+
+---
+## what we need to know about our data 
+
++ do they contain NAs? do we have a lot of zeroes?
+
+--
+
++ how are the variables distributed? are they centered? are they symmetric? bimodal? 
+  
+--
+
++ are there outliers?
+
+--
+
++ do the variables follow some distribution?
+
+--
+
++ do they need to be transformed?
+
+--
+
++ are the variables related? what is the shape of the relationship between variables? (ex. linear)
+
+--
+
++ was the sampling effort sufficient? 
+
+
+---
+## what we need to know about our data 
+
++ central tendency measures: mean, median, mode
+
+--
+
++ variation/dispersion measures: range, range width, variance, standard deviation, variation coefficient
+
+--
+
++ data distribution: quantiles, inter-quantile ranges, _boxplots_, _histograms_.
+
+--
+
++ relationship between variables: _scatterplots_, correlations, linear models
+
+---
+class: inverse, center, middle
+
+## The Anscombe quartet
+
+---
+## The Anscombe quartet
+
+
+```r
+data("anscombe")
+dim(anscombe)
+```
+
+```
+## [1] 11  8
+```
+
+```r
+head(anscombe)
+```
+
+```
+##   x1 x2 x3 x4   y1   y2    y3   y4
+## 1 10 10 10  8 8.04 9.14  7.46 6.58
+## 2  8  8  8  8 6.95 8.14  6.77 5.76
+## 3 13 13 13  8 7.58 8.74 12.74 7.71
+## 4  9  9  9  8 8.81 8.77  7.11 8.84
+## 5 11 11 11  8 8.33 9.26  7.81 8.47
+## 6 14 14 14  8 9.96 8.10  8.84 7.04
+```
+
+---
+## The Anscombe quartet
+
+
+```r
+class(anscombe)
+```
+
+```
+## [1] "data.frame"
+```
+
+```r
+str(anscombe)
+```
+
+```
+## 'data.frame':	11 obs. of  8 variables:
+##  $ x1: num  10 8 13 9 11 14 6 4 12 7 ...
+##  $ x2: num  10 8 13 9 11 14 6 4 12 7 ...
+##  $ x3: num  10 8 13 9 11 14 6 4 12 7 ...
+##  $ x4: num  8 8 8 8 8 8 8 19 8 8 ...
+##  $ y1: num  8.04 6.95 7.58 8.81 8.33 ...
+##  $ y2: num  9.14 8.14 8.74 8.77 9.26 8.1 6.13 3.1 9.13 7.26 ...
+##  $ y3: num  7.46 6.77 12.74 7.11 7.81 ...
+##  $ y4: num  6.58 5.76 7.71 8.84 8.47 7.04 5.25 12.5 5.56 7.91 ...
+```
+
+---
+## Central tendency measures
+
+
+```r
+mean(anscombe$x1)
+```
+
+```
+## [1] 9
+```
+
+```r
+mean(anscombe$x2)
+```
+
+```
+## [1] 9
+```
+
+```r
+mean(anscombe$x3)
+```
+
+```
+## [1] 9
+```
+
+```r
+mean(anscombe$x4)
+```
+
+```
+## [1] 9
+```
+
+---
+## Central tendency measures
+
+
+```r
+apply(anscombe[,1:4], 2, mean)
+```
+
+```
+## x1 x2 x3 x4 
+##  9  9  9  9
+```
+
+```r
+apply(anscombe[,5:8], 2, mean)
+```
+
+```
+##       y1       y2       y3       y4 
+## 7.500909 7.500909 7.500000 7.500909
+```
+
+```r
+apply(anscombe, 2, var)
+```
+
+```
+##        x1        x2        x3        x4        y1        y2        y3        y4 
+## 11.000000 11.000000 11.000000 11.000000  4.127269  4.127629  4.122620  4.123249
+```
+
+---
+## Correlations
+
+
+```r
+cor(anscombe$x1, anscombe$y1)
+```
+
+```
+## [1] 0.8164205
+```
+
+```r
+cor(anscombe$x2, anscombe$y2)
+```
+
+```
+## [1] 0.8162365
+```
+
+```r
+cor(anscombe$x3, anscombe$y3)
+```
+
+```
+## [1] 0.8162867
+```
+
+```r
+cor(anscombe$x4, anscombe$y4)
+```
+
+```
+## [1] 0.8165214
+```
+
+---
+## Linear regression parameters
+
++ remember a linear regression: __y = a + bx__, where a is the intercept and b is the slope
+
+
+```r
+m1 &lt;- lm(anscombe$y1 ~ anscombe$x1)
+m2 &lt;- lm(anscombe$y2 ~ anscombe$x2)
+m3 &lt;- lm(anscombe$y3 ~ anscombe$x3)
+m4 &lt;- lm(anscombe$y4 ~ anscombe$x4)
+
+coef(m1)
+```
+
+```
+## (Intercept) anscombe$x1 
+##   3.0000909   0.5000909
+```
+
+```r
+coef(m2)
+```
+
+```
+## (Intercept) anscombe$x2 
+##    3.000909    0.500000
+```
+
+```r
+coef(m3)
+```
+
+```
+## (Intercept) anscombe$x3 
+##   3.0024545   0.4997273
+```
+
+```r
+coef(m4)
+```
+
+```
+## (Intercept) anscombe$x4 
+##   3.0017273   0.4999091
+```
+
+---
+## Linear regression coefficients
+
+
+```r
+mlist &lt;- list(m1, m2, m3, m4)
+lapply(mlist, coef)
+```
+
+```
+## [[1]]
+## (Intercept) anscombe$x1 
+##   3.0000909   0.5000909 
+## 
+## [[2]]
+## (Intercept) anscombe$x2 
+##    3.000909    0.500000 
+## 
+## [[3]]
+## (Intercept) anscombe$x3 
+##   3.0024545   0.4997273 
+## 
+## [[4]]
+## (Intercept) anscombe$x4 
+##   3.0017273   0.4999091
+```
+
+---
+## Let's plot the Anscombe data
+
+
+```r
+#par(mfrow = c(2,2),
+#    las = 1,
+#    bty = "l")
+plot(anscombe$y1 ~ anscombe$x1)
+abline(mlist[[1]])
+plot(anscombe$y2 ~ anscombe$x2)
+abline(mlist[[2]])
+plot(anscombe$y3 ~ anscombe$x3)
+abline(mlist[[3]])
+plot(anscombe$y4 ~ anscombe$x4)
+abline(mlist[[4]])
+#par(mfrow=c(1, 1))
+```
+
+---
+## one example EDA workflow
+
+
+
+```r
+data(iris)
+#head(iris)
+summary(iris)
+```
+
+```
+##   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+##  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+##  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+##  Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+##  Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+##  3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+##  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+##        Species  
+##  setosa    :50  
+##  versicolor:50  
+##  virginica :50  
+##                 
+##                 
+## 
+```
+
+---
+## how many observations do we have?
+
+
+```r
+table(iris$Species)
+plot(iris$Species) #barplot is the default funciton when you plot a categorical variable
+```
+
+---
+## central tendency measures
+
+
+```r
+mean(iris$Sepal.Length)
+median(iris$Sepal.Length)
+
+## for each species: 
+tapply(X = iris$Sepal.Length,
+       INDEX = iris$Species,
+       FUN = mean)
+
+tapply(X = iris$Sepal.Length,
+       INDEX = iris$Species,
+       FUN = median)
+```
+
+---
+#central tendency measures
+
+
+```r
+freqf &lt;- sort(table(iris$Sepal.Length), 
+              decreasing = TRUE)
+freqf[1] #the most common value (mode) is 5, it appears 10 times
+```
+
+---
+## data dispersion measures
+
+
+```r
+range(iris$Sepal.Length)
+```
+
+```
+## [1] 4.3 7.9
+```
+
+```r
+diff(range(iris$Sepal.Length))
+```
+
+```
+## [1] 3.6
+```
+
+---
+## data dispersion measures
+
++ variance, standard deviation
+
+
+```r
+var(iris$Petal.Length) # variance
+sd(iris$Petal.Length) #standard deviation
+sd(iris$Petal.Length) / mean(iris$Petal.Length) * 100 # variation coefficient
+```
+
+---
+## data dispersion measures
+
++ for each species?
+
+
+```r
+tapply(X = iris$Sepal.Length, INDEX = iris$Species, FUN = sd)
+tapply(X = iris$Sepal.Width, INDEX = iris$Species, FUN = sd)
+```
+
+
+---
+## data distribution: quantiles and inter-quantile range (IQR)
+
+
+```r
+quantile(iris$Petal.Length) #quantiles
+```
+
+```
+##   0%  25%  50%  75% 100% 
+## 1.00 1.60 4.35 5.10 6.90
+```
+
+```r
+quantile(iris$Petal.Length, probs = c(0.05, 0.5, 0.95)) #other quantiles
+```
+
+```
+##   5%  50%  95% 
+## 1.30 4.35 6.10
+```
+
+```r
+IQR(iris$Petal.Length) #inter-quantile range
+```
+
+```
+## [1] 3.5
+```
+
+```r
+summary(iris$Petal.Length)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   1.000   1.600   4.350   3.758   5.100   6.900
+```
+
+
+---
+## data distribution: boxplot
+
+.pull-left[
+
+```r
+boxplot(iris$Petal.Length)
+```
+
+&lt;img src="03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-16-1.png" width="450" style="display: block; margin: auto auto auto 0;" /&gt;
+  ]
+
+.pull-right[  
+&lt;img src="03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-17-1.png" width="450" style="display: block; margin: auto 0 auto auto;" /&gt;
+]
+
+---
+##  histogram
+  
+
+```r
+hist(iris$Sepal.Width)
+hist(iris$Sepal.Length)
+hist(iris$Petal.Length)
+```
+
+---
+## histogram types
+  
+  
+
+```r
+par(mfrow = c(1,2))
+hist(iris$Sepal.Length)
+hist(iris$Sepal.Length, probability = TRUE) # empirical probabilistic density curve
+```
+
+![](03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
+
+```r
+par(mfrow = c(1,1))
+```
+
+---
+## histogram types
+  
+  
+
+```r
+par(mfrow = c(1,2))
+plot(density(iris$Sepal.Width))
+hist(iris$Sepal.Width, probability = TRUE) # empirical probabilistic density curve
+lines(density(iris$Sepal.Width), col="blue")
+```
+
+![](03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
+
+```r
+par(mfrow = c(1,1))
+```
+
+
+---
+## histogram breaks
+  
+  
+
+```r
+par(mfrow = c(1,3))
+hist(iris$Petal.Length)
+hist(iris$Petal.Length, 
+     breaks = seq(0, max(iris$Petal.Length), length = 4))
+hist(iris$Petal.Length,  
+     breaks = seq(0, max(iris$Petal.Length), length = 6))
+```
+
+![](03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+
+```r
+par(mfrow = c(1,1))
+```
+
+
+---
+## relationships between variables: scatterplot
+  
+
+```r
+x &lt;- iris$Petal.Length
+y &lt;- iris$Petal.Width
+plot(x, y) 
+```
+
+![](03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+
+```r
+#but you can also avoid creating the vectors
+plot(iris$Petal.Length, iris$Petal.Width) #check the help for parameter order, x, y axis.
+```
+
+![](03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-22-2.png)&lt;!-- --&gt;
+
+```r
+plot(iris$Petal.Width ~ iris$Petal.Length)
+```
+
+![](03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-22-3.png)&lt;!-- --&gt;
+
++ check the __tilde__ `~` notation, formula: "as a function of"
+
+---
+## relationship between variables: correlation
+  
+  
+
+```r
+cor(x, y)
+```
+
+```
+## [1] 0.9628654
+```
+
++ when is a correlation high? (~0.7?)
+
+---
+## let's go back to out scatterplot
+
+![](03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+
+---
+## plotting basics
+
++ All parameters for plotting are in function `par()`
+
++ `pch`, `cex`, `xlab`, `ylab`, `las`
+
++ `par(mfrow = c(1, 2))`
+
+
+---
+## let's go back to out scatterplot
+
+
+```r
+plot(iris$Petal.Length, iris$Petal.Width)
+plot(iris$Petal.Length, iris$Petal.Width, 
+     xlab = "Petal Length (mm)", 
+     ylab = "Petal width (mm)", pch = 19)
+lmod &lt;- lm(Petal.Width ~ Petal.Length, data = iris)
+coef(lmod)
+abline(lmod, col = "red")
+```
+---
+## what about species?
+
+![](03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
+
+---
+## what about species?
+
+![](03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-26-1.png)&lt;!-- --&gt;
+
+```
+## [1] "#FF0000" "#00A08A" "#F2AD00"
+```
+
+
+---
+## let's go back to boxplots
+
+![](03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
+
+---
+## plot devices 
+
++ `plot()` opens a new graphic "device": a new window
+
+--
+
++ `hist()`, `barplot()`, `boxplot()` also call for new devices
+
+--
+
++ `points()` and `lines()` do not open new devices and need to be executed after `plot()` calls
+
+--
+
++ new `plot()` calls reset the graphic device. 
+
+--
+
++ `dev.off()` turns off the current plot device
+
+---
+## saving plots
+
++ to save plots in base R, new graphic devices must be called: `png()`, `pdf()`, etc- (check `capabilities()`)
+
+--
+
++ basic recommended formats: __.png__ and __.tiff__ because they are not lossy (try not to use __.jpeg__)
+
+--
+
++ `png()` calls for a new graphic device _different from the graphic window_
+
+  + plot code
+
++ `dev.off()` to close the device and save. 
+
+### you won't see the plot when you do that
+
+---
+## saving our plot
+
+
+
+
+---
+class: middle
+## data visualization has many don'ts
+
+.pull-left[
+![](03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-29-1.png)&lt;!-- --&gt;
+]
+
+--
+
+.pull-right[
+&lt;img src="03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-30-1.png" width="400" /&gt;
+]
+
+---
+
+## many
+
+.pull-left[
+![](03_Plot_and_EDA_in_R_files/figure-html/pie3d-1.png)&lt;!-- --&gt;
+]
+
+--
+
+.pull-right[
+
+![](03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-31-1.png)&lt;!-- --&gt;
+
+]
+
+---
+## there's always a better option than a pie chart
+
+.pull-left[
+
+![](03_Plot_and_EDA_in_R_files/figure-html/barplot-1.png)&lt;!-- --&gt;
+
+]
+
+--
+
+.pull-right[
+
+![](03_Plot_and_EDA_in_R_files/figure-html/barplot2-1.png)&lt;!-- --&gt;
+
+]
+
+---
+## barplots are not always very informative
+
+![](03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-32-1.png)&lt;!-- --&gt;
+
+---
+## better with error bars...
+
+![](03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-33-1.png)&lt;!-- --&gt;
+
+---
+## but maybe don't even make a barplot
+
+![](03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-34-1.png)&lt;!-- --&gt;
+
+---
+##  ...or maybe don't even make a graph
+
+
+![](03_Plot_and_EDA_in_R_files/figure-html/unnamed-chunk-35-1.png)&lt;!-- --&gt;
+
+---
+## make a table or say it in the text 
+
+|Treatment| Effect|
+|-----------|--------|
+|1 |6.7 `\(\pm\)` 0.4 | 
+|2 |12.3 `\(\pm\)` 0.98 | 
+
+
+---
+## some basic tips in general
+
++ only make plots when you really need to
+
+--
+
++ don't spend more ink and colors than you need to
+
+--
+
++ don't fool your reader (no y-axis tampering, no undue transformation)
+
+--
+
++ show error measures
+
+
+---
+## some basic tips in R
+
+--
+
++ use `las = 1` for your axis labels
+
+--
+
++ use `bty = "l"` for your boxes
+
+--
+
++ change to at least `pch = 19`
+
+--
+
++ use `xlab` and `ylab`
+
+--
+
++ save to png and pdf formats
+
+---
+## Statistical procedures: package __stats__
+
++ Linear regression: `lm()`
++ Analysis of variance: `anova()`, `aov()`
++ t-tests: `t.test()`
++ p-values correction: `p.adjust()`
+
+__R TASKVIEWS__  [https://cran.r-project.org/web/views/](https://cran.r-project.org/web/views/)
+
+---
+class: center, middle
+# ¡Thanks!
+
+&lt;center&gt;
+&lt;svg viewBox="0 0 512 512" style="position:relative;display:inline-block;top:.1em;fill:#A70000;height:1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z"&gt;&lt;/path&gt;&lt;/svg&gt; [andreasancheztapia@gmail.com](mailto:andreasancheztapia@gmail.com) 
+
+&lt;svg viewBox="0 0 512 512" style="position:relative;display:inline-block;top:.1em;fill:#A70000;height:1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"&gt;&lt;/path&gt;&lt;/svg&gt; [@SanchezTapiaA](https://twitter.com/SanchezTapiaA) 
+
+&lt;svg viewBox="0 0 496 512" style="position:relative;display:inline-block;top:.1em;fill:#A70000;height:1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"&gt;&lt;/path&gt;&lt;/svg&gt;&lt;svg viewBox="0 0 512 512" style="position:relative;display:inline-block;top:.1em;fill:#A70000;height:1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M105.2 24.9c-3.1-8.9-15.7-8.9-18.9 0L29.8 199.7h132c-.1 0-56.6-174.8-56.6-174.8zM.9 287.7c-2.6 8 .3 16.9 7.1 22l247.9 184-226.2-294zm160.8-88l94.3 294 94.3-294zm349.4 88l-28.8-88-226.3 294 247.9-184c6.9-5.1 9.7-14 7.2-22zM425.7 24.9c-3.1-8.9-15.7-8.9-18.9 0l-56.6 174.8h132z"&gt;&lt;/path&gt;&lt;/svg&gt; &lt;svg viewBox="0 0 512 512" style="position:relative;display:inline-block;top:.1em;fill:#A70000;height:1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M22.2 32A16 16 0 0 0 6 47.8a26.35 26.35 0 0 0 .2 2.8l67.9 412.1a21.77 21.77 0 0 0 21.3 18.2h325.7a16 16 0 0 0 16-13.4L505 50.7a16 16 0 0 0-13.2-18.3 24.58 24.58 0 0 0-2.8-.2L22.2 32zm285.9 297.8h-104l-28.1-147h157.3l-25.2 147z"&gt;&lt;/path&gt;&lt;/svg&gt; [andreasancheztapia](http://github.com/andreasancheztapia) 
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": true,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
