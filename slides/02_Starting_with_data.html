@@ -4,8 +4,13 @@
     <title>Data analysis and visualization in R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Andrea Sánchez-Tapia   Rio de Janeiro Botanical Garden - ¡liibre! - RLadies+" />
-    <meta name="date" content="2020-10-22" />
+    <meta name="date" content="2021-03-23" />
     <script src="libs/header-attrs/header-attrs.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -15,7 +20,7 @@ class: center, middle, inverse, title-slide
 # Data analysis and visualization in R
 ## UC Merced R curriculum
 ### Andrea Sánchez-Tapia <br> Rio de Janeiro Botanical Garden - ¡liibre! - RLadies+
-### 2020-10-22
+### 2021-03-23
 
 ---
 
@@ -430,6 +435,7 @@ dim(surveys2)
 
 
 ```r
+if (!dir.exists("data/processed")) dir.create("data/processed", recursive = T)
 write.csv(surveys1, "data/processed/surveys_mod.csv")
 ```
 

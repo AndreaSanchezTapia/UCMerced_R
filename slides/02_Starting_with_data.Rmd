@@ -1,6 +1,6 @@
 ---
-title: "Data analysis and visualization in R"
-subtitle: "UC Merced R curriculum"
+title: "Starting with data frames"
+subtitle: "Data analysis and visualization in R <br> UC Merced"
 author: "Andrea Sánchez-Tapia <br> Rio de Janeiro Botanical Garden - ¡liibre! - RLadies+"
 date: "`r Sys.Date()`"
 output:
@@ -21,27 +21,7 @@ library(knitr)
 ```
 
 ```{r xaringanthemer, include = FALSE}
-library(xaringanthemer)
-xaringanthemer::style_mono_accent(
-  base_color = "#A70000",
-  #  primary_color = "#A70000",
-  #secondary_color = "#ff0000",
-  white_color = "white",
-  colors = c(
-    red = "#A70000",
-    purple = "#88398a",
-    orange = "#ff8811",
-    green = "#136f63",
-    blue = "#4B4FFF",
-    white = "#FFFFFF",
-    black = "#181818"
-  ),
-  header_font_google = google_font("Roboto Condensed"),
-  text_font_google   = google_font("Roboto Condensed", "300", "300i"),
-  code_font_google   = google_font("Ubuntu Mono"),
-  text_font_size = "30px",
-  code_font_size = "30px",
-  )
+xaringanExtra::use_share_again()
 ```
 
 + we setup a project and its file structure
@@ -416,6 +396,7 @@ dim(surveys2)
 ## write csv objects to disk
 
 ```{r}
+if (!dir.exists("data/processed")) dir.create("data/processed", recursive = T)
 write.csv(surveys1, "data/processed/surveys_mod.csv")
 ```
 

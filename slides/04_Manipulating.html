@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Data analysis and visualization in R</title>
+    <title>Manipulatind and analysing data with dplyr</title>
     <meta charset="utf-8" />
     <meta name="author" content="Andrea Sánchez-Tapia   Rio de Janeiro Botanical Garden - ¡liibre! - RLadies+" />
-    <meta name="date" content="2020-11-05" />
+    <meta name="date" content="2021-03-23" />
     <script src="libs/header-attrs/header-attrs.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Data analysis and visualization in R
-## UC Merced R curriculum
+# Manipulatind and analysing data with dplyr
+## Data analysis and visualization in R <br> UC Merced
 ### Andrea Sánchez-Tapia <br> Rio de Janeiro Botanical Garden - ¡liibre! - RLadies+
-### 2020-11-05
+### 2021-03-23
 
 ---
 
@@ -404,7 +409,29 @@ surveys %&gt;%
 
 ```r
 surveys &lt;- readr::read_csv("data/raw/portal_data_joined.csv")
+```
 
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   record_id = col_double(),
+##   month = col_double(),
+##   day = col_double(),
+##   year = col_double(),
+##   plot_id = col_double(),
+##   species_id = col_character(),
+##   sex = col_character(),
+##   hindfoot_length = col_double(),
+##   weight = col_double(),
+##   genus = col_character(),
+##   species = col_character(),
+##   taxa = col_character(),
+##   plot_type = col_character()
+## )
+```
+
+```r
 surveys_complete &lt;- surveys %&gt;%
   filter(!is.na(weight),
          !is.na(hindfoot_length),
@@ -418,6 +445,11 @@ surveys_complete &lt;- surveys_complete %&gt;%
   filter(species_id %in% species_counts$species_id)
 
 write_csv(surveys_complete, path = "data/processed/surveys_mod_dplyr.csv")
+```
+
+```
+## Warning: The `path` argument of `write_csv()` is deprecated as of readr 1.4.0.
+## Please use the `file` argument instead.
 ```
 
  &lt;!-- dim(surveys_complete) # 304463, 13 --&gt; 
