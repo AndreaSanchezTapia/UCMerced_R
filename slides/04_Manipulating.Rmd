@@ -1,5 +1,5 @@
 ---
-title: "Manipulatind and analysing data with dplyr"
+title: "Manipulating and analysing data with dplyr"
 subtitle: "Data analysis and visualization in R <br> UC Merced"
 author: "Andrea Sánchez-Tapia <br> Rio de Janeiro Botanical Garden - ¡liibre! - RLadies+"
 date: "`r Sys.Date()`"
@@ -781,3 +781,14 @@ ggplot(data = surveys_complete,
 + R for data science
 + Reproducible workflows
 + [https://github.com/gadenbuie/tidyexplain](https://github.com/gadenbuie/tidyexplain)
+
+---
+class: center, middle
+# ¡Thanks!
+
+<center>
+`r icons::icon_style(icons::fontawesome("paper-plane", style = "solid"), scale = 1, fill = "#A70000")` [andreasancheztapia@gmail.com](mailto:andreasancheztapia@gmail.com) 
+
+`r icons::icon_style(icons::fontawesome("twitter", style = "brands"), scale = 1, fill = "#A70000")` [@SanchezTapiaA](https://twitter.com/SanchezTapiaA) 
+
+`r icons::icon_style(icons::fontawesome("github", style = "brands"), scale = 1, fill = "#A70000")``r icons::icon_style(icons::fontawesome("gitlab", style = "brands"), scale = 1, fill = "#A70000")` `r icons::icon_style(icons::fontawesome("bitbucket", style = "brands"), scale = 1, fill = "#A70000")` [andreasancheztapia](http://github.com/andreasancheztapia) 
