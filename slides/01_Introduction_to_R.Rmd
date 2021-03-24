@@ -96,11 +96,11 @@ class: inverse, middle, center
 
 --
 
-+ __an active and welcoming community__:  email lists, Stack Overflow, [RStudio community](community.rstudio.com/), useR groups, .purple[R-Ladies+] chapters, Slack communities, ` icon::fontawesome("twitter")` `#rstats`
++ __an active and welcoming community__:  email lists, Stack Overflow, [RStudio community](community.rstudio.com/), useR groups, .purple[R-Ladies+] chapters, Slack communities, `r icons::fontawesome("twitter")` `#rstats`
 
 <center>
 ```{r remedy001, out.width=150, echo = FALSE}
-knitr::include_graphics("https://github.com/rladies/starter-kit/blob/master/stickers/rainbow-inclusive.png")
+knitr::include_graphics("https://raw.githubusercontent.com/rladies/starter-kit/master/stickers/rainbow-inclusive.png")
 ```
 
 ---
@@ -123,7 +123,7 @@ background-size: 50%
 # Running R in RStudio
 
 
-` icon::fa("laptop-code", size = 3)`
+`r icons::fontawesome("laptop-code")`
 
 ---
 class: inverse, middle, center
@@ -148,7 +148,7 @@ class: inverse, middle, center
 
 --
 
-+ even better: instead of opening RStudio open an __R script__ or a __RStudio project__ (just as you would in MS Word   ` icon::fa("file-word")`)
++ even better: instead of opening RStudio open an __R script__ or a __RStudio project__ (just as you would in MS Word   `r icons::fontawesome("file-word")`)
 
 ---
 ## project organization and best practices
@@ -189,7 +189,7 @@ project/
 + unzip the .zip file into a folder of your preference
 
 <right>
-` icon::fa("laptop-code", size = 3)`
+`r icons::fontawesome("laptop-code")`
 </right>
 
 ---
@@ -343,7 +343,7 @@ class(weight_g)
 ---
 class: center, middle
 
-` icon::fa("laptop-code", size = 3)`
+` icons::fontawesome("laptop-code")`
 
 ---
 ## subsetting vectors
@@ -463,12 +463,14 @@ class: inverse, middle, center
 
 
 ---
+class: center, middle
 # ¡Thanks!
 
 <center>
-` icon::fa("paper-plane", colour = "#562457")` [andreasancheztapia@gmail.com](mailto:andreasancheztapia@gmail.com) 
+`r icons::icon_style(icons::fontawesome("paper-plane", style = "solid"), scale = 1, fill = "#A70000")` [andreasancheztapia@gmail.com](mailto:andreasancheztapia@gmail.com) 
 
-` icon::fa("twitter", colour = "#562457")` [@SanchezTapiaA](https://twitter.com/SanchezTapiaA) 
+`r icons::icon_style(icons::fontawesome("twitter", style = "brands"), scale = 1, fill = "#A70000")` [@SanchezTapiaA](https://twitter.com/SanchezTapiaA) 
 
-` icon::fa("github", colour = "#562457")` ` icon::fa("gitlab", colour = "#562457")` ` icon::fa("bitbucket", colour = "#562457")` [andreasancheztapia](http://github.com/andreasancheztapia) 
+`r icons::icon_style(icons::fontawesome("github", style = "brands"), scale = 1, fill = "#A70000")``r icons::icon_style(icons::fontawesome("gitlab", style = "brands"), scale = 1, fill = "#A70000")` `r icons::icon_style(icons::fontawesome("bitbucket", style = "brands"), scale = 1, fill = "#A70000")` [andreasancheztapia](http://github.com/andreasancheztapia) 
+
 
