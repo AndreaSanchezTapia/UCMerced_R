@@ -343,7 +343,7 @@ class(weight_g)
 ---
 class: center, middle
 
-` icons::fontawesome("laptop-code")`
+`r icons::icon_style(icons::fontawesome("laptop-code"), scale = 3)`
 
 ---
 ## subsetting vectors
