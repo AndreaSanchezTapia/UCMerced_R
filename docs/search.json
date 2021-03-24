@@ -1,0 +1,32 @@
+{
+  "articles": [
+    {
+      "path": "about.html",
+      "title": "Andrea Sánchez-Tapia",
+      "author": [],
+      "contents": "\n\n          \n          \n          R curriculum training at UC Merced\n          \n          \n          Home\n          \n          \n          Sessions\n           \n          ▾\n          \n          \n          Introduction to R\n          Starting with data\n          Plots and EDA\n          Manipulating data with dplyr\n          \n          \n          About\n          \n          \n          \n          ☰\n          \n          \n      \n        \n          \n            Andrea Sánchez-Tapia\n          \n          \n            \n              I am a Colombian biologist (she/her) living in Merced, CA. I use R since 2009 and I am part of RLadies+ and of the useR! 2021 Organizing Team. My main interests are Biodiversity Informatics, Open and Responsible Data Science, and Community Ecology.\n            \n            \n              I am a Colombian biologist (she/her) living in Merced, CA. I use R since 2009 and I am part of RLadies+ and of the useR! 2021 Organizing Team. My main interests are Biodiversity Informatics, Open and Responsible Data Science, and Community Ecology.\n            \n          \n\n          \n            \n              \n                  \n                    \n                      Webpage\n                    \n                  \n                \n                                \n                  \n                    \n                      ¡liibre!\n                    \n                  \n                \n                                \n                  \n                    \n                      Twitter\n                    \n                  \n                \n                                \n                  \n                    \n                      GitHub\n                    \n                  \n                \n                                \n                  \n                    \n                      Email\n                    \n                  \n                \n                              \n          \n\n          \n            \n              \n                                \n                  \n                    Webpage\n                  \n                \n                                \n                  \n                    ¡liibre!\n                  \n                \n                                \n                  \n                    Twitter\n                  \n                \n                                \n                  \n                    GitHub\n                  \n                \n                                \n                  \n                    Email\n                  \n                \n                              \n            \n          \n        \n      \n    \n\n    \n    \n    ",
+      "last_modified": "2021-03-23T20:06:57-07:00"
+    },
+    {
+      "path": "index.html",
+      "title": "R curriculum training at UC Merced",
+      "description": "Fall 2020",
+      "author": [],
+      "contents": "\nWelcome! This website has the materials for the R Curriculum taught at UC Merced in the Fall of 2020. This was an 8-hr training divided in four sessions:\nIntroduction to R and RStudio\nStarting with data\nPlots and Exploratory Data Analysis\nManipulating data with dplyr\nThese lessons are based on the Carpentries Ecology curriculum\n\n\n\n",
+      "last_modified": "2021-03-23T20:14:31-07:00"
+    },
+    {
+      "path": "Summary.html",
+      "title": "Course summary",
+      "author": [
+        {
+          "name": "Andrea Sánchez-Tapia",
+          "url": "https://andreasancheztapia.netlify.app"
+        }
+      ],
+      "contents": "\n\n\n\nfitvids('.shareagain', {players: 'iframe'});\n\n\n\n\nfitvids('.shareagain', {players: 'iframe'});\n\n\n\n\nfitvids('.shareagain', {players: 'iframe'});\n\n\n\n\nfitvids('.shareagain', {players: 'iframe'});\n\n\n\n\n",
+      "last_modified": "2021-03-23T20:14:45-07:00"
+    }
+  ],
+  "collections": []
+}
