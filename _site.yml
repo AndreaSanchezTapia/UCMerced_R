@@ -1,0 +1,19 @@
+name: "R @ UC Merced"
+title: "R curriculum training at UC Merced"
+theme: liibre.css
+author: "Andrea Sánchez-Tapia PhD"
+description: |
+  R curriculum training at UC Merced
+output_dir: "docs"
+navbar:
+  search: true
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "Course materials"
+      href: Summary.html
+    - text: "About"
+      href: about.html
+    - icon: fab fa-github
+      href: https://github.com/AndreaSanchezTapia/UCMerced_R
+output: distill::distill_article

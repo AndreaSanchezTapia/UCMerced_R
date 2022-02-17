@@ -5,7 +5,7 @@
       "title": "Andrea Sánchez-Tapia PhD",
       "author": [],
       "contents": "\n\n          \n          \n          R curriculum training at UC Merced\n          \n          \n          Home\n          Course materials\n          About\n          \n          \n          \n          ☰\n          \n          \n      \n        \n          \n            Andrea Sánchez-Tapia PhD\n          \n          \n            \n              I am a Colombian biologist (she/her) living in Merced, CA. I use R since 2009 and I am part of RLadies+ and of the useR! 2021 Organizing Team. My main interests are Biodiversity Informatics, Open and Responsible Data Science, and Community Ecology.\n            \n            \n              I am a Colombian biologist (she/her) living in Merced, CA. I use R since 2009 and I am part of RLadies+ and of the useR! 2021 Organizing Team. My main interests are Biodiversity Informatics, Open and Responsible Data Science, and Community Ecology.\n            \n          \n\n          \n            \n              \n                  \n                    \n                      Webpage\n                    \n                  \n                \n                                \n                  \n                    \n                      ¡liibre!\n                    \n                  \n                \n                                \n                  \n                    \n                      Twitter\n                    \n                  \n                \n                                \n                  \n                    \n                      GitHub\n                    \n                  \n                \n                                \n                  \n                    \n                      Email\n                    \n                  \n                \n                              \n          \n\n          \n            \n              \n                                \n                  \n                    Webpage\n                  \n                \n                                \n                  \n                    ¡liibre!\n                  \n                \n                                \n                  \n                    Twitter\n                  \n                \n                                \n                  \n                    GitHub\n                  \n                \n                                \n                  \n                    Email\n                  \n                \n                              \n            \n          \n        \n      \n    \n\n    \n    \n    ",
-      "last_modified": "2021-12-07T01:27:46-08:00"
+      "last_modified": "2022-02-17T11:34:40-08:00"
     },
     {
       "path": "index.html",
@@ -13,7 +13,7 @@
       "description": "Fall 2020",
       "author": [],
       "contents": "\nWelcome! This website has the materials for the R Curriculum taught at UC Merced in the Fall of 2020. This was an 8-hr training divided in four sessions:\nIntroduction to R and RStudio\nStarting with data\nPlots and Exploratory Data Analysis\nManipulating data with dplyr\nThese lessons are based on the Carpentries Ecology curriculum\nAn example GitHub repository to follow the lessons is available here: https://github.com/AndreaSanchezTapia/UCM_R. It has a very generic structure:\n.\n├── UCM_R.Rproj\n├── README.md\n├── 01_script.R\n├── 02_... and other scripts \n└── data\n    ├── processed\n    └── raw\nYou can download the .zip file by clicking the green button (Code) and selecting the last option, “download.zip”. To open the project and get to work, click twice on UCM_R.Rproj.\n\n\n\n",
-      "last_modified": "2021-12-07T01:25:57-08:00"
+      "last_modified": "2022-02-17T11:34:42-08:00"
     },
     {
       "path": "Summary.html",
@@ -25,7 +25,7 @@
         }
       ],
       "contents": "\nDay 1\n\n\n\nfitvids('.shareagain', {players: 'iframe'});\n\nDay 2\n\n\n\nfitvids('.shareagain', {players: 'iframe'});\n\nDay 3\n\n\n\nfitvids('.shareagain', {players: 'iframe'});\n\nDay 4\n\n\n\nfitvids('.shareagain', {players: 'iframe'});\n\n\n\n\n",
-      "last_modified": "2021-12-07T01:26:50-08:00"
+      "last_modified": "2022-02-17T11:34:43-08:00"
     }
   ],
   "collections": []

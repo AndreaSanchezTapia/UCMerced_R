@@ -1,0 +1,476 @@
+---
+title: "Introduction to R and RStudio"
+subtitle: "Data analysis and visualization in R <br> UC Merced"
+author: "Andrea Sánchez-Tapia <br> Rio de Janeiro Botanical Garden - ¡liibre! - RLadies+"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: true
+      ratio: '16:9'
+---
+# outline
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+```{r xaringanthemer, include = FALSE}
+library(xaringanthemer)
+xaringanthemer::style_mono_accent(
+  base_color = "#A70000",
+  #  primary_color = "#A70000",
+  #secondary_color = "#ff0000",
+  white_color = "white",
+  colors = c(
+    red = "#A70000",
+    purple = "#88398a",
+    orange = "#ff8811",
+    green = "#136f63",
+    blue = "#4B4FFF",
+    white = "#FFFFFF",
+    black = "#181818"
+  ),
+  header_font_google = google_font("Roboto Condensed"),
+  text_font_google   = google_font("Roboto Condensed", "300", "300i"),
+  code_font_google   = google_font("Ubuntu Mono"),
+  text_font_size = "30px",
+  code_font_size = "30px",
+  )
+xaringanExtra::use_share_again()
+```
+
+
++ Overview to R and RStudio
++ Introduction to R
++ Starting with Data
++ Exploratory data analysis and basic statistics with R
++ Manipulating Data Frames with __dplyr__
++ Data visualisation with `ggplot2`
+
+---
+class: inverse, middle, center
+
+# overview of R and RStudio
+
+---
+
+## why learn `R`?
+
++ the language of choice for academic statisticians
+
+--
+
++ **_libre_ software**: free and free-to-be-used-and-modified for any means -> one of the pillars of open science
+
+--
+
++ __script-based__: reproducibility, easier to scale up your analyses, transparency (track errors), great way to learn about methods.
+
+--
+
++ __interdisciplinary and modular__: lots of code written by area specialists. At the core of its philosophy is a smooth transition from user to programmer.
+
+--
+
++ __communication__ with other tools: manuscripts, presentations, apps and dashboards
+
+
+---
+## why learn `R`?
+
++ communication with __other programming languages__ (ex. __reticulate__ to run python scripts) 
+
+--
+
++ great __graphic capabilities__!
+
+--
+
+
++ __official support__: help in documentation, mailing lists
+
+--
+
++ __an active and welcoming community__:  email lists, Stack Overflow, [RStudio community](community.rstudio.com/), useR groups, .purple[R-Ladies+] chapters, Slack communities, `r icons::fontawesome("twitter")` `#rstats`
+
+<center>
+```{r remedy001, out.width=150, echo = FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/rladies/starter-kit/master/stickers/rainbow-inclusive.png")
+```
+
+---
+## `R` has a modular structure: __packages__
+
+
++ `R` __base__ installation includes base packages developed and maintained by the __`R` Core Development Team__
+
+--
+
++ other packages are created by the community and hosted in __CRAN__ (The Comprehensive `R` Archive Network) or Bioconductor, GitHub, rOpenSci.org
+
+--
+
++ to install packages from CRAN: `install.packages("tidyverse")`
+
+---
+background-image:url("figs/00_rstudio.png")
+background-size: 50%
+# Running R in RStudio
+
+
+`r icons::fontawesome("laptop-code")`
+
+---
+class: inverse, middle, center
+# Setup and project organization
+
+---
+## working directory
+
++ you have to tell R where you will be working, so that it understands where to read tables, where to save outputs etc: __working directory__
+
+--
+
++ `getwd()` in the console
+
+--
+
++ the default is __"home"__: check general options and the "File" tab
+
+--
+
++ you can tell R and RStudio where you want to work with `setwd()`
+
+--
+
++ even better: instead of opening RStudio open an __R script__ or a __RStudio project__ (just as you would in MS Word   `r icons::fontawesome("file-word")`)
+
+---
+## project organization and best practices
+
++ projects are better organized if we use __one folder per project__ and  __subfolders__ within our working directory
+
+--
+
++ we shouldn't modify __raw data files__ but __save processed data__ (and the corresponding scripts)
+
+--
+
++ instead of __absolute paths__ we should use __relative paths__:
+  + `.` "here"
+  + `./figs` a subfolder called `figs`
+  + the upper level `..`
+  
+--
+
++ avoid `C:users/your_name/your_file_structure/your_working_directory`
+
+---
+## In this and the following sessions
+
+
+```
+project/
+*    ├── data/
+*    │   ├── raw
+*    │   └── processed
+     ├── docs/
+*    ├── figs/
+     ├── R/
+*    ├── output/
+*    └── README.md
+```
+
++ unzip the .zip file into a folder of your preference
+
+<right>
+`r icons::fontawesome("laptop-code")`
+</right>
+
+---
+## RStudio projects 
+
+RStudio projects create a __.Rproj__ file in your folder that acts as a shortcut for your projects
+
+
+--
+
+```{r gif, out.width=300, echo = FALSE, fig.align='center'}
+knitr::include_graphics("https://media.giphy.com/media/3oriO04qxVReM5rJEA/giphy.gif")
+```
+
+
+---
+class:middle, inverse, center
+# introduction to R 
+
+---
+## introduction to R 
+
++ `<-` is the assignment operation in R and it does not return output it __creates objects__ that are saved in the workspace
+(`Alt + -`)
+
+--
+
++ overwriting objects __does not affect other objects__ 
+
+--
+
++  __naming object tips__: 
+ + don't begin with a number or symbol.
+ + there are forbidden words 
+ + be consistent with your __coding style__! 
+ + avoid dots
+ + __name functions as verbs and objects as nouns__
+
+--
+
++ you can see which objects are saved in the workspace by using `ls()`
+
+---
+
+## about the workspace
+
++ R creates __objects__ that occupy RAM memory: the __workspace__
+
+--
+
++ the __workspace__ can be saved and loaded between sessions BUT
+
+--
+
++ __you can lose track of how you created the objects in the workspace__
+
+--
+
++ `#goodpractices` don't save the workspace
+
+---
+background-image:url("figs/0a_setup.png")
+background-size: 60%
+background-position: 100% 100%
+
+.pull-left[in the general options]
+
+---
+class: inverse, middle, center
+# functions, arguments and understanding the  help
+
+---
+## functions and arguments
+
+```
+weight_kg <- sqrt(10)
+
+round(3.14159)
+
+args(round)
+```
+
+---
+## if you know the name of the function
+```
+help(function)
+?function
+args(function)
+```
+
++ select the name of the function and click __F1__
+
+Check the structure of the help file:
+
++ Description
++ Usage
++ Arguments
++ Details
+
+---
+## if you don't know the name of the function
+
+```
+??kruskal
+```
+
+(or search it - google it - duckduckgo it)
+
+---
+## the structure of a function help
+
+`args(function)`
+
++ The arguments of a function are coded:
+  + in order
+  + with or without default settings
+  
+--
+
+You can either
++ use the arguments in order, without naming them
++ use the first arguments without naming them and then some optional arguments, with name
+
+
+---
+## data types in R
+
+<small>
+```{r datatypes}
+animals  <- c("mouse", "rat", "dog")
+weight_g <- c(50, 60, 65, 82)
+```
+
+--
+
+```{r remedy003}
+class(animals)
+```
+
+--
+
+```{r class}
+class(weight_g)
+```
+</small>
+
+--
+
+`character` and `numeric` but also `logical` and `integer` ("whole" numbers, with no decimal component, in N), `complex`, and others. 
+
+---
+class: center, middle
+
+`r icons::icon_style(icons::fontawesome("laptop-code"), scale = 3)`
+
+---
+## subsetting vectors
+
++ R is __1-indexed__ and intervals are closed (not half-open)
+
+```{r, results = 'show'}
+animals <- c("mouse", "rat", "dog", "cat")
+animals[2]
+```
+
++ Subsetting is done with brackets `[]`
+
+```{r subset}
+animals[c(3, 2)]
+```
+
+---
+## conditional subsetting
+
+```{r, results = 'show'}
+weight_g <- c(21, 34, 39, 54, 55)
+weight_g[c(TRUE, FALSE, FALSE, TRUE, TRUE)]
+```
+
+Nobody works like this, instead we use __logical clauses__ to __generate__ these logical vectors
+
+---
+
+
+## logical clauses
+
++ equality or not: `==`, `!=`
++ inequalities: `<`. `>`, `<=`, `>=`
++ union (OR) `|`
++ intersection (AND) `&`
++ belonging `%in%`
++ differences between sets: `setdiff()`
++ negation works `!`: "not in" `!a %in% b`
+
+---
+## comparing vectors
+
+<small>
+```{r recycling}
+
+animals      <- c("mouse", "rat", "dog", "cat")
+more_animals <- c("rat", "cat", "dog", "duck", "goat")
+
+animals %in% more_animals
+```
+
+---
+##comparing vectors
+
+<small>
+```{r recycling2}
+animals      <- c("mouse", "rat", "dog", "cat")
+more_animals <- c("rat", "cat", "dog", "duck", "goat")
+
+animals == more_animals
+```
+
++ Vectors are compared __one by one AND recycled__ when one of them is shorter, so use `%in%` when you want to check __belonging to a set__
+
+---
+## missing data
+
+<small>
+```{r na}
+heights <- c(2, 4, 4, NA, 6)
+mean(heights)
+max(heights)
+mean(heights, na.rm = TRUE)
+max(heights, na.rm = TRUE)
+```
+
+---
+
+## data structures
+
++ __vector__: lineal arrays (one dimension: only length)
+
+--
+
++ __factors__: vectors (one-dimensional) representing __categorical variables__ and thus having __levels__
+
+--
+
++ __matrices__: arrays of vectors -> the same type (all numeric or all character, for instance) (two dimensions: width and length)
+
+--
+
++ __data frames__: two-dimensional arrays but might be of combined types (i.e., column 1 with names, column 2 with numbers)
+
+--
+
++ __arrays__ are similar to matrices and dataframes but may be three-dimensional ("layered" data frames)
+
+--
+
++ __list__: literally a list of anything (a list of data frames, or different objects)
+
+---
+class: inverse, middle, center
+
+# Getting help in R
+
+---
+
+---
+## Other sources of help
+
++ Taskviews 
+
+[https://cran.r-project.org/web/views/](https://cran.r-project.org/web/views/)
+
+
+---
+class: center, middle
+# ¡Thanks!
+
+<center>
+`r icons::icon_style(icons::fontawesome("paper-plane", style = "solid"), scale = 1, fill = "#A70000")` [andreasancheztapia@gmail.com](mailto:andreasancheztapia@gmail.com) 
+
+`r icons::icon_style(icons::fontawesome("twitter", style = "brands"), scale = 1, fill = "#A70000")` [@SanchezTapiaA](https://twitter.com/SanchezTapiaA) 
+
+`r icons::icon_style(icons::fontawesome("github", style = "brands"), scale = 1, fill = "#A70000")``r icons::icon_style(icons::fontawesome("gitlab", style = "brands"), scale = 1, fill = "#A70000")` `r icons::icon_style(icons::fontawesome("bitbucket", style = "brands"), scale = 1, fill = "#A70000")` [andreasancheztapia](http://github.com/andreasancheztapia) 
+
+

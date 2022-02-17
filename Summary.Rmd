@@ -1,0 +1,37 @@
+---
+title: "Course materials"
+description: 
+author:
+  - name: "Andrea Sánchez-Tapia"
+    url: https://andreasancheztapia.netlify.app
+    affiliation: "¡liibre!"
+    affiliation_url: https://liibre.netlify.app
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+Day 1 
+
+```{r}
+xaringanExtra::embed_xaringan("slides/01_Introduction_to_R.html")
+```
+Day 2
+
+```{r}
+xaringanExtra::embed_xaringan("slides/02_Starting_with_data.html")
+```
+
+Day 3
+
+```{r}
+xaringanExtra::embed_xaringan("slides/03_Plot_and_EDA_in_R.html")
+```
+
+Day 4 
+
+```{r}
+xaringanExtra::embed_xaringan("slides/04_Manipulating.html")
+```
+

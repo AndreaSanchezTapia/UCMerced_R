@@ -1,0 +1,19 @@
+---
+title: "Andrea Sánchez-Tapia PhD"
+image: "Andrea.jpg"
+links:
+  - label: Webpage
+    url: "https://andreasancheztapia.netlify.app/"
+  - label: ¡liibre!
+    url: "https://liibre.netlify.app/"
+  - label: Twitter
+    url: "https://twitter.com/SanchezTapiaA"
+  - label: GitHub
+    url: "https://github.com/andreasancheztapia"
+  - label: Email
+    url: "mailto:andreasancheztapia@gmail.com"
+output:
+  postcards::jolla
+---
+ 
+I am a Colombian biologist (she/her) living in Merced, CA. I use R since 2009 and I am part of [RLadies+](https://rladies.org/) and of the [useR! 2021](https://user2021.r-project.org/) Organizing Team. My main interests are Biodiversity Informatics, Open and Responsible Data Science, and Community Ecology. 

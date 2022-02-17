@@ -1,0 +1,34 @@
+---
+title: "R curriculum training at UC Merced"
+description: Fall 2020
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Welcome! This website has the materials for the R Curriculum taught at UC Merced in the Fall of 2020. This was an 8-hr training divided in four sessions: 
+
+1. [Introduction to R and RStudio](slides/01_Introduction_to_R.html)
+2. [Starting with data](slides/02_Starting_with_data.html)
+2. [Plots and Exploratory Data Analysis](slides/03_Plot_and_EDA_in_R.html)
+2. [Manipulating data with __dplyr__](slides/04_Manipulating.html)
+
+These lessons are based on the [Carpentries Ecology curriculum](https://datacarpentry.org/lessons/#ecology-workshop)
+
+An example GitHub repository to follow the lessons is available here: https://github.com/AndreaSanchezTapia/UCM_R. It has a very generic structure:
+
+
+```bash
+.
+├── UCM_R.Rproj
+├── README.md
+├── 01_script.R
+├── 02_... and other scripts 
+└── data
+    ├── processed
+    └── raw
+```
+    
+You can download the .zip file by clicking the green button (Code) and selecting the last option, "download.zip". To open the project and get to work, click twice on `UCM_R.Rproj`.
